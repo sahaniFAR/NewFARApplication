@@ -16,7 +16,7 @@ namespace FARApplication.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private FarController _service;
+       // private FarController _service;
         //Hosted web API REST Service base url
         string Baseurl = "http://localhost:1648/";
 
