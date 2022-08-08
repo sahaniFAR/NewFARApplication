@@ -1,0 +1,13 @@
+C:\FAR\FARApplication.Data\bin\Release\netcoreapp3.1\FARApplication.Data.deps.json
+C:\FAR\FARApplication.Data\bin\Release\netcoreapp3.1\FARApplication.Data.runtimeconfig.json
+C:\FAR\FARApplication.Data\bin\Release\netcoreapp3.1\FARApplication.Data.runtimeconfig.dev.json
+C:\FAR\FARApplication.Data\bin\Release\netcoreapp3.1\FARApplication.Data.dll
+C:\FAR\FARApplication.Data\bin\Release\netcoreapp3.1\FARApplication.Data.pdb
+C:\FAR\FARApplication.Data\obj\Release\netcoreapp3.1\FARApplication.Data.csproj.AssemblyReference.cache
+C:\FAR\FARApplication.Data\obj\Release\netcoreapp3.1\FARApplication.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\FAR\FARApplication.Data\obj\Release\netcoreapp3.1\FARApplication.Data.AssemblyInfoInputs.cache
+C:\FAR\FARApplication.Data\obj\Release\netcoreapp3.1\FARApplication.Data.AssemblyInfo.cs
+C:\FAR\FARApplication.Data\obj\Release\netcoreapp3.1\FARApplication.Data.csproj.CoreCompileInputs.cache
+C:\FAR\FARApplication.Data\obj\Release\netcoreapp3.1\FARApplication.Data.dll
+C:\FAR\FARApplication.Data\obj\Release\netcoreapp3.1\FARApplication.Data.pdb
+C:\FAR\FARApplication.Data\obj\Release\netcoreapp3.1\FARApplication.Data.genruntimeconfig.cache
