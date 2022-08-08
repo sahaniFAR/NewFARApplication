@@ -126,3 +126,11 @@ C:\FAR\FARApplication.WebApi\obj\Debug\netcoreapp3.1\FARApplication.Service.cspr
 C:\FAR\FARApplication.WebApi\obj\Debug\netcoreapp3.1\FARApplication.Service.dll
 C:\FAR\FARApplication.WebApi\obj\Debug\netcoreapp3.1\FARApplication.Service.pdb
 C:\FAR\FARApplication.WebApi\obj\Debug\netcoreapp3.1\FARApplication.Service.genruntimeconfig.cache
+C:\FAR\FARApplication.WebApi\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\FAR\FARApplication.WebApi\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Json.dll
+C:\FAR\FARApplication.WebApi\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\FAR\FARApplication.WebApi\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Physical.dll
+C:\FAR\FARApplication.WebApi\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\FAR\FARApplication.WebApi\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
+C:\FAR\FARApplication.WebApi\bin\Debug\netcoreapp3.1\System.Text.Encodings.Web.dll
+C:\FAR\FARApplication.WebApi\bin\Debug\netcoreapp3.1\System.Text.Json.dll

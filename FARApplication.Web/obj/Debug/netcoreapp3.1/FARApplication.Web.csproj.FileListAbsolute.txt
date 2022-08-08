@@ -320,3 +320,11 @@ C:\FAR\FARApplication.Web\obj\Debug\netcoreapp3.1\FARApplication.Web.csproj.Copy
 C:\FAR\FARApplication.Web\obj\Debug\netcoreapp3.1\FARApplication.Web.dll
 C:\FAR\FARApplication.Web\obj\Debug\netcoreapp3.1\FARApplication.Web.pdb
 C:\FAR\FARApplication.Web\obj\Debug\netcoreapp3.1\FARApplication.Web.genruntimeconfig.cache
+C:\FAR\FARApplication.Web\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\FAR\FARApplication.Web\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Configuration.Json.dll
+C:\FAR\FARApplication.Web\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\FAR\FARApplication.Web\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Physical.dll
+C:\FAR\FARApplication.Web\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileSystemGlobbing.dll
+C:\FAR\FARApplication.Web\bin\Debug\netcoreapp3.1\System.Runtime.CompilerServices.Unsafe.dll
+C:\FAR\FARApplication.Web\bin\Debug\netcoreapp3.1\System.Text.Encodings.Web.dll
+C:\FAR\FARApplication.Web\bin\Debug\netcoreapp3.1\System.Text.Json.dll
