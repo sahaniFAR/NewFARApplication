@@ -1,14 +1,11 @@
-﻿using System;
+﻿using FARApplication.Web.ModelView;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace FARApplication.Web.Models
 {
-    /// <summary>
-    /// This model class maintains the state of a FAR.
-    /// </summary>
-    public class FAR
+    public class FARViewModel
     {
         // Document Information
         public int Id { get; set; }
@@ -21,5 +18,13 @@ namespace FARApplication.Web.Models
         //Request Information
         public string Summary { get; set; }
         public string Details { get; set; }
+
+        //Approver Information
+        public ApproverViewModel Approvers { get; set; }
+
+        //Document Evecnt Log
+         List<FAREventLog> FAREventLogs { get; set; }
+
+
     }
 }

@@ -29,7 +29,7 @@ namespace FARApplication.Web.Controllers
        
             public async Task<ActionResult> Index()
             {
-                List<FAR> FARInfo = new List<FAR>();
+                List<FARViewModel> FARInfo = new List<FARViewModel>();
                 using (var client = new HttpClient())
                 {
                     //Passing service base url
@@ -45,7 +45,7 @@ namespace FARApplication.Web.Controllers
                         //Storing the response details recieved from web api
                         var FARResponse = Res.Content.ReadAsStringAsync().Result;
                         //Deserializing the response recieved from web api and storing into the Employee list
-                        FARInfo = JsonConvert.DeserializeObject<List<FAR>>(FARResponse);
+                        FARInfo = JsonConvert.DeserializeObject<List<FARViewModel>>(FARResponse);
                     }
                     //returning the employee list to view
                     return View(FARInfo);
