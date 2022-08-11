@@ -1,4 +1,6 @@
 using FARApplication.Data;
+using FARApplication.Data.Implementation;
+using FARApplication.Data.Interface;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +30,7 @@ namespace FARApplication.WebApi
             services.AddDbContext<FARContext>();
             services.AddControllers();
             services.AddScoped<IFARRepository, FARRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
