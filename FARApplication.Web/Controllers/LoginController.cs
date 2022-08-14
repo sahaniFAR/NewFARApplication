@@ -1,5 +1,6 @@
 ﻿using FARApplication.Web.Models;
 using FARApplication.Web.Utility;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,11 @@ namespace FARApplication.Web.Controllers
             {
                 
                 ViewData["MSGSuc"] = "Email Id or Password is Validated";
+
+                HttpContext.Session.SetString("UserEmail", model.EmailID);
+
+               return RedirectToAction("Index", "Home");
+                
             }
 
             return View(objLoginViewModel);

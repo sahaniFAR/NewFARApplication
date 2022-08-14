@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -26,6 +28,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+
+                        @if (HttpContextAccessor.HttpContext.Session != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Logout">Welcome @HttpContextAccessor.HttpContext.Session.GetString("UserEmail") Logout </a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
@@ -34,62 +43,62 @@
     <div class="container">
 
 
-        
+
         <main role="main" class="pb-3">
-          
-                <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
 
-                    <ul class="list-unstyled ps-0">
-                        <li><a href="#" class="btn btn-toggle align-items-center rounded">New FAR Request</a></li>
+            <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
 
-                        <li class="border-top my-3"></li>
-                        <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#Request-collapse" aria-expanded="true">
-                                View Requests
-                            </button>
-                            <div class="collapse show" id="Request-collapse" style="">
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a href="#" class="link-dark rounded">By Status</a></li>
-                                    <li><a href="#" class="link-dark rounded">By FAR ID</a></li>
-                                    <li><a href="#" class="link-dark rounded">By Submitter</a></li>
-                                    <li><a href="#" class="link-dark rounded">By Next Approver</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="border-top my-3"></li>
-                        <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded " data-bs-toggle="collapse" data-bs-target="#Administration-collapse" aria-expanded="true">
-                                Administration
-                            </button>
-                            <div class="collapse show" id="Administration-collapse" style="">
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a href="#" class="link-dark rounded">Configuration Profile</a></li>
-                                    <li><a href="#" class="link-dark rounded">Replication Conflicts</a></li>
-                                    <li><a href="#" class="link-dark rounded">Trash</a></li>
+                <ul class="list-unstyled ps-0">
+                    <li><a href="#" class="btn btn-toggle align-items-center rounded">New FAR Request</a></li>
 
-                                </ul>
-                            </div>
-                        </li>
+                    <li class="border-top my-3"></li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#Request-collapse" aria-expanded="true">
+                            View Requests
+                        </button>
+                        <div class="collapse show" id="Request-collapse" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="#" class="link-dark rounded">By Status</a></li>
+                                <li><a href="#" class="link-dark rounded">By FAR ID</a></li>
+                                <li><a href="#" class="link-dark rounded">By Submitter</a></li>
+                                <li><a href="#" class="link-dark rounded">By Next Approver</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="border-top my-3"></li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded " data-bs-toggle="collapse" data-bs-target="#Administration-collapse" aria-expanded="true">
+                            Administration
+                        </button>
+                        <div class="collapse show" id="Administration-collapse" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a href="#" class="link-dark rounded">Configuration Profile</a></li>
+                                <li><a href="#" class="link-dark rounded">Replication Conflicts</a></li>
+                                <li><a href="#" class="link-dark rounded">Trash</a></li>
+
+                            </ul>
+                        </div>
+                    </li>
 
 
 
-                    </ul>
-                </div>
+                </ul>
+            </div>
 
-                @RenderBody()
-         
+            @RenderBody()
+
         </main>
     </div>
 
     @*<footer class="border-top footer text-muted d-flex justify-content-end">
-        <div class="container">
-            &copy; 2022 - FARApplication.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>*@
+            <div class="container">
+                &copy; 2022 - FARApplication.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>*@
 
     @*<script src="~/js/site.js" asp-append-version="true"></script>*@
 
-    
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/asset/toastr/js/toastr.js"></script>

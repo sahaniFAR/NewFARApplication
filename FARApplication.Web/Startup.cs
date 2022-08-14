@@ -1,6 +1,7 @@
 using FARApplication.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,32 @@ namespace FARApplication.Web
         {
            // services.AddControllers()
             services.AddControllersWithViews();
+
+            services.AddDistributedMemoryCache(); // <- This service
+
+            // Add services to the container.
+            services.AddControllersWithViews(options =>
+            {
+                options.Filters.Add<AuthorizeActionFilterAttribute>();
+            });
+
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // not necessary
+                //options.MinimumSameSitePolicy = SameSiteMode.None;
+            })
+            .AddSession(options =>
+            {
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest; // this is the key
+            });
+
+            services.AddHttpContextAccessor();
+          
+            services.AddMvc(options => options.EnableEndpointRouting = false);
+            
             //services.AddDbContext<FARContext>(options =>
             //options.UseSqlServer(Configuration.GetConnectionString("FARDatabase")));
         }
@@ -41,17 +68,27 @@ namespace FARApplication.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+          
+          
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=Home}/{action=Index}/{id?}");
+            //});
+
+            app.UseSession();
+            app.UseMvc(routes =>
             {
-                endpoints.MapControllerRoute(
+                routes.MapRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
