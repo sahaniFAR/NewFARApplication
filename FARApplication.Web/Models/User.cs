@@ -14,7 +14,7 @@ namespace FARApplication.Web.Models
 
         public string  FirstName { get; set; }
 
-        public int LastName { get; set; }
+        public string LastName { get; set; }
 
         public string  EmailId { get; set; }
 

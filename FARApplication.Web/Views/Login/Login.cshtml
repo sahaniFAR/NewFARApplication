@@ -28,6 +28,8 @@
 
     <section class="vh-100" style="background-color: #1b1b1b;">
         <div class="container py-5 h-100">
+
+
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col col-xl-10 d-flex justify-content-center">
                     <div class="card" style="border-radius: 1rem; width:55%;">
@@ -36,7 +38,7 @@
                             <div class="col-md-12 col-lg-12 d-flex align-items-center">
                                 <div class="card-body p-4 p-lg-5 text-black">
 
-                                    <form>
+                                    <form asp-action="Login" autocomplete="off">
 
                                         <div class="d-flex align-items-center mb-3 pb-1">
                                             <!-- <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i> -->
@@ -62,7 +64,7 @@
                                         </div>
 
                                         <div class="pt-1 mb-4">
-                                            <button id="btnLogin" class="btn btn-dark btn-lg btn-block" type="button">Login</button>
+                                            <button id="btnLogin" class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
                                         </div>
 
                                         <a class="small text-muted" href="#!">Forgot password?</a>
@@ -78,6 +80,9 @@
                     </div>
                 </div>
             </div>
+
+
+
         </div>
     </section>
 
@@ -89,21 +94,21 @@
     @*<script src="~/asset/sidebar/js/sidebars.js"></script>*@
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $(function () {
 
 
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "positionClass": "toast-top-center",
-            "onclick": null,
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "onclick": null,
 
-            "showMethod": "show",
-            "hideMethod": "fadeOut",
-            "timeOut": 0,
-            "extendedTimeOut": 0
-        }
+                "showMethod": "show",
+                "hideMethod": "fadeOut",
+                "timeOut": 0,
+                "extendedTimeOut": 0
+            }
 
             $("#btnLogin").click(function () {
 
@@ -116,7 +121,7 @@
                     toastr.error("Email ID can not be blank", 'Warning');
                     return false;
                 }
-                
+
 
                 var stremail = ($.trim($('#txtUserName').val()) + "").toLowerCase();
 
@@ -130,11 +135,11 @@
                         $("#txtUserName").focus();
                         return false;
                     }
-                    
-                   
+
+
                 }
                 else {
-                 
+
                     toastr.error("You have entered an invalid Email ID!", 'Warning');
                     $("#txtUserName").focus();
                     return false;
@@ -143,24 +148,71 @@
                     toastr.error("Password can not be blank", 'Warning');
                     return false;
                 }
+
+
+
+
+            });
+
+
+
+
+
+
+
+
+
+        });
+
+    </script>
+
+
+    @if (ViewData["MSGSuc"] != null)
+    {
+        <script type="text/javascript">
+       
+        window.onload = function () {
+
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+
+                    "showMethod": "show",
+                    "hideMethod": "fadeOut",
+                    "timeOut": 0,
+                    "extendedTimeOut": 0
+                }
+                toastr.success("@ViewData["MSGSuc"]", 'Success');
             
+        }
+        </script>
+    }
 
-           
-          
-        });
+    @if (ViewData["MSGErr"] != null)
+    {
+        <script type="text/javascript">
 
+        window.onload = function () {
 
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "onclick": null,
 
+                "showMethod": "show",
+                "hideMethod": "fadeOut",
+                "timeOut": 0,
+                "extendedTimeOut": 0
+            }
+            toastr.error("@ViewData["MSGErr"]", 'Error');
+            
+        }
 
+        </script>
+    }
 
-
-
-
-
-        });
-
-</script>
-
-
-</body >
+</body>
 </html >

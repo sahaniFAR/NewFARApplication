@@ -12,7 +12,6 @@ namespace FARApplication.Data.Interface
         bool Delete(int Id);
         IEnumerable<User> GetAllUser();
         User GetUserById(int Id);
-
-
+        bool IsValidUser(string email, string password);
     }
 }
