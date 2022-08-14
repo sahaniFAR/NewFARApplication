@@ -1,0 +1,166 @@
+﻿
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model LoginViewModel 
+
+@{
+    Layout = "";
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+
+    <link href="~/asset/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link href="~/asset/toastr/css/toastr.css" rel="stylesheet" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/asset/toastr/js/toastr.js"></script>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login</title>
+</head>
+<body style="background-color: #1b1b1b;">
+
+    <section class="vh-100" style="background-color: #1b1b1b;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-xl-10 d-flex justify-content-center">
+                    <div class="card" style="border-radius: 1rem; width:55%;">
+                        <div class="row g-0">
+
+                            <div class="col-md-12 col-lg-12 d-flex align-items-center">
+                                <div class="card-body p-4 p-lg-5 text-black">
+
+                                    <form>
+
+                                        <div class="d-flex align-items-center mb-3 pb-1">
+                                            <!-- <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i> -->
+                                            <div class="ibmimg">
+                                                <img src="~/asset/images/IBM-Emblem.png" style="width:120px" alt="Responsive image">
+                                            </div>
+
+                                        </div>
+                                        <p>
+                                            <span class="h4  mb-0" style="color:red;">FAR Requests Application</span>
+                                        </p>
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+
+                                        <div class="form-outline mb-4">
+
+                                            <input type="text" asp-for="EmailID" id="txtUserName" class="form-control form-control-lg" placeholder="">
+                                            <label class="form-label">Email ID</label>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
+                                            <input type="password" asp-for="PassWord" id="txtPassWord" class="form-control form-control-lg" placeholder="" />
+                                            <label class="form-label">Password</label>
+                                        </div>
+
+                                        <div class="pt-1 mb-4">
+                                            <button id="btnLogin" class="btn btn-dark btn-lg btn-block" type="button">Login</button>
+                                        </div>
+
+                                        <a class="small text-muted" href="#!">Forgot password?</a>
+                                        @*<p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="#!"
+                                            style="color: #393f81;">Register here</a></p>*@
+                                        <!-- <a href="#!" class="small text-muted">Terms of use.</a>
+                                        <a href="#!" class="small text-muted">Privacy policy</a> -->
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <script src="~/asset/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    @*<script src="~/asset/sidebar/js/sidebars.js"></script>*@
+
+
+<script type="text/javascript">
+        $(function () {
+
+
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "positionClass": "toast-top-center",
+            "onclick": null,
+
+            "showMethod": "show",
+            "hideMethod": "fadeOut",
+            "timeOut": 0,
+            "extendedTimeOut": 0
+        }
+
+            $("#btnLogin").click(function () {
+
+                var objLogin = {};
+
+                objLogin.UserName = $.trim($('#txtUserName').val());
+                objLogin.PassWord = $.trim($("#txtPassWord").val());
+
+                if (objLogin.UserName == "") {
+                    toastr.error("Email ID can not be blank", 'Warning');
+                    return false;
+                }
+                
+
+                var stremail = ($.trim($('#txtUserName').val()) + "").toLowerCase();
+
+                var mailformat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+                if (objLogin.UserName.match(mailformat)) {
+
+                    if (stremail.indexOf('ibm.') < 0) {
+
+                        toastr.error("This is not a IBM Email ID", 'Warning');
+                        $("#txtUserName").focus();
+                        return false;
+                    }
+                    
+                   
+                }
+                else {
+                 
+                    toastr.error("You have entered an invalid Email ID!", 'Warning');
+                    $("#txtUserName").focus();
+                    return false;
+                }
+                if (objLogin.PassWord == "") {
+                    toastr.error("Password can not be blank", 'Warning');
+                    return false;
+                }
+            
+
+           
+          
+        });
+
+
+
+
+
+
+
+
+
+        });
+
+</script>
+
+
+</body >
+</html >
