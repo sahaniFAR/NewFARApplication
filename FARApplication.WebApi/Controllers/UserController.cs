@@ -40,7 +40,7 @@ namespace FARApplication.Service.Controllers
         }
 
        
-        [HttpGet("ValidateUser")]
+       // [HttpGet("ValidateUser")]
         public ActionResult ValidateUser(string email, string password)
         {
             try
