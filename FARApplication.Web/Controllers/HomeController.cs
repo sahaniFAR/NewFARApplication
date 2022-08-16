@@ -1,5 +1,6 @@
 ﻿using FARApplication.Service.Controllers;
 using FARApplication.Web.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -29,6 +30,8 @@ namespace FARApplication.Web.Controllers
        
             public async Task<ActionResult> Index()
             {
+            string session = HttpContext.Session.GetString("UserEmail");
+
                 List<FARViewModel> FARInfo = new List<FARViewModel>();
                 using (var client = new HttpClient())
                 {

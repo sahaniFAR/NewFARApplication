@@ -21,7 +21,7 @@ namespace FARApplication.Web
             var descriptor = filterContext.ActionDescriptor as ControllerActionDescriptor;
            // var actionName = descriptor.ActionName;
             var controllerName = descriptor.ControllerName;
-        
+
 
 
 
@@ -31,12 +31,12 @@ namespace FARApplication.Web
                 {
                     if (filterContext.HttpContext.Session != null && filterContext.HttpContext.Session.GetString("UserEmail") == null)
                     {
-                    filterContext.Result =
-                           new RedirectToRouteResult(
-                               new RouteValueDictionary{{ "controller", "Login" },
+                        filterContext.Result =
+                               new RedirectToRouteResult(
+                                   new RouteValueDictionary{{ "controller", "Login" },
                                           { "action", "Login" }
 
-                                                             });
+                                                                 });
                     }
                 }
                 else

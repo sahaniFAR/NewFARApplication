@@ -39,10 +39,10 @@ namespace FARApplication.Web.Controllers
             else
             {
                 
-                ViewData["MSGSuc"] = "Email Id or Password is Validated";
+               // ViewData["MSGSuc"] = "Email Id or Password is Validated";
 
                 HttpContext.Session.SetString("UserEmail", model.EmailID);
-
+            
                return RedirectToAction("Index", "Home");
                 
             }
