@@ -3,6 +3,7 @@ using FARApplication.Data.Interface;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace FARApplication.Data.Implementation
 {
@@ -37,6 +38,23 @@ namespace FARApplication.Data.Implementation
             
             return User;
         }
+
+        public bool IsValidUser(string email, string password)
+        {
+            bool IsValid = false;
+            var User = _context.Users.FirstOrDefault(u => u.EmailId == email && u.Password == password);
+            if (User != null)
+            {
+                // Authenticated
+                IsValid = true;
+            }
+            else
+            {
+                IsValid = false;
+            }
+           return IsValid;
+        }
+
 
         public bool Update(User user)
         {

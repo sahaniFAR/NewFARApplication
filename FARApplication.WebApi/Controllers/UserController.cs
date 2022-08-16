@@ -21,7 +21,7 @@ namespace FARApplication.Service.Controllers
             _repository = repository;
             _logger = logger;
         }
-        [HttpGet]
+        [HttpGet("GetUserById")]
         public ActionResult GetUserById(int Id)
         {
             try
@@ -38,5 +38,27 @@ namespace FARApplication.Service.Controllers
            
 
         }
+
+       
+        [HttpGet("ValidateUser")]
+        public ActionResult ValidateUser(string email, string password)
+        {
+            try
+            {
+                var Isvalid = _repository.IsValidUser(email, password);
+                return Ok(Isvalid);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to Validate User {ex}");
+                return BadRequest("Failed to Validate User ");
+
+            }
+
+
+        }
+
+
+
     }
 }
