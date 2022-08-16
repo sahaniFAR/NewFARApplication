@@ -32,7 +32,10 @@ namespace FARApplication.Data.Implementation
 
         public User GetUserById(int Id)
         {
+
+            var rsult = _context.Users;
             var User = _context.Users.Find(Id);
+            
             return User;
         }
 
