@@ -12,6 +12,14 @@ namespace FARApplication.Data
         {
             _context = context;
         }
+
+        public int AddFAR(FAR far)
+        {
+            _context.FARs.Add(far);
+             return _context.SaveChanges();
+           
+        }
+
         public IEnumerable<FAR> GetFARById()
         {
             return _context.FARs.ToList().OrderBy(t => t.Id);

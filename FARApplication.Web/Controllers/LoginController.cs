@@ -41,7 +41,7 @@ namespace FARApplication.Web.Controllers
                 
                 ViewData["MSGSuc"] = "Email Id or Password is Validated";
 
-                HttpContext.Session.SetString("UserEmail", model.EmailID);
+               HttpContext.Session.SetString("UserEmail", model.EmailID);
 
                return RedirectToAction("Index", "Home");
                 

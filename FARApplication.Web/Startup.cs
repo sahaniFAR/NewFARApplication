@@ -25,34 +25,33 @@ namespace FARApplication.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           // services.AddControllers()
+            // services.AddControllers()
             services.AddControllersWithViews();
 
-            services.AddDistributedMemoryCache(); // <- This service
-
-            // Add services to the container.
+            // Add Filter to the container.
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add<AuthorizeActionFilterAttribute>();
             });
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                // not necessary
-                //options.MinimumSameSitePolicy = SameSiteMode.None;
-            })
-            .AddSession(options =>
-            {
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-                options.Cookie.SameSite = SameSiteMode.None;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest; // this is the key
-            });
-
             services.AddHttpContextAccessor();
-          
-            services.AddMvc(options => options.EnableEndpointRouting = false);
-            
+
+
+
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+
+
+                options.Cookie.IsEssential = true;
+
+                options.IdleTimeout = TimeSpan.FromMinutes(55);
+            });
+            services.AddSingleton<IConfiguration>(Configuration);
+
+            //   services.AddMvc(options => options.EnableEndpointRouting = false);
+
             //services.AddDbContext<FARContext>(options =>
             //options.UseSqlServer(Configuration.GetConnectionString("FARDatabase")));
         }
@@ -68,28 +67,23 @@ namespace FARApplication.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-          
-          
+
+
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller=Home}/{action=Index}/{id?}");
-            //});
-
-            app.UseSession();
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
+                endpoints.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+
+
         }
     }
 }

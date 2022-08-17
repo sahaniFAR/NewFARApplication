@@ -69,3 +69,46 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.ibmimg {
+    width: 120px;
+    text-align: left;
+}
+
+.heading {
+    text-align: right;
+    margin-top: 12px;
+}
+
+.logged-in-user {
+    text-align: left;
+}
+
+.far-reqest-date {
+    text-align: right;
+}
+
+#red-text {
+    color: red;
+}
+.ibmimg {
+    width: 120px;
+    text-align: left;
+}
+
+.heading {
+    text-align: right;
+    margin-top: 12px;
+}
+
+.logged-in-user {
+    text-align: left;
+}
+
+.far-reqest-date {
+    text-align: right;
+}
+
+.red-text {
+    color: red;
+}

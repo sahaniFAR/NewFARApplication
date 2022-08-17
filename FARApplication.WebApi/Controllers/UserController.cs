@@ -1,12 +1,9 @@
-﻿using FARApplication.Data;
+﻿
 using FARApplication.Data.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace FARApplication.Service.Controllers
 {
@@ -40,7 +37,7 @@ namespace FARApplication.Service.Controllers
         }
 
        
-        [HttpGet("ValidateUser")]
+        [HttpGet]
         public ActionResult ValidateUser(string email, string password)
         {
             try

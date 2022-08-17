@@ -36,5 +36,19 @@ namespace FARApplication.Service.Controllers
                 return BadRequest("Failed to get FAR BY Id");
             }
         }
+        [HttpPost]
+        public ActionResult<int> Add(FAR far)
+         {
+            try
+            {
+                int result = this._repository.AddFAR(far);
+                return Ok(result);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Failed to create FAR  {ex}");
+                return BadRequest("Failed to create FAR ");
+            }
+          }
     }
 }
