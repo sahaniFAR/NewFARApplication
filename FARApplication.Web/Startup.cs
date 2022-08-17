@@ -42,8 +42,12 @@ namespace FARApplication.Web
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
             {
-
-
+                // not necessary
+                //options.MinimumSameSitePolicy = SameSiteMode.None;
+            })
+            .AddSession(options =>
+            {
+                options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
 
                 options.IdleTimeout = TimeSpan.FromMinutes(55);
@@ -81,9 +85,6 @@ namespace FARApplication.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
-
-
         }
     }
 }
