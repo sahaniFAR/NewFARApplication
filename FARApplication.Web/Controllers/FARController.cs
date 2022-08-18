@@ -60,8 +60,12 @@ namespace FARApplication.Web.Controllers
                 Far.CreatedBy = CreatedBy.Result;
             }
             var FarRequestId = _iconfiguration["FARRequestId"];
+
             if (FarRequestId != null)
             {
+                var dateformat = System.DateTime.Now.ToString("yyyy-MM-dd");
+                int sequence = Convert.ToInt32(FarRequestId) + 1;
+                FarRequestId = dateformat + "-" + sequence.ToString().PadLeft(6, '0');
                 Far.RequestId = FarRequestId;
             }
 

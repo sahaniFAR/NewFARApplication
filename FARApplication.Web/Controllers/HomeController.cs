@@ -16,7 +16,7 @@ namespace FARApplication.Web.Controllers
         private readonly ILogger<HomeController> _logger;
         // private FarController _service;
         //Hosted web API REST Service base url
-        string Baseurl = "http://localhost:1648/";
+       
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -28,25 +28,12 @@ namespace FARApplication.Web.Controllers
         public ActionResult Index()
         {
             List<FAR> FARInfo = new List<FAR>();
-             FARInfo = FARUtility.GetAllFARs().Result;
-            //using (var client = new HttpClient())
-            //{
-            //    //Passing service base url
-            //    client.BaseAddress = new Uri(Baseurl);
-            //    client.DefaultRequestHeaders.Clear();
-            //    //Define request data format
-            //    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            //    //Sending request to find web api REST service resource GetAllEmployees using HttpClient
-            //    HttpResponseMessage Res = await client.GetAsync("api/FAR/");
-            //    //Checking the response is successful or not which is sent using HttpClient
-            //    if (Res.IsSuccessStatusCode)
-            //    {
-            //        //Storing the response details recieved from web api
-            //        var FARResponse = Res.Content.ReadAsStringAsync().Result;
-            //        //Deserializing the response recieved from web api and storing into the Employee list
-            //        FARInfo = JsonConvert.DeserializeObject<List<FARViewModel>>(FARResponse);
-            //    }
-            //returning the employee list to view
+            FARInfo = FARUtility.GetAllFARs().Result;
+            if (FARInfo != null)
+            {
+                FARInfo.ForEach(t => t.LifeCycleStatus =(DocumentStatus)t.Status);
+            }
+
             return View(FARInfo);
         }
 
