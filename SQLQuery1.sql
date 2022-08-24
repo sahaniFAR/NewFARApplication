@@ -1,0 +1,8 @@
+﻿CREATE PROCEDURE [dbo].[Sp_GetLastFARRecord]
+	
+AS
+BEGIN
+
+	SELECT TOP 1 * FROM [dbo].FARs ORDER BY Id DESC
+
+END

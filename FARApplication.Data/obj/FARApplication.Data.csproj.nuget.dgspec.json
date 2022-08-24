@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\FAR\\FARApplication.Data\\FARApplication.Data.csproj": {}
+    "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Data\\FARApplication.Data.csproj": {}
   },
   "projects": {
-    "C:\\FAR\\FARApplication.Data\\FARApplication.Data.csproj": {
+    "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Data\\FARApplication.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\FAR\\FARApplication.Data\\FARApplication.Data.csproj",
+        "projectUniqueName": "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Data\\FARApplication.Data.csproj",
         "projectName": "FARApplication.Data",
-        "projectPath": "C:\\FAR\\FARApplication.Data\\FARApplication.Data.csproj",
-        "packagesPath": "C:\\Users\\sahani\\.nuget\\packages\\",
-        "outputPath": "C:\\FAR\\FARApplication.Data\\obj\\",
+        "projectPath": "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Data\\FARApplication.Data.csproj",
+        "packagesPath": "C:\\Users\\vmware26\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Data\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\sahani\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vmware26\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -76,12 +73,26 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.1.10, 3.1.10]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

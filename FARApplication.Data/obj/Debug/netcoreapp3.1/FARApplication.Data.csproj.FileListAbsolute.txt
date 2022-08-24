@@ -24,3 +24,16 @@ C:\FAR\FARApplication.Data\obj\Debug\netcoreapp3.1\FARApplication.Data.dll
 C:\FAR\FARApplication.Data\obj\Debug\netcoreapp3.1\FARApplication.Data.pdb
 C:\FAR\FARApplication.Data\obj\Debug\netcoreapp3.1\FARApplication.Data.genruntimeconfig.cache
 C:\FAR\FARApplication.Data\obj\Debug\netcoreapp3.1\FARApplication.Data.csproj.AssemblyReference.cache
+C:\Users\vmware26\source\repos\NewFARApplication\FARApplication.Data\bin\Debug\netcoreapp3.1\FARApplication.Data.deps.json
+C:\Users\vmware26\source\repos\NewFARApplication\FARApplication.Data\bin\Debug\netcoreapp3.1\FARApplication.Data.runtimeconfig.json
+C:\Users\vmware26\source\repos\NewFARApplication\FARApplication.Data\bin\Debug\netcoreapp3.1\FARApplication.Data.runtimeconfig.dev.json
+C:\Users\vmware26\source\repos\NewFARApplication\FARApplication.Data\bin\Debug\netcoreapp3.1\FARApplication.Data.dll
+C:\Users\vmware26\source\repos\NewFARApplication\FARApplication.Data\bin\Debug\netcoreapp3.1\FARApplication.Data.pdb
+C:\Users\vmware26\source\repos\NewFARApplication\FARApplication.Data\obj\Debug\netcoreapp3.1\FARApplication.Data.csproj.AssemblyReference.cache
+C:\Users\vmware26\source\repos\NewFARApplication\FARApplication.Data\obj\Debug\netcoreapp3.1\FARApplication.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\vmware26\source\repos\NewFARApplication\FARApplication.Data\obj\Debug\netcoreapp3.1\FARApplication.Data.AssemblyInfoInputs.cache
+C:\Users\vmware26\source\repos\NewFARApplication\FARApplication.Data\obj\Debug\netcoreapp3.1\FARApplication.Data.AssemblyInfo.cs
+C:\Users\vmware26\source\repos\NewFARApplication\FARApplication.Data\obj\Debug\netcoreapp3.1\FARApplication.Data.csproj.CoreCompileInputs.cache
+C:\Users\vmware26\source\repos\NewFARApplication\FARApplication.Data\obj\Debug\netcoreapp3.1\FARApplication.Data.dll
+C:\Users\vmware26\source\repos\NewFARApplication\FARApplication.Data\obj\Debug\netcoreapp3.1\FARApplication.Data.pdb
+C:\Users\vmware26\source\repos\NewFARApplication\FARApplication.Data\obj\Debug\netcoreapp3.1\FARApplication.Data.genruntimeconfig.cache

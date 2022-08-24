@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\FAR\\FARApplication.Web\\FARApplication.Web.csproj": {}
+    "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Web\\FARApplication.Web.csproj": {}
   },
   "projects": {
-    "C:\\FAR\\FARApplication.Data\\FARApplication.Data.csproj": {
+    "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Data\\FARApplication.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\FAR\\FARApplication.Data\\FARApplication.Data.csproj",
+        "projectUniqueName": "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Data\\FARApplication.Data.csproj",
         "projectName": "FARApplication.Data",
-        "projectPath": "C:\\FAR\\FARApplication.Data\\FARApplication.Data.csproj",
-        "packagesPath": "C:\\Users\\sahani\\.nuget\\packages\\",
-        "outputPath": "C:\\FAR\\FARApplication.Data\\obj\\",
+        "projectPath": "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Data\\FARApplication.Data.csproj",
+        "packagesPath": "C:\\Users\\vmware26\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Data\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\sahani\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vmware26\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -76,44 +73,55 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[3.1.10, 3.1.10]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[3.1.0, 3.1.0]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\FAR\\FARApplication.WebApi\\FARApplication.Service.csproj": {
+    "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.WebApi\\FARApplication.Service.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\FAR\\FARApplication.WebApi\\FARApplication.Service.csproj",
+        "projectUniqueName": "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.WebApi\\FARApplication.Service.csproj",
         "projectName": "FARApplication.Service",
-        "projectPath": "C:\\FAR\\FARApplication.WebApi\\FARApplication.Service.csproj",
-        "packagesPath": "C:\\Users\\sahani\\.nuget\\packages\\",
-        "outputPath": "C:\\FAR\\FARApplication.WebApi\\obj\\",
+        "projectPath": "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.WebApi\\FARApplication.Service.csproj",
+        "packagesPath": "C:\\Users\\vmware26\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.WebApi\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\sahani\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vmware26\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.1"
+          "net6.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
+          "net6.0": {
+            "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\FAR\\FARApplication.Data\\FARApplication.Data.csproj": {
-                "projectPath": "C:\\FAR\\FARApplication.Data\\FARApplication.Data.csproj"
+              "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Data\\FARApplication.Data.csproj": {
+                "projectPath": "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Data\\FARApplication.Data.csproj"
               }
             }
           }
@@ -125,8 +133,8 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
+        "net6.0": {
+          "targetAlias": "net6.0",
           "dependencies": {
             "Microsoft.EntityFrameworkCore.Relational.Design": {
               "target": "Package",
@@ -159,39 +167,36 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\FAR\\FARApplication.Web\\FARApplication.Web.csproj": {
+    "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Web\\FARApplication.Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\FAR\\FARApplication.Web\\FARApplication.Web.csproj",
+        "projectUniqueName": "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Web\\FARApplication.Web.csproj",
         "projectName": "FARApplication.Web",
-        "projectPath": "C:\\FAR\\FARApplication.Web\\FARApplication.Web.csproj",
-        "packagesPath": "C:\\Users\\sahani\\.nuget\\packages\\",
-        "outputPath": "C:\\FAR\\FARApplication.Web\\obj\\",
+        "projectPath": "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Web\\FARApplication.Web.csproj",
+        "packagesPath": "C:\\Users\\vmware26\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.Web\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\sahani\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\vmware26\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.1"
+          "net6.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
+          "net6.0": {
+            "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\FAR\\FARApplication.WebApi\\FARApplication.Service.csproj": {
-                "projectPath": "C:\\FAR\\FARApplication.WebApi\\FARApplication.Service.csproj"
+              "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.WebApi\\FARApplication.Service.csproj": {
+                "projectPath": "C:\\Users\\vmware26\\source\\repos\\NewFARApplication\\FARApplication.WebApi\\FARApplication.Service.csproj"
               }
             }
           }
@@ -203,16 +208,12 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
+        "net6.0": {
+          "targetAlias": "net6.0",
           "dependencies": {
             "Microsoft.AspNet.WebApi.Client": {
               "target": "Package",
               "version": "[5.2.9, )"
-            },
-            "Microsoft.AspNetCore.Session": {
-              "target": "Package",
-              "version": "[2.2.0, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
@@ -241,7 +242,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }
