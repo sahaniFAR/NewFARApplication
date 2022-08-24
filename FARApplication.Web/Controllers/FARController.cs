@@ -1,6 +1,7 @@
 ﻿
 using FARApplication.Web.Models;
 using FARApplication.Web.Utility;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -30,20 +31,36 @@ namespace FARApplication.Web.Controllers
             client.BaseAddress = uri;
         }
         [HttpPost]
-        public ActionResult Index(FAR model)
+        public ActionResult Index(FAR model, IFormFile postedfiles)
         {
             if(ModelState.IsValid)
             {
                // model.UserId = 1;
                 model.Status = 1;
+                if (postedfiles != null)
+                { 
+                    Random random = new Random(1);
+                    string fileLastName = random.Next().ToString();
+                    if(!string.IsNullOrEmpty(fileLastName))
+                    model.Filename = string.Concat(fileLastName, '_', postedfiles.FileName);
+                }
                 string strFar = JsonSerializer.Serialize(model);
                 StringContent content = new StringContent(strFar, Encoding.UTF8, "application/json");
-                var response = client.PostAsync(client.BaseAddress + "/FAR", content).Result;
+                var response = client.PostAsync(client.BaseAddress + "/FAR/Add", content).Result;
                 if (response.IsSuccessStatusCode)
                 {
-                    ViewBag.SuccessResult = "New FAR created successfully!!";
-                    return RedirectToAction("Index","Home");
+                    var EventModel = FARUtility.PrepareEventLog(5005, "Created");
+                    string strFarEvent = JsonSerializer.Serialize(EventModel);
+                    StringContent logcontent = new StringContent(strFarEvent, Encoding.UTF8, "application/json");
+                    var result = client.PostAsync(client.BaseAddress + "/FAREventLog", logcontent).Result;
+                    if(result.IsSuccessStatusCode)
+                    {
+                        ViewBag.SuccessResult = "New FAR created successfully!!";
+                        return RedirectToAction("Index", "Home");
+                    }
+                   
                 }
+               
             }
             ViewBag.SuccessResult = "New FAR created successfully!!";
             return View();
@@ -59,7 +76,12 @@ namespace FARApplication.Web.Controllers
             {
                 Far.CreatedBy = CreatedBy.Result;
             }
-            var FarRequestId = _iconfiguration["FARRequestId"];
+            //var FarRequestId = _iconfiguration["FARRequestId"];
+            var FarRequestId = FARUtility.GetSequeceForRequestId().Result;
+            if (string.IsNullOrEmpty(FarRequestId))
+            {
+                FarRequestId = _iconfiguration["FARRequestId"];
+            }
 
             if (FarRequestId != null)
             {

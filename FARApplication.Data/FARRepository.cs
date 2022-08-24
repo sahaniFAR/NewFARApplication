@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace FARApplication.Data
 {
@@ -38,6 +39,20 @@ namespace FARApplication.Data
         public IEnumerable<FAR> GetFARBySubmitter()
         {
             throw new NotImplementedException();
+        }
+        public string GetFARRequestId()
+        {
+            var result = _context.FARs.FromSqlRaw("[dbo].[Sp_GetLastFARRecord]").ToList();
+            string farRequestId = string.Empty;
+            if (result.Count > 0)
+            {
+                var lastrequestId = result[0].RequestId;
+                var arrRequestId = lastrequestId.Split('-');
+                farRequestId = arrRequestId[3].ToString();
+
+            }
+
+            return farRequestId;
         }
     }
 }

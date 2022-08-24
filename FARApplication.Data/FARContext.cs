@@ -1,5 +1,5 @@
 ﻿using FARApplication.Data;
-
+using FARApplication.Data.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -11,7 +11,9 @@ namespace FARApplication.Data
     {
         public DbSet<FAR> FARs { get; set; }
         public DbSet<User> Users { get; set; }
-        
+        public DbSet<FAREventLog> FAREventLogs { get; set; }
+
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder OptonsBuilder)
         {

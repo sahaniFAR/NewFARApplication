@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FARApplication.Service.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class FarController : ControllerBase
     {
@@ -50,5 +50,21 @@ namespace FARApplication.Service.Controllers
                 return BadRequest("Failed to create FAR ");
             }
           }
+
+        [HttpGet]
+        public ActionResult<string> GetRequestId()
+        {
+            try
+            {
+                string result = this._repository.GetFARRequestId();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to Get FARRequestId  {ex}");
+                return BadRequest("Failed to Get FARRequestId");
+            }
+
+        }
     }
 }

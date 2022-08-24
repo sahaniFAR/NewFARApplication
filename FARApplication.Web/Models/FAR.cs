@@ -22,5 +22,6 @@ namespace FARApplication.Web.Models
         public string Summary { get; set; }
         [Required(ErrorMessage = "Please enter details of the FAR.")]
         public string Details { get; set; }
+        public string  Filename { get; set; }
     }
 }
