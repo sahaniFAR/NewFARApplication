@@ -1,0 +1,5 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/FARApplication.Web/obj/Debug/netcoreapp3.1/Razor/Views/Login/Login.cshtml.g.cs
