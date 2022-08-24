@@ -45,7 +45,7 @@ namespace FARApplication.Web.Controllers
                     return RedirectToAction("Index","Home");
                 }
             }
-            ViewBag.SuccessResult = "New FAR created successfully!!";
+            ViewBag.SuccessResult = "No FAR created !!";
             return View();
         }
 
@@ -59,7 +59,12 @@ namespace FARApplication.Web.Controllers
             {
                 Far.CreatedBy = CreatedBy.Result;
             }
-            var FarRequestId = _iconfiguration["FARRequestId"];
+            var FarRequestId = FARUtility.GetSequeceForRequestId().Result;
+            if (string.IsNullOrEmpty(FarRequestId))
+            {
+                FarRequestId = _iconfiguration["FARRequestId"];
+            }
+          
 
             if (FarRequestId != null)
             {

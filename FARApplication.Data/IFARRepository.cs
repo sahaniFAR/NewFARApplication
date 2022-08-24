@@ -14,5 +14,7 @@ namespace FARApplication.Data
         public IEnumerable<FAR> GetFARByNextApprover();
         public int AddFAR(FAR far);
 
+       public string GetFARRequestId();
+
     }
 }
