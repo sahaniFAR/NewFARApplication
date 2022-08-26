@@ -22,5 +22,6 @@ namespace FARApplication.Web.Models
        
         public Level  ApprovalLevel { get; set; }
         public int IsActive { get; set; }
+        
     }
 }

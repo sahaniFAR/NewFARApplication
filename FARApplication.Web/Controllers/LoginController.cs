@@ -28,9 +28,9 @@ namespace FARApplication.Web.Controllers
             objLoginViewModel.EmailID = "";
             objLoginViewModel.PassWord = "";
             objLoginViewModel.msg = "";
-            var isvalidUser  = UserUtility.IsValidUser(model.EmailID, model.PassWord);
+            var validUser  = UserUtility.IsValidUser(model.EmailID, model.PassWord).Result;
 
-            if (isvalidUser.Result==false)
+            if (validUser == null)
             {
                 objLoginViewModel.msg = "Email Id or Password is not correct";
                 ViewData["MSGErr"] = "Email Id or Password is not correct";
@@ -42,8 +42,9 @@ namespace FARApplication.Web.Controllers
                // ViewData["MSGSuc"] = "Email Id or Password is Validated";
 
                HttpContext.Session.SetString("UserEmail", model.EmailID);
+               HttpContext.Session.setObjectAsJson("UserDetails", validUser);
 
-               return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Home");
                 
             }
 

@@ -24,7 +24,7 @@ namespace FARApplication.Data.Implementation
 
         public IEnumerable<FAREventLog> GetEventLogByFARId(int FARId)
         {
-            var result = _context.FAREventLogs.ToList().Where(t => t.FARId == FARId);
+            var result = _context.FAREventLogs.ToList().Where(t => t.FAR.Id == FARId);
             return result;
         }
 

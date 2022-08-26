@@ -23,7 +23,8 @@ namespace FARApplication.Data
 
         public IEnumerable<FAR> GetFARById()
         {
-            return _context.FARs.ToList().OrderBy(t => t.Id);
+           // return _context.FARs.ToList().OrderBy(t => t.Id);
+           return  _context.FARs.Include(t => t.User).ToList().OrderBy(u => u.Id);
         }
 
         public IEnumerable<FAR> GetFARByNextApprover()

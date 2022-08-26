@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace FARApplication.Web.Models
@@ -8,13 +9,17 @@ namespace FARApplication.Web.Models
     /// </summary>
     public class FAR
     {
+        public FAR()
+        {
+            FAREventLogs = new List<FAREventLog>();
+        }
         // Document Information
         public int Id { get; set; }
         public string RequestId { get; set; }
         public int Status { get; set; }
         public DocumentStatus LifeCycleStatus { get; set; }
         public int UserId { get; set; }
-        public string CreatedBy { get; set; }
+        public string  CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }
 
         //Request Information
@@ -23,5 +28,7 @@ namespace FARApplication.Web.Models
         [Required(ErrorMessage = "Please enter details of the FAR.")]
         public string Details { get; set; }
         public string  Filename { get; set; }
+        public List<FAREventLog> FAREventLogs { get; set; }
+        public  User User { get; set; }
     }
 }

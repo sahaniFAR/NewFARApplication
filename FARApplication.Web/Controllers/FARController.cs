@@ -35,46 +35,53 @@ namespace FARApplication.Web.Controllers
         {
             if(ModelState.IsValid)
             {
-               // model.UserId = 1;
-                model.Status = 1;
-                if (postedfiles != null)
-                { 
-                    Random random = new Random(1);
-                    string fileLastName = random.Next().ToString();
-                    if(!string.IsNullOrEmpty(fileLastName))
-                    model.Filename = string.Concat(fileLastName, '_', postedfiles.FileName);
-                }
-                string strFar = JsonSerializer.Serialize(model);
-                StringContent content = new StringContent(strFar, Encoding.UTF8, "application/json");
-                var response = client.PostAsync(client.BaseAddress + "/FAR/Add", content).Result;
-                if (response.IsSuccessStatusCode)
+                // model.UserId = 1;
+                var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
+                if (user != null)
                 {
-                    var EventModel = FARUtility.PrepareEventLog(5005, "Created");
-                    string strFarEvent = JsonSerializer.Serialize(EventModel);
-                    StringContent logcontent = new StringContent(strFarEvent, Encoding.UTF8, "application/json");
-                    var result = client.PostAsync(client.BaseAddress + "/FAREventLog", logcontent).Result;
-                    if(result.IsSuccessStatusCode)
+                    model.UserId = user.Id;
+
+                    model.Status = 1;
+                    if (postedfiles != null)
                     {
+                        Random random = new Random(1);
+                        string fileLastName = random.Next().ToString();
+                        if (!string.IsNullOrEmpty(fileLastName))
+                            model.Filename = string.Concat(fileLastName, '_', postedfiles.FileName);
+                    }
+                    var EventModel = FARUtility.PrepareEventLog("Created");
+                    model.FAREventLogs.Add(EventModel);
+                    string strFar = JsonSerializer.Serialize(model);
+                    StringContent content = new StringContent(strFar, Encoding.UTF8, "application/json");
+                    var response = client.PostAsync(client.BaseAddress + "/FAR/Add", content).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+
                         ViewBag.SuccessResult = "New FAR created successfully!!";
                         return RedirectToAction("Index", "Home");
+
+
                     }
-                   
+                }
+                else
+                {
+                    ViewBag.SuccessResult = "Your session has expired!!";
                 }
                
             }
-            ViewBag.SuccessResult = "New FAR created successfully!!";
+            ViewBag.SuccessResult= "There is an error to create FAR!!";
             return View();
         }
 
-            public ActionResult Index()
-        {
+        public ActionResult Index()
+          {
             FAR Far = new FAR();
             Far.CreatedOn = System.DateTime.Now;
-            //Far.CreatedBy = 
-            var CreatedBy = UserUtility.GetUserFullNameById(1);
-            if (CreatedBy != null)
+            var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
+            
+            if (user != null)
             {
-                Far.CreatedBy = CreatedBy.Result;
+                Far.CreatedBy = string.Concat(user.FirstName, " ", user.LastName);
             }
             //var FarRequestId = _iconfiguration["FARRequestId"];
             var FarRequestId = FARUtility.GetSequeceForRequestId().Result;
@@ -92,6 +99,11 @@ namespace FARApplication.Web.Controllers
             }
 
             return View(Far);
+        }
+        public ActionResult GetFARDetails(int FARId)
+        {
+            FAR far = new FAR();
+            return View(far);
         }
     }
 }

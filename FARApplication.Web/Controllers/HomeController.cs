@@ -29,9 +29,10 @@ namespace FARApplication.Web.Controllers
         {
             List<FAR> FARInfo = new List<FAR>();
             FARInfo = FARUtility.GetAllFARs().Result;
+            
             if (FARInfo != null)
             {
-                FARInfo.ForEach(t => t.LifeCycleStatus =(DocumentStatus)t.Status);
+                FARInfo.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status; t.CreatedBy = string.Concat(t.User.FirstName, " ", t.User.LastName); });
             }
 
             return View(FARInfo);

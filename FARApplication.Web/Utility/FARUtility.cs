@@ -64,9 +64,9 @@ namespace FARApplication.Web.Utility
             }
            
         }
-        public static FAREventLog PrepareEventLog(int FARId, string message)
+        public static FAREventLog PrepareEventLog(string message)
         {
-            FAREventLog model = new FAREventLog() { FARId = FARId, Message = message, EventDate= System.DateTime.Now };
+            FAREventLog model = new FAREventLog() { Message = message, EventDate= System.DateTime.Now };
             return model;
         }
     }

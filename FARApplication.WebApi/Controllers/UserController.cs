@@ -42,8 +42,8 @@ namespace FARApplication.Service.Controllers
         {
             try
             {
-                var Isvalid = _repository.IsValidUser(email, password);
-                return Ok(Isvalid);
+                var user = _repository.IsValidUser(email, password);
+                return Ok(user);
             }
             catch (Exception ex)
             {

@@ -20,6 +20,7 @@
                 <span>Created On</span>
 
             </th>
+
             <th>
 
                 <span>Status</span>
@@ -37,7 +38,8 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RequestId)
+                    @Html.ActionLink(item.RequestId,"GetFARDetails","FAR", new { FARId = item.Id })
+                    @*@Html.DisplayFor(modelItem => item.RequestId)*@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedBy)

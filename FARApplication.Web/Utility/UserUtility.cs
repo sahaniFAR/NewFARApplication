@@ -1,5 +1,6 @@
 ﻿
 using FARApplication.Web.Models;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -40,9 +41,9 @@ namespace FARApplication.Web.Utility
 
 
 
-        public static async Task<bool> IsValidUser(string email, string password)
+        public static async Task<User> IsValidUser(string email, string password)
         {
-            bool IsvalidUser = false;
+            User user =null;
             using (HttpClient httpClient = new HttpClient())
             {
                 //Passing service base url
@@ -59,16 +60,24 @@ namespace FARApplication.Web.Utility
                     //Storing the response details recieved from web api
                     var userResponse = Res.Content.ReadAsStringAsync().Result;
                     //Deserializing the response recieved from web api and storing into the Employee list
-                    var isvalid = JsonConvert.DeserializeObject<bool>(userResponse);
-                    IsvalidUser = isvalid;
+                    var result = JsonConvert.DeserializeObject<User>(userResponse);
+                    user = result;
                 }
 
             }
 
             
-            return IsvalidUser;
+            return user;
         }
-    
+        public static void setObjectAsJson(this ISession session, string key, object value)
+        {
+            session.SetString(key, JsonConvert.SerializeObject(value));
+        }
+       public static T getObjectAsJson<T>(this ISession session, string key)
+        {
+            var value = session.GetString(key);
+            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+        }
 
     }
 }
