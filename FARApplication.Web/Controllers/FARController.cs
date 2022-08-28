@@ -100,10 +100,21 @@ namespace FARApplication.Web.Controllers
 
             return View(Far);
         }
-        public ActionResult GetFARDetails(int FARId)
+        public ActionResult GetFARResult(int FARId) 
         {
             FAR far = new FAR();
+            far = FARUtility.GetFARDetails(FARId).Result;
+            if (far != null)
+            {
+                far.CreatedBy = string.Concat(far.User.FirstName, " ", far.User.LastName);
+            }
             return View(far);
+        }
+        [HttpPost]
+        public ActionResult Update(FAR far)
+        {
+
+            return View("index", far);
         }
     }
 }

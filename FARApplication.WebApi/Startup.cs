@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json;
 
 
 namespace FARApplication.WebApi
@@ -22,12 +23,14 @@ namespace FARApplication.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers().AddNewtonsoftJson(t => t.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContext<FARContext>();
-            services.AddControllers();
+           // services.AddControllers().AddNew
             services.AddSwaggerGen();
             services.AddScoped<IFARRepository, FARRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFAREventRepository, FAREventRepository>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -12,6 +12,7 @@ namespace FARApplication.Data
         public DbSet<FAR> FARs { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<FAREventLog> FAREventLogs { get; set; }
+        public DbSet<FARApprover> FARApprovers { get; set; }
 
 
 

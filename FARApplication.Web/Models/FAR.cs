@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,6 +13,7 @@ namespace FARApplication.Web.Models
         public FAR()
         {
             FAREventLogs = new List<FAREventLog>();
+            Approverdetails = new List<FARApprover>();
         }
         // Document Information
         public int Id { get; set; }
@@ -30,5 +32,7 @@ namespace FARApplication.Web.Models
         public string  Filename { get; set; }
         public List<FAREventLog> FAREventLogs { get; set; }
         public  User User { get; set; }
+      
+        public List<FARApprover> Approverdetails { get; set; }
     }
 }

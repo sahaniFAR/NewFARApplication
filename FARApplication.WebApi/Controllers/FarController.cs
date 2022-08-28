@@ -1,4 +1,6 @@
-﻿using FARApplication.Data;
+﻿
+using FARApplication.Data;
+using FARApplication.Data.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -22,11 +24,11 @@ namespace FARApplication.Service.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<FAR>> Get()
+        public ActionResult<IEnumerable<FAR>> Get(int userId)
         {
             try
             {
-                var FARs = _repository.GetFARById();
+                var FARs = _repository.GetFARById(userId);
 
                 return Ok(FARs);
             }
@@ -65,6 +67,23 @@ namespace FARApplication.Service.Controllers
                 return BadRequest("Failed to Get FARRequestId");
             }
 
+        }
+        [HttpGet]
+        public ActionResult<FAR> GetFARDetails(int FARId)
+        {
+            try 
+            {
+                var result = _repository.getFARDetails(FARId);
+                return Ok(result);
+            }
+            catch (Exception ex) 
+            {
+                _logger.LogError($"Failed to getFARDetails ,{ex}");
+                return BadRequest("Failed to getFARDetails");
+
+            }
+            
+                
         }
     }
 }

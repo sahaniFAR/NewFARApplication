@@ -11,6 +11,7 @@ namespace FARApplication.Data
         public FAR()
         {
             FAREventLogs = new List<FAREventLog>();
+            Approverdetails = new List<FARApprover>();
         }
         public int Id { get; set; }
         public string RequestId { get; set; }
@@ -24,6 +25,7 @@ namespace FARApplication.Data
         public string Details { get; set; }
         public List<FAREventLog> FAREventLogs { get; set; }
         public  User  User { get; set; }
+        public List<FARApprover> Approverdetails { get; set; }
 
         // public IEnumerable<ApproverDetails> ApproverDetails { get; set; }
 
