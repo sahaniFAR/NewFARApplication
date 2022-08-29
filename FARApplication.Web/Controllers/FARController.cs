@@ -111,8 +111,25 @@ namespace FARApplication.Web.Controllers
             return View(far);
         }
         [HttpPost]
-        public ActionResult Update(FAR far)
+        public ActionResult Update(FAR far , string Mode)
         {
+            if (!string.IsNullOrEmpty(Mode))
+            {
+                FAREventLog farEventog = new FAREventLog() { EventDate = System.DateTime.Now };
+                var strApproverFullName = UserUtility.GetUserFullNameById(far.Approverdetails[0].UserId).Result;
+                switch (Mode)
+                {
+                    case "Approve":
+                        far.Status = 3;
+                        farEventog.Message = String.Format("First level approved by{0}",strApproverFullName);
+                        break;
+                    case "Reject":
+                        far.Status = 5;
+                        farEventog.Message = String.Format("Rejected by{0}", strApproverFullName);
+                        break;
+                }
+               
+            }
 
             return View("index", far);
         }
