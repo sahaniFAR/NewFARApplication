@@ -1,0 +1,20 @@
+USE [FARDB]
+GO
+
+/****** Object: SqlProcedure [dbo].[Sp_GetLastFARRecord] Script Date: 8/29/2022 12:03:43 PM ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[Sp_GetLastFARRecord]
+	
+AS
+BEGIN
+
+SELECT TOP 1 * 
+FROM FARs
+ORDER BY Id DESC
+	
+END
