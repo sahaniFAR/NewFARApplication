@@ -1,4 +1,5 @@
 ﻿using FARApplication.Web.Models;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 using System;
@@ -12,7 +13,9 @@ namespace FARApplication.Web.Utility
 {
     public static class FARUtility
     {
-        static string Baseurl = "http://localhost:5000/";
+        //  static string Baseurl = "http://localhost:5000/";
+
+        static string Baseurl = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetValue<string>("ApiAddress");
         public static async Task<List<FAR>> GetAllFARs(int userId)
         {
             List<FAR> Fars = new List<FAR>();
