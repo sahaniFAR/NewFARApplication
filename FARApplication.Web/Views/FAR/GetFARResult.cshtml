@@ -268,7 +268,8 @@
                             <input type="hidden" asp-for="@Model.FAREventLogs[index].EventDate" />
                             <input type="hidden" asp-for="@Model.FAREventLogs[index].Message" />
                             <input type="hidden" asp-for="@Model.FAREventLogs[index].User" />
-                            
+                            <input type="hidden" asp-for="@Model.FAREventLogs[index].FARId" />
+
                             <p>Document is @eventmodel.Message on @System.String.Format(@eventmodel.EventDate.ToString(), "dd-MMM-YYYY")</p>
                         </div>
                         <div class="col-lg-1"></div>

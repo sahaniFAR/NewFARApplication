@@ -124,15 +124,18 @@ namespace FARApplication.Web.Controllers
                     {
                         case "Approve":
                             far.Status = 3;
-                            strMessage = String.Format("First level approved by{0}", strApproverFullName);
+                            strMessage = String.Format("First level approved by {0}", strApproverFullName);
                             break;
+
                         case "Reject":
                             far.Status = 5;
-                            strMessage = String.Format("Rejected by{0}", strApproverFullName);
+                            strMessage = String.Format("Rejected by {0}", strApproverFullName);
                             break;
 
                     }
+
                     FAREventLog farEventog = FARUtility.PrepareEventLog(strMessage);
+                    farEventog.FARId = far.Id;
                     far.FAREventLogs.Add(farEventog);
                     string strFar = JsonSerializer.Serialize(far);
                     StringContent content = new StringContent(strFar, Encoding.UTF8, "application/json");

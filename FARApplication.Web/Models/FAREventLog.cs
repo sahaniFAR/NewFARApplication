@@ -12,6 +12,7 @@ namespace FARApplication.Web.Models
         public int Id { get; set; }
         public string Message { get; set; }
         public DateTime EventDate { get; set; }
+        public int FARId { get; set; }
         public FAR FAR { get; set; }
         public User User { get; set; }
     }

@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using FARApplication.Data.Interface;
+using FARApplication.Data.Data.Entities;
 
 namespace FARApplication.Data.Implementation
 {
@@ -84,8 +85,33 @@ namespace FARApplication.Data.Implementation
 
         public int Update(FAR far)
         {
-           _context.Attach(far);
-            _context.Entry(far).State = EntityState.Modified;
+          //  _context.Attach(far);
+          //  _context.Entry(far).State = EntityState.Modified;
+            var originalfar = _context.FARs
+                             .Include(t => t.FAREventLogs)
+                             .Include(t => t.Approverdetails).Single(t => t.Id == far.Id);
+            _context.Entry(originalfar).CurrentValues.SetValues(far);
+
+            if (far.Approverdetails !=null)
+            {
+                for(int counter = 0; counter< far.Approverdetails.Count; counter ++)
+                {
+                    _context.Entry(originalfar.Approverdetails[counter]).CurrentValues.SetValues(far.Approverdetails[counter]);
+                }
+            }
+
+            if (far.FAREventLogs != null)
+            {
+                int index = originalfar.FAREventLogs.Count;
+                var farEventLog = far.FAREventLogs[index];
+                _context.Attach(farEventLog);
+                _context.Entry(farEventLog).State = EntityState.Added;
+            }
+
+            //_context.Entry(originalfar.Approverdetails).CurrentValues.SetValues(far.Approverdetails);
+            //_context.Entry(originalfar.FAREventLogs).CurrentValues.SetValues(far.FAREventLogs);
+            // _context.Entry(originalfar.Approverdetails).CurrentValues.SetValues(far.Approverdetails);
+
             return _context.SaveChanges();
         }
     }
