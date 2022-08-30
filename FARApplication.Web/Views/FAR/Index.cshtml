@@ -24,7 +24,7 @@
         <form asp-controller="FAR" asp-action="Index" method="post" enctype="multipart/form-data">
             <div style="background-color: black" class="container-fluid">
                 <asp-for></asp-for>
-                <button class="close-btn" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");"><i class="fa fa-close"></i> Close</button>
+                <button class="close-btn" type="button" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");"><i class="fa fa-close"></i> Close</button>
                 <button class="save-btn" type="submit" action="Far/Index"><i class="fa fa-save"></i> Save</button>
                 <button class="save-close-btn" type="submit"><i class="fa fa-save"></i> Save & Close</button>
                 <button class="submit-button" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit for Approval</button>

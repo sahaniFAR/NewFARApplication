@@ -113,6 +113,7 @@ namespace FARApplication.Web.Controllers
         [HttpPost]
         public ActionResult Update(FAR far , string Mode)
         {
+
             if (ModelState.IsValid)
             {
                 if (!string.IsNullOrEmpty(Mode))
@@ -152,7 +153,7 @@ namespace FARApplication.Web.Controllers
                 }
             }
 
-            return View("index", far);
+            return View("GetFARResult", far);
         }
     }
 }
