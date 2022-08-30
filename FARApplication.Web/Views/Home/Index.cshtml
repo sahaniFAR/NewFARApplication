@@ -38,7 +38,7 @@
         {
             <tr>
                 <td>
-                    @Html.ActionLink(item.RequestId,"GetFARResult","FAR", new { FARId = item.Id })
+                    @Html.ActionLink(item.RequestId,"GetFARResult","FAR", new { FARId = item.Id }, new { @class = "link-dark"})
                     @*@Html.DisplayFor(modelItem => item.RequestId)*@
                 </td>
                 <td>

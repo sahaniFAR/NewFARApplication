@@ -13,7 +13,8 @@ namespace FARApplication.Web.Models
         public int FARId { get; set; }
         public string Comments { get; set; }
         public DateTime ApprovedDate { get; set; }
-        
+        public FAR FAR { get; set; }
+
 
     }
 }

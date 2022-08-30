@@ -85,5 +85,21 @@ namespace FARApplication.Service.Controllers
             
                 
         }
+        [HttpPut]
+        public ActionResult<int> Update(FAR far)
+        {
+            try
+            {
+                int result = 0;
+                result = _repository.Update(far);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to Update FAR ,{ex}");
+                return BadRequest("Failed to Update FAR");
+
+            }
+        }
     }
 }

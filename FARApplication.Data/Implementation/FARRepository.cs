@@ -84,7 +84,9 @@ namespace FARApplication.Data.Implementation
 
         public int Update(FAR far)
         {
-            throw new NotImplementedException();
+           _context.Attach(far);
+            _context.Entry(far).State = EntityState.Modified;
+            return _context.SaveChanges();
         }
     }
 }

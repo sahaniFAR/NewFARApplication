@@ -113,22 +113,40 @@ namespace FARApplication.Web.Controllers
         [HttpPost]
         public ActionResult Update(FAR far , string Mode)
         {
-            if (!string.IsNullOrEmpty(Mode))
+            if (ModelState.IsValid)
             {
-                FAREventLog farEventog = new FAREventLog() { EventDate = System.DateTime.Now };
-                var strApproverFullName = UserUtility.GetUserFullNameById(far.Approverdetails[0].UserId).Result;
-                switch (Mode)
+                if (!string.IsNullOrEmpty(Mode))
                 {
-                    case "Approve":
-                        far.Status = 3;
-                        farEventog.Message = String.Format("First level approved by{0}",strApproverFullName);
-                        break;
-                    case "Reject":
-                        far.Status = 5;
-                        farEventog.Message = String.Format("Rejected by{0}", strApproverFullName);
-                        break;
+                   
+                    var strApproverFullName = UserUtility.GetUserFullNameById(far.Approverdetails[0].UserId).Result;
+                    string strMessage = string.Empty;
+                    switch (Mode)
+                    {
+                        case "Approve":
+                            far.Status = 3;
+                            strMessage = String.Format("First level approved by{0}", strApproverFullName);
+                            break;
+                        case "Reject":
+                            far.Status = 5;
+                            strMessage = String.Format("Rejected by{0}", strApproverFullName);
+                            break;
+
+                    }
+                    FAREventLog farEventog = FARUtility.PrepareEventLog(strMessage);
+                    far.FAREventLogs.Add(farEventog);
+                    string strFar = JsonSerializer.Serialize(far);
+                    StringContent content = new StringContent(strFar, Encoding.UTF8, "application/json");
+                    var response = client.PutAsync(client.BaseAddress + "/FAR/Update", content).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+
+                        ViewBag.SuccessResult = "FAR modified successfully!!";
+                        return RedirectToAction("Index", "Home");
+
+
+                    }
+
                 }
-               
             }
 
             return View("index", far);
