@@ -1,6 +1,7 @@
 ﻿
 using FARApplication.Web.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -11,7 +12,9 @@ namespace FARApplication.Web.Utility
 {
     public static class UserUtility
     {
-        static string Baseurl = "http://localhost:5000/";
+        //  static string Baseurl = "http://localhost:5000/";
+
+        static string Baseurl = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetValue<string>("ApiAddress");
         public static async Task<string> GetUserFullNameById(int Id)
         {
             string userName = string.Empty;
