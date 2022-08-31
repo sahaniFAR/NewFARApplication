@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using FARApplication.Data.Interface;
-using FARApplication.Data.Data.Entities;
+
 
 namespace FARApplication.Data.Implementation
 {
@@ -98,9 +97,23 @@ namespace FARApplication.Data.Implementation
 
             if (far.Approverdetails !=null)
             {
-                for(int counter = 0; counter< far.Approverdetails.Count; counter ++)
+                if (originalfar.Approverdetails != null)
                 {
-                    _context.Entry(originalfar.Approverdetails[counter]).CurrentValues.SetValues(far.Approverdetails[counter]);
+                    var indexFARApprover = originalfar.Approverdetails.Count;
+
+
+                    for (int counter = 0; counter < far.Approverdetails.Count; counter++)
+                    {
+                        if (indexFARApprover == far.Approverdetails.Count)
+                            _context.Entry(originalfar.Approverdetails[counter]).CurrentValues.SetValues(far.Approverdetails[counter]);
+                        else
+                        {
+                            var farApprover = far.Approverdetails[indexFARApprover];
+                            _context.Attach(farApprover);
+                            _context.Entry(farApprover).State = EntityState.Added;
+                        }
+
+                    }
                 }
             }
 
