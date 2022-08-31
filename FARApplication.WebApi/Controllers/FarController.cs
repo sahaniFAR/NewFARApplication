@@ -1,13 +1,11 @@
 ﻿
 using FARApplication.Data;
 using FARApplication.Data.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace FARApplication.Service.Controllers
 {
@@ -38,6 +36,23 @@ namespace FARApplication.Service.Controllers
                 return BadRequest("Failed to get FAR BY Id");
             }
         }
+        [HttpGet]
+        public ActionResult<IEnumerable<FAR>> GetAllFAR()
+        {
+            try
+            {
+                var FARs = _repository.GetAllFAR();
+
+                return Ok(FARs);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to get all FAR {ex}");
+                return BadRequest("Failed to get all FAR");
+            }
+        }
+
+
         [HttpPost]
         public ActionResult<int> Add(FAR far)
          {

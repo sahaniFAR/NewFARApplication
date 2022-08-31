@@ -23,10 +23,16 @@ namespace FARApplication.Data.Implementation
            
         }
 
+        public IEnumerable<FAR> GetAllFAR()
+        { 
+            // Show the latest records first
+            return _context.FARs.Include(t => t.User).OrderByDescending(t=> t.CreatedOn).ThenByDescending(t => t.RequestId).ToList();
+        }
+
         public IEnumerable<FAR> GetFARById(int userId)
         {
            // return _context.FARs.ToList().OrderBy(t => t.Id);
-           return  _context.FARs.Include(t => t.User).Where(t=> t.UserId == userId).ToList().OrderBy(u => u.Id);
+           return  _context.FARs.Include(t => t.User).Where(t=> t.UserId == userId).ToList().OrderByDescending(u => u.CreatedOn).ThenByDescending(u => u.RequestId);
         }
 
         public IEnumerable<FAR> GetFARByNextApprover()
@@ -50,8 +56,6 @@ namespace FARApplication.Data.Implementation
             try
             {
                 var result = _context.FARs.Include(n => n.FAREventLogs).Include(t => t.User).Include(u => u.Approverdetails).FirstOrDefault(n => n.Id == FarId);
-                //var result = _context.FARs.FirstOrDefault(n => n.Id == FarId).Include(n => n.FAREventLogs).Include(t => t.User).Include(u => u.Approverdetails);
-                // var result = _context.FARs.Where(t => t.Id == FarId).FirstOrDefault();
                 return result;
             }
             catch (Exception ex) 

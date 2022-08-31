@@ -19,6 +19,11 @@ namespace FARApplication.Data.Implementation
             throw new NotImplementedException();
         }
 
+        public IEnumerable<FAR> GetAllFAR()
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<FAR> GetFARById(int userId)
         {
             throw new NotImplementedException();

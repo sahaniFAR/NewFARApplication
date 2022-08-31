@@ -34,12 +34,17 @@
         </tr>
     </thead>
     <tbody>
+        @{ 
+            var Mode = ViewBag.Mode;
+        }
+        
         @foreach (var item in Model)
         {
             <tr>
                 <td>
-                    @Html.ActionLink(item.RequestId,"GetFARResult","FAR", new { FARId = item.Id }, new { @class = "link-dark"})
-                    @*@Html.DisplayFor(modelItem => item.RequestId)*@
+ 
+                     @Html.ActionLink(item.RequestId, "GetFARResult", "FAR", new { FARId = item.Id }, new { @class = "link-dark" })
+                    
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.CreatedBy)

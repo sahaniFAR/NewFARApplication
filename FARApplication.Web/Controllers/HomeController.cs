@@ -32,7 +32,16 @@ namespace FARApplication.Web.Controllers
             if (user != null)
             {
                 var userId = user.Id;
-                FARInfo = FARUtility.GetAllFARs(userId).Result;
+                if (user.ApprovalLevel == 0)
+                {
+                    ViewBag.Mode = "User";
+                    FARInfo = FARUtility.GetAllFARs(userId).Result;
+                }
+                else
+                {
+                    ViewBag.Mode = "Admin";
+                    FARInfo = FARUtility.GetALLFAR().Result;
+                }
 
                 if (FARInfo != null)
                 {

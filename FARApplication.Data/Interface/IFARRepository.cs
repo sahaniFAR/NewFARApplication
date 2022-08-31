@@ -6,6 +6,7 @@ namespace FARApplication.Data.Interface
 {
     public interface IFARRepository
     {
+        public IEnumerable<FAR> GetAllFAR();
         public IEnumerable<FAR> GetFARById(int userId);
         public IEnumerable<FAR> GetFARByStatus(int userId);
 

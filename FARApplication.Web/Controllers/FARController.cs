@@ -31,8 +31,10 @@ namespace FARApplication.Web.Controllers
             client.BaseAddress = uri;
         }
         [HttpPost]
-        public ActionResult Index(FAR model, IFormFile postedfiles)
+        public ActionResult Index(FAR model, IFormFile postedfiles, string command)
         {
+            string strLogMessage = string.Empty;
+            string strUserName = string.Empty;
             if(ModelState.IsValid)
             {
                 // model.UserId = 1;
@@ -41,7 +43,18 @@ namespace FARApplication.Web.Controllers
                 {
                     model.UserId = user.Id;
 
-                    model.Status = 1;
+                    if (string.Compare(command, "Submit") == 0)
+                    {
+                        model.Status = 2;
+                        strUserName = string.Concat(user.FirstName, " ", user.LastName);
+                        strLogMessage = string.Format("Send for approval by {0}", strUserName);
+                    }
+                    else
+                    {
+                        model.Status = 1;
+                        strUserName = string.Concat(user.FirstName, " ", user.LastName);
+                        strLogMessage = string.Format("Created/modified by {0}", strUserName);
+                    }
                     if (postedfiles != null)
                     {
                         Random random = new Random(1);
@@ -49,11 +62,13 @@ namespace FARApplication.Web.Controllers
                         if (!string.IsNullOrEmpty(fileLastName))
                             model.Filename = string.Concat(fileLastName, '_', postedfiles.FileName);
                     }
-                    var EventModel = FARUtility.PrepareEventLog("Created");
+
+                    var EventModel = FARUtility.PrepareEventLog(strLogMessage);
                     model.FAREventLogs.Add(EventModel);
                     string strFar = JsonSerializer.Serialize(model);
                     StringContent content = new StringContent(strFar, Encoding.UTF8, "application/json");
                     var response = client.PostAsync(client.BaseAddress + "/FAR/Add", content).Result;
+
                     if (response.IsSuccessStatusCode)
                     {
 
@@ -100,15 +115,53 @@ namespace FARApplication.Web.Controllers
 
             return View(Far);
         }
+  
         public ActionResult GetFARResult(int FARId) 
         {
             FAR far = new FAR();
-            far = FARUtility.GetFARDetails(FARId).Result;
-            if (far != null)
-            {
-                far.CreatedBy = string.Concat(far.User.FirstName, " ", far.User.LastName);
+            var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
+           
+                far = FARUtility.GetFARDetails(FARId).Result;
+                if (far != null)
+                {
+                    far.CreatedBy = string.Concat(far.User.FirstName, " ", far.User.LastName);
+                    far.LifeCycleStatus = (DocumentStatus)far.Status;
+                   FARApprover FARApprover = new FARApprover() { FARId = far.Id, UserId = user.Id, ApprovedDate = System.DateTime.Now };
+                if (user != null)
+                {
+                    if ((int)user.ApprovalLevel == 0)
+                    {
+
+                        if ((int)far.Status == 1 || (int)far.Status == 5)
+                        {
+                            ViewBag.Mode = "User";
+                        }
+                    }
+
+                    if ((int)user.ApprovalLevel == 1)
+                    {
+                        if ((int)far.Status == 2)
+                        {
+                            ViewBag.Mode = "Admin";
+                            far.Approverdetails.Add(FARApprover);
+                        }
+                    }
+
+                    if ((int)user.ApprovalLevel == 2)
+                    {
+                        if ((int)far.Status == 3)
+                        {
+                            ViewBag.Mode = "Admin";
+                            far.Approverdetails.Add(FARApprover);
+                        }
+                    }
+
+                }
+
             }
+
             return View(far);
+
         }
         [HttpPost]
         public ActionResult Update(FAR far , string Mode)
@@ -118,18 +171,36 @@ namespace FARApplication.Web.Controllers
                 if (!string.IsNullOrEmpty(Mode))
                 {
                    
-                    var strApproverFullName = UserUtility.GetUserFullNameById(far.Approverdetails[0].UserId).Result;
                     string strMessage = string.Empty;
+                    string strUserName = string.Empty;
+     
+                    var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
+                    if (user != null)
+                    {
+                        strUserName = string.Concat(user.FirstName, " ", user.LastName);
+
+                    }
+
                     switch (Mode)
                     {
                         case "Approve":
                             far.Status = 3;
-                            strMessage = String.Format("First level approved by {0}", strApproverFullName);
+                            strMessage = String.Format("First level approved by {0}", strUserName);
                             break;
 
                         case "Reject":
                             far.Status = 5;
-                            strMessage = String.Format("Rejected by {0}", strApproverFullName);
+                            strMessage = String.Format("Rejected by {0}", strUserName);
+                            break;
+                        case "Submit":
+                            far.Status = 2;
+                            strMessage = String.Format("Send for approval {0}", strUserName);
+                            break;
+                        case "Save":
+                            strMessage = String.Format("Modified By {0}", strUserName);
+                            break;
+                        case "SaveClose":
+                            strMessage = String.Format("Modified By {0}", strUserName);
                             break;
 
                     }
@@ -148,11 +219,16 @@ namespace FARApplication.Web.Controllers
 
 
                     }
+                    else
+                    {
+                        ViewBag.ErrorMsg = "There is some issue to update the record";
+                    }
 
                 }
             }
 
-            return View("index", far);
+            //return View("index", far);
+            return View();
         }
     }
 }
