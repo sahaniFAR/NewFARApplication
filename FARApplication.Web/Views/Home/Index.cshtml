@@ -1,72 +1,86 @@
 ﻿@model IEnumerable<FARApplication.Web.Models.FAR>
 
-
 @{
     ViewData["Title"] = "Index";
 }
+<div style="margin-top:22px;text-transform: capitalize;font-size: small;" class="container-fluid">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <div class="row">
+        <div class="col-lg-9">
+            <table style="border-collapse: separate;  border-spacing: 0px 7px;" class="table">
+                <thead>
+                    <tr >
+                        <th>
+                            <span>FAR ID</span>
+                        </th>
+                        <th>
+                            <span>Creator Name</span>
+                        </th>
+                        <th>
+                            <span>Created On</span>
 
+                        </th>
+                        <th>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <span>FAR ID</span>
+                            <span>Status</span>
+                        </th>
+                        <th>
+                            <span>Summary</span>
 
-            </th>
-            <th>
-                <span>Creator Name</span>
-            </th>
-            <th>
-                <span>Created On</span>
+                        </th>
 
-            </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count() == 0)
+                    {
+                        <tr>
+                            <td colspan="4">No FAR ID found</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                     @Html.ActionLink(item.RequestId,"GetFARResult","FAR", new { FARId = item.Id }, new { @class = "link-primary"})
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CreatedOn)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.LifeCycleStatus)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Summary)
+                                </td>
 
-            <th>
-
-                <span>Status</span>
-            </th>
-            <th>
-                <span>Summary</span>
-
-            </th>
-
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @{ 
-            var Mode = ViewBag.Mode;
-        }
-        
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
- 
-                     @Html.ActionLink(item.RequestId, "GetFARResult", "FAR", new { FARId = item.Id }, new { @class = "link-dark" })
-                    
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedBy)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedOn)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.LifeCycleStatus)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Summary)
-                </td>
-
-                <td>
-                </td>
-                <td>
-                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                                
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div style="margin-top: 10px;" class="col-lg-3">
+            @using(Html.BeginForm("search","Home",FormMethod.Get))
+            {
+              @Html.TextBox("search") <input type="submit" value="Search" />
+            }
+        </div>
+    </div>
+</div>
+@*<div class="container">
+    <div class="row">
+        <div class="col-lg-2">
+            @using(Html.BeginForm("search","Home",FormMethod.Get))
+            {
+             @Html.TextBox("search") <input type="submit" value="Seach" />
+            }
+        </div>
+    </div>
+</div>*@
