@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 
 namespace FARApplication.Web.Controllers
@@ -51,7 +52,31 @@ namespace FARApplication.Web.Controllers
 
             return View(FARInfo);
         }
+        public ActionResult search(string search)
+        {
+            List<FAR> FARInfo = new List<FAR>();
+            var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
+            List<FAR> FARInforesult = new List<FAR>();
+            if (user != null)
+            {
+                FARInfo = FARUtility.GetAllFARs(user.Id).Result;
 
+
+                if (FARInfo != null && user.ApprovalLevel != 0)
+                {
+                    FARInforesult = FARInfo.ToList().Where(t => t.RequestId.Equals(search)).ToList();
+                    if (FARInforesult != null)
+                    {
+                        FARInforesult.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status; t.CreatedBy = string.Concat(t.User.FirstName, " ", t.User.LastName); });
+                    }
+                }
+                else if (FARInfo != null && user.ApprovalLevel == 0)
+                {
+                    FARInforesult = FARInfo.ToList().Where(t => (t.RequestId.Equals(search)) && (t.UserId.Equals(user.Id))).ToList();
+                }
+            }
+            return View("Index", FARInforesult);
+        }
 
         //public IActionResult Privacy()
         //{

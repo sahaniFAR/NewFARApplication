@@ -21,12 +21,12 @@
 
     </head>
     <body>
-        <form asp-controller="FAR" asp-action="Index" method="post" enctype="multipart/form-data">
+        <form enctype="multipart/form-data" asp-controller="FAR" asp-action="Index" method="post">
             <div style="background-color: black" class="container-fluid">
                 <asp-for></asp-for>
                 <button class="close-btn"><i class="fa fa-close"></i> Close</button>
                 <button class="save-btn" type="submit" name="command" value="Save"><i class="fa fa-save"></i> Save</button>
-                <button class="save-close-btn" type="submit" name="command" value="SaveClose"><i class="fa fa-save"></i> Save & Close</button>
+                <button action="Far/Index"   class="save-close-btn" type="submit"><i class="fa fa-save"></i> Save & Close</button>
                 <button class="submit-button" type="submit" name="command" value="Submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit for Approval</button>
             </div>
             <div class="container-fluid">
@@ -121,7 +121,8 @@
                         <label for="Summary"><span id="red-text" class="red-text">*</span>Summary:</label>
                     </div>
                     <div class="col-lg-8">
-                        <input style="width: 100%;" asp-for="Summary" type="text" id="Summary" required />
+                        <textarea style="width: 100%;" id="Summary" asp-for="Summary" rows="3" cols="50" required></textarea><br>
+                        @*<input style="width: 100%;" asp-for="Summary" type="text" id="Summary" required />*@
                     </div>
                     <div class="col-lg-1"></div>
                 </div>
@@ -130,11 +131,16 @@
                     <div class="col-lg-2">
                         <label for="Details" style="margin-top: 5px;"><span id="red-text">*</span>Details:</label>
                     </div>
-                    <div class="col-lg-8">
-                        <input type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" required /><br>
+                    <div class="col-lg-4">
+                        <textarea style="width: 100%;" id="Details" asp-for="Details" rows="3" cols="50" required></textarea><br>
+                        @*<input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" required />*@
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="file" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" name="postedFiles" />
+@*                        <input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Attachments" id="Attachments" required />*@
                     </div>
                     <div class="col-lg-1"></div>
-                    <input type="file" name="postedFiles" />
+                    @*<input type="file" name="postedFiles" />*@
                 </div>
             </div>
             <div class="container-fluid" hidden>

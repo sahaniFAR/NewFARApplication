@@ -9,7 +9,7 @@ namespace FARApplication.Web.Models
     /// This model class maintains the state of a FAR.
     /// </summary>
     public class FAR
-    {    {
+    {    
         public FAR()
         {
             FAREventLogs = new List<FAREventLog>();

@@ -19,6 +19,7 @@ namespace FARApplication.WebApi.Model
         public string Details { get; set; }
 
         public IEnumerable<ApproverDetails> ApproverDetails { get; set; }
+        public string Filename { get; set; }
 
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using FARApplication.Web.Models;
+﻿using FARApplication.Web.Models;
 using FARApplication.Web.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +8,8 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace FARApplication.Web.Controllers
 {
@@ -16,26 +17,29 @@ namespace FARApplication.Web.Controllers
     {
         private readonly ILogger<FARController> _logger;
         private IConfiguration _iconfiguration;
+        private readonly IWebHostEnvironment hostingEnvironment;
         Uri uri;
         IConfiguration configuration;
         HttpClient client;
         // private FarController _service;
         //Hosted web API REST Service base url
 
-        public FARController(ILogger<FARController> logger, IConfiguration configuration)
+        public FARController(ILogger<FARController> logger, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             _logger = logger;
             _iconfiguration = configuration;
+            this.hostingEnvironment = hostingEnvironment;
             uri = new Uri(configuration["ApiAddress"]);
             client = new HttpClient();
             client.BaseAddress = uri;
         }
         [HttpPost]
-        public ActionResult Index(FAR model, IFormFile postedfiles, string command)
+        public ActionResult Index(FAR model, IFormFile postedFiles, string command)
         {
             string strLogMessage = string.Empty;
             string strUserName = string.Empty;
-            if(ModelState.IsValid)
+            string uploadedFileName = null;
+            if (ModelState.IsValid)
             {
                 // model.UserId = 1;
                 var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
@@ -55,12 +59,16 @@ namespace FARApplication.Web.Controllers
                         strUserName = string.Concat(user.FirstName, " ", user.LastName);
                         strLogMessage = string.Format("Created/modified by {0}", strUserName);
                     }
-                    if (postedfiles != null)
+                    if (postedFiles != null)
                     {
-                        Random random = new Random(1);
-                        string fileLastName = random.Next().ToString();
-                        if (!string.IsNullOrEmpty(fileLastName))
-                            model.Filename = string.Concat(fileLastName, '_', postedfiles.FileName);
+                        string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "UploadedFile");
+                        uploadedFileName = Guid.NewGuid().ToString() + "_" + postedFiles.FileName;
+                        string filePath = Path.Combine(uploadsFolder, uploadedFileName);
+                        postedFiles.CopyTo(new FileStream(filePath, FileMode.Create));
+                    }
+                    if (!string.IsNullOrEmpty(uploadedFileName))
+                    {
+                        model.Filename = uploadedFileName;
                     }
 
                     var EventModel = FARUtility.PrepareEventLog(strLogMessage);
