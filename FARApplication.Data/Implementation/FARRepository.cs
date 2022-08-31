@@ -100,19 +100,20 @@ namespace FARApplication.Data.Implementation
                 if (originalfar.Approverdetails != null)
                 {
                     var indexFARApprover = originalfar.Approverdetails.Count;
-
-
-                    for (int counter = 0; counter < far.Approverdetails.Count; counter++)
+                    if (indexFARApprover == far.Approverdetails.Count)
                     {
-                        if (indexFARApprover == far.Approverdetails.Count)
-                            _context.Entry(originalfar.Approverdetails[counter]).CurrentValues.SetValues(far.Approverdetails[counter]);
-                        else
+                        for (int counter = 0; counter < far.Approverdetails.Count; counter++)
                         {
-                            var farApprover = far.Approverdetails[indexFARApprover];
-                            _context.Attach(farApprover);
-                            _context.Entry(farApprover).State = EntityState.Added;
-                        }
 
+                            _context.Entry(originalfar.Approverdetails[counter]).CurrentValues.SetValues(far.Approverdetails[counter]);
+
+                        }
+                    }
+                    else
+                    {
+                        var farApprover = far.Approverdetails[indexFARApprover];
+                        _context.Attach(farApprover);
+                        _context.Entry(farApprover).State = EntityState.Added;
                     }
                 }
             }

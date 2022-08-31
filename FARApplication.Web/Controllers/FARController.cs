@@ -143,6 +143,7 @@ namespace FARApplication.Web.Controllers
                         if ((int)far.Status == 2)
                         {
                             ViewBag.Mode = "Admin";
+                            if(far.Approverdetails.Count ==0)
                             far.Approverdetails.Add(FARApprover);
                         }
                     }
@@ -152,7 +153,8 @@ namespace FARApplication.Web.Controllers
                         if ((int)far.Status == 3)
                         {
                             ViewBag.Mode = "Admin";
-                            far.Approverdetails.Add(FARApprover);
+                            if (far.Approverdetails.Count == 1)
+                                far.Approverdetails.Add(FARApprover);
                         }
                     }
 
@@ -185,8 +187,8 @@ namespace FARApplication.Web.Controllers
                     switch (Mode)
                     {
                         case "Approve":
-                            far.Status = 3;
-                            strMessage = String.Format("First level approved by {0}", strUserName);
+                            far.Status = far.Status + 1;
+                            strMessage = user.ApprovalLevel == Level.FirstLevel?  String.Format("First level approved by {0}", strUserName): String.Format("Final level approved by {0}", strUserName);
                             break;
 
                         case "Reject":
