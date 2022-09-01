@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/FARApplication.Web/wwwroot/UploadedFile/dce00c13-a90a-43d4-a361-9cd4cb4acffb_INDX-PACK-2022-07-14-12_07_28.xlsx
