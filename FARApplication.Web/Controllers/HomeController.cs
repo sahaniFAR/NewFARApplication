@@ -59,21 +59,19 @@ namespace FARApplication.Web.Controllers
             List<FAR> FARInforesult = new List<FAR>();
             if (user != null)
             {
-                FARInfo = FARUtility.GetAllFARs(user.Id).Result;
-
-
-                if (FARInfo != null && user.ApprovalLevel != 0)
+                if (user.ApprovalLevel == 0)
                 {
-                    FARInforesult = FARInfo.ToList().Where(t => t.RequestId.Equals(search)).ToList();
-                    if (FARInforesult != null)
-                    {
-                        FARInforesult.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status; t.CreatedBy = string.Concat(t.User.FirstName, " ", t.User.LastName); });
-                    }
+                    FARInfo = FARUtility.GetAllFARs(user.Id).Result;
                 }
-                else if (FARInfo != null && user.ApprovalLevel == 0)
+                else
                 {
-                    FARInforesult = FARInfo.ToList().Where(t => (t.RequestId.Equals(search)) && (t.UserId.Equals(user.Id))).ToList();
+                    FARInfo = FARUtility.GetALLFAR().Result;
                 }
+                if(!string.IsNullOrEmpty(search))
+                {
+                    FARInforesult = FARInfo.ToList().Where(t => t.RequestId.Contains(search)).ToList();
+                }
+
             }
             return View("Index", FARInforesult);
         }
