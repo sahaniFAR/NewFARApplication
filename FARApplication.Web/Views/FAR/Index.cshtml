@@ -24,34 +24,16 @@
         <form enctype="multipart/form-data" asp-controller="FAR" asp-action="Index" method="post">
             <div style="background-color: black" class="container-fluid">
                 <asp-for></asp-for>
-                <button class="close-btn"><i class="fa fa-close"></i> Close</button>
+                <button class="close-btn" type="button" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");"><i class="fa fa-close"></i> Close</button>
                 <button class="save-btn" type="submit" name="command" value="Save"><i class="fa fa-save"></i> Save</button>
-                <button action="Far/Index"   class="save-close-btn" type="submit"><i class="fa fa-save"></i> Save & Close</button>
+                <button action="Far/Index" class="save-close-btn" type="submit"><i class="fa fa-save"></i> Save & Close</button>
                 <button class="submit-button" type="submit" name="command" value="Submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit for Approval</button>
             </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-5">
-                        <img class="ibmimg" style="width:120px" src="~/asset/images/IBM-Emblem.png">
-                    </div>
-                    <div class="col-lg-5">
-                        <h2 class="heading"><b>FAR Requests Application</b></h2>
-                    </div>
-                    <div class="col-lg-1"></div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-5">
-                        <p class="logged-in-user"><b>Welcome </b><span> @HttpContextAccessor.HttpContext.Session.GetString("UserEmail")</span></p>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="far-reqest-date" id="currentdate"></div>
-                    </div>
-                    <div class="col-lg-1"></div>
-                </div>
-                <hr style="height:3px;margin-top: -4px;border:none;color:grey;background-color:#333;" />
-            </div>
+
+            <partial name="_HeaderPartial" />
+
+
+
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-1"></div>
@@ -121,8 +103,8 @@
                         <label for="Summary"><span id="red-text" class="red-text">*</span>Summary:</label>
                     </div>
                     <div class="col-lg-8">
-                        <textarea style="width: 100%;" id="Summary" asp-for="Summary" rows="3" cols="50" required></textarea><br>
-                        @*<input style="width: 100%;" asp-for="Summary" type="text" id="Summary" required />*@
+                        @*<textarea style="width: 100%;" id="Summary" asp-for="Summary" rows="3" cols="50" required></textarea>*@
+                        <input style="width: 100%;" asp-for="Summary" type="text" id="Summary" required /> <br>
                     </div>
                     <div class="col-lg-1"></div>
                 </div>
@@ -137,7 +119,7 @@
                     </div>
                     <div class="col-lg-4">
                         <input type="file" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" name="postedFiles" />
-@*                        <input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Attachments" id="Attachments" required />*@
+                        @*                        <input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Attachments" id="Attachments" required />*@
                     </div>
                     <div class="col-lg-1"></div>
                     @*<input type="file" name="postedFiles" />*@
@@ -235,7 +217,7 @@
                 </div>
             </div>
             <div>@ViewBag.SuccessResult</div>
-            </form>
+        </form>
            
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
     </body>

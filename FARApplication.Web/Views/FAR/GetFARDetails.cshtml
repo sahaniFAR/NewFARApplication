@@ -24,34 +24,15 @@
     <form asp-controller="FAR" asp-action="Index" method="post" enctype="multipart/form-data">
         <div style="background-color: black" class="container-fluid">
             <asp-for></asp-for>
-            <button class="close-btn" type="button" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" ><i class="fa fa-close"></i> Close</button>
+            <button class="close-btn" type="button" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");"><i class="fa fa-close"></i> Close</button>
             <button class="save-btn" type="submit" action="Far/Index"><i class="fa fa-save"></i> Save</button>
             <button class="save-close-btn" type="submit"><i class="fa fa-save"></i> Save & Close</button>
             <button class="submit-button" type="submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Submit for Approval</button>
         </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-5">
-                    <img class="ibmimg" style="width:120px" src="~/asset/images/IBM-Emblem.png">
-                </div>
-                <div class="col-lg-5">
-                    <h2 class="heading"><b>FAR Requests Application</b></h2>
-                </div>
-                <div class="col-lg-1"></div>
-            </div>
-            <div class="row">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-5">
-                    <p class="logged-in-user"><b>Welcome </b><span> @HttpContextAccessor.HttpContext.Session.GetString("UserEmail")</span></p>
-                </div>
-                <div class="col-lg-5">
-                    <div class="far-reqest-date" id="currentdate"></div>
-                </div>
-                <div class="col-lg-1"></div>
-            </div>
-            <hr style="height:3px;margin-top: -4px;border:none;color:grey;background-color:#333;" />
-        </div>
+
+
+        <partial name="_HeaderPartial" />
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-1"></div>
