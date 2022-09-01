@@ -29,6 +29,7 @@ namespace FARApplication.Web.Models
         [Required(ErrorMessage = "Please enter details of the FAR.")]
         public string Details { get; set; }
         public List<FAREventLog> FAREventLogs { get; set; }
+
         public User User { get; set; }
         public List<FARApprover> Approverdetails { get; set; }
         [MaxLength(2000, ErrorMessage = "The Filename must be less that 300 characters")]

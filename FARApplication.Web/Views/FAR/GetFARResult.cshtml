@@ -24,256 +24,234 @@
     @{ 
         var Mode = ViewBag.Mode;
      }
-        <form asp-controller="FAR" asp-action="Update" method="post" enctype="multipart/form-data">
-            <div style="background-color: black" class="container-fluid">
-                <asp-for></asp-for>
-                <button class="close-btn"><i class="fa fa-close"></i> Close</button>
+    <form asp-controller="FAR" asp-action="Update" method="post" enctype="multipart/form-data">
+        <div style="background-color: black" class="container-fluid">
+            <asp-for></asp-for>
+            <button class="close-btn"><i class="fa fa-close"></i> Close</button>
 
 
-                @if (Mode == "Admin")
-                {
-                    <button class="save-btn" type="submit" action="Far/Index"><i class="fa fa-save"></i> Save</button>
-                    <button class="save-close-btn" type="submit"><i class="fa fa-save"></i> Save & Close</button>
-                    <button class="submit-button" type="submit" name="Mode" value="Approve"><i class="fa fa-paper-plane" aria-hidden="true"></i>Approve</button>
-                    <button class="submit-button" type="submit" name="Mode" value="Reject"><i class="fa fa-paper-plane" aria-hidden="true"></i>Reject</button>
-                }
-                @if (Mode == "User")
-                {
-                    <button class="save-btn" type="submit" action="Far/Index"><i class="fa fa-save"></i> Save</button>
-                    <button class="save-close-btn" type="submit"><i class="fa fa-save"></i> Save & Close</button>
-                    <button class="submit-button" type="submit" name="Mode" value="Submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>Submit for Approval</button>
+            @if (Mode == "Admin")
+            {
+                <button class="save-btn" type="submit" action="Far/Index"><i class="fa fa-save"></i> Save</button>
+                <button class="save-close-btn" type="submit"><i class="fa fa-save"></i> Save & Close</button>
+                <button class="submit-button" type="submit" name="Mode" value="Approve"><i class="fa fa-paper-plane" aria-hidden="true"></i>Approve</button>
+                <button class="submit-button" type="submit" name="Mode" value="Reject"><i class="fa fa-paper-plane" aria-hidden="true"></i>Reject</button>
+            }
+            @if (Mode == "User")
+            {
+                <button class="save-btn" type="submit" action="Far/Index"><i class="fa fa-save"></i> Save</button>
+                <button class="save-close-btn" type="submit"><i class="fa fa-save"></i> Save & Close</button>
+                <button class="submit-button" type="submit" name="Mode" value="Submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>Submit for Approval</button>
 
-                }
-
-            </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-5">
-                        <img class="ibmimg" style="width:120px" src="~/asset/images/IBM-Emblem.png">
-                    </div>
-                    <div class="col-lg-5">
-                        <h2 class="heading"><b>FAR Requests Application</b></h2>
-                    </div>
-                    <div class="col-lg-1"></div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-5">
-                        <p class="logged-in-user"><b>Welcome </b><span> @HttpContextAccessor.HttpContext.Session.GetString("UserEmail")</span></p>
-                    </div>
-                    <div class="col-lg-5">
-                        <div class="far-reqest-date" id="currentdate"></div>
-                    </div>
-                    <div class="col-lg-1"></div>
-                </div>
-                <hr style="height:3px;margin-top: -4px;border:none;color:grey;background-color:#333;" />
-            </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-5"></div>
-                    <div class="col-lg-5">
-                        <p style="white-space: nowrap ;text-align: right;" id="warning"><span id="red-text">Note:</span> Fields marked with <span id="red-text">*</span> are mandatory</p>
-                    </div>
-                    <div class="col-lg-1"></div>
-                </div>
-            </div>
-
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-1"></div>
-                    <div style="background-color: grey;height:25px;" class="col-lg-10">
-                        <p><b>Document Information</b></p>
-                    </div>
-                    <div class="col-lg-1"></div>
-                </div>
-            </div>
-            <div class="container-fluid">
-                <div style="margin-top: 4px;" class="row">
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-2">
-                        <label id="label-FARRequest" for="Far-request-id">FAR Request ID:</label>
-                    </div>
-                    <div class="col-lg-3">
-                        <input class="input-box" type="text" asp-for="RequestId" id="Far-request-id" readonly />
-                    </div>
-                    <div class="col-lg-2">
-                        <label id="label-FARRequest" for="Document-Status" >DocumentStatus:</label>
-                    </div>
-                    <div class="col-lg-3">
-                        <input class="input-box" type="text" id="Document-LifeCycleStatus" asp-for="LifeCycleStatus" readonly />
-                        <input class="input-box" type="hidden" id="Document-Status" asp-for="Status"/>
-                    </div>
-                    <div class="col-lg-1"></div>
-                </div>
-                <div style="margin-top: 4px;" class="row">
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-2">
-                        <label style="margin-top: 5px;" for="Created-By">Created By:</label>
-                    </div>
-                    <div class="col-lg-3">
-                        <input style="margin-top: 3px;" class="input-box" type="text" id="Created-By" asp-for="CreatedBy" readonly />
-                    </div>
-                    <div class="col-lg-2">
-                        <label style="margin-top: 5px;" for="Created-On">Created On:</label>
-                    </div>
-                    <div class="col-lg-3">
-                        <input style="margin-top: 3px;" type="text" id="Created-On" asp-for="CreatedOn" readonly />
-                    </div>
-                    <div class="col-lg-1"></div>
-                </div>
-            </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-1"></div>
-                    <div style="background-color: grey;height:25px;margin-top: 10px;" class="col-lg-10">
-                        <p><b>Request Information</b></p>
-                    </div>
-                    <div class="col-lg-1"></div>
-                </div>
-            </div>
-            <div class="container-fluid">
-                <div style="margin-top: 4px;" class="row">
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-2">
-                        <label for="Summary"><span id="red-text" class="red-text">*</span>Summary:</label>
-                    </div>
-                    <div class="col-lg-8">
-                        <input style="width: 100%;" asp-for="Summary" type="text" id="Summary" required />
-                    </div>
-                    <div class="col-lg-1"></div>
-                </div>
-                <div style="margin-top: 4px;" class="row">
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-2">
-                        <label for="Details" style="margin-top: 5px;"><span id="red-text">*</span>Details:</label>
-                    </div>
-                    <div class="col-lg-8">
-                        <input type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" required /><br>
-                    </div>
-                    <input type="hidden" asp-for="Id"/>
-                    <input type="hidden" asp-for="UserId" />
-                    <input type="hidden" asp-for="User.Id" />
-                    <input type="hidden" asp-for="User.FirstName" />
-                    <input type="hidden" asp-for="User.LastName" />
-                    <input type="hidden" asp-for="User.Password" />
-                    <input type="hidden" asp-for="User.IsActive" />
-                    <input type="hidden" asp-for="User.ApprovalLevel" />
-                    <input type="hidden" asp-for="User.EmailId" />
-                   
-
-                    @*<div class="col-lg-1"></div>
-        <input type="file" name="postedFiles" />*@
-                </div>
-            </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-1"></div>
-                    <div style="background-color: grey;height:25px;margin-top: 10px;" class="col-lg-10">
-                        <p><b>Approver Information</b></p>
-                    </div>
-                    <div class="col-lg-1"></div>
-                </div>
-            </div>
-            @{
-                int counter = 0;
-                @foreach (FARApprover appmodel in Model.Approverdetails)
-                {
-
-                    counter = counter + 1;
-
-                    <div>
-                        <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].Id" />
-                        <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].FARId" />
-                        <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].UserId" />
-                        <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].FAR"/>
-                    </div>
-
-                    <div class="container-fluid">
-                        <div style="margin-top: 4px;" class="row">
-                            <div class="col-lg-1"></div>
-                            <div class="col-lg-2">
-                                <label for="FirstApprover"><span id="red-text">*</span>Approver @counter Name:</label>
-                            </div>
-
-                            <div class="col-lg-8">
-                                <input type="text" value="@FARApplication.Web.Utility.UserUtility.GetUserFullNameById(appmodel.UserId).Result" readonly />
-                            </div>
-
-
-                            <div class="col-lg-1"></div>
-                        </div>
-                        <div style="margin-top: 4px;" class="row">
-                            <div class="col-lg-1"></div>
-                            <div class="col-lg-2">
-                                <label for="first-Approver-comments"><span id="red-text">*</span>Comments:</label>
-                            </div>
-                            <div class="col-lg-8">
-                                <input style="width: 100%;" type="text" asp-for="@Model.Approverdetails[counter - 1].Comments" />
-                            </div>
-                            <div class="col-lg-1"></div>
-                        </div>
-                        <div style="margin-top: 4px;" class="row">
-                            <div class="col-lg-1"></div>
-                            <div class="col-lg-2">
-                                <label for="First-Approver-Signature-date-stamp">Signature Date/Time:</label>
-                            </div>
-                            <div class="col-lg-8">
-                                <input type="date" asp-for="@Model.Approverdetails[counter - 1].ApprovedDate" />
-                            </div>
-                            <div class="col-lg-1"></div>
-                        </div>
-                    </div>
-
-                }
             }
 
-            <div class="container-fluid" hidden>
-                <div style="margin-top: 10px;" class="row">
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-2">
-                        <label for="secondApprover"><span id="red-text">*</span>Approver 2 Name:</label>
-                    </div>
-                    <div class="col-lg-8">
-                        <input type="text" id="secondApprover" />
-                    </div>
-                    <div class="col-lg-1"></div>
+        </div>
+        <partial name="_HeaderPartial" />
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-5"></div>
+                <div class="col-lg-5">
+                    <p style="white-space: nowrap ;text-align: right;" id="warning"><span id="red-text">Note:</span> Fields marked with <span id="red-text">*</span> are mandatory</p>
                 </div>
-                <div style="margin-top: 4px;" class="row">
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-2">
-                        <label for="second-Approver-comments"><span id="red-text">*</span>Comments:</label>
-                    </div>
-                    <div class="col-lg-8">
-                        <input style="width: 100%;" type="text" id="second-Approver-comments" />
-                    </div>
-                    <div class="col-lg-1"></div>
-                </div>
-                <div style="margin-top: 4px;" class="row">
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-2">
-                        <label for="second-Approver-Signature-date-stamp">Signature Date/Time:</label>
-                    </div>
-                    <div class="col-lg-8">
-                        <input type="date" id="second-Approver-Signature-date-stamp" />
-                    </div>
-                    <div class="col-lg-1"></div>
-                </div>
+                <div class="col-lg-1"></div>
             </div>
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-1"></div>
-                    <div style="background-color: grey;height:25px;margin-top: 10px;" class="col-lg-10">
-                        <p><b>Document Event Log</b></p>
-                    </div>
-                    <div class="col-lg-1"></div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div style="background-color: grey;height:25px;" class="col-lg-10">
+                    <p><b>Document Information</b></p>
                 </div>
+                <div class="col-lg-1"></div>
             </div>
-            @{  
-                int index = 0;
-                @foreach (var eventmodel in Model.FAREventLogs)
-                {
+        </div>
+        <div class="container-fluid">
+            <div style="margin-top: 4px;" class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2">
+                    <label id="label-FARRequest" for="Far-request-id">FAR Request ID:</label>
+                </div>
+                <div class="col-lg-3">
+                    <input class="input-box" type="text" asp-for="RequestId" id="Far-request-id" readonly />
+                </div>
+                <div class="col-lg-2">
+                    <label id="label-FARRequest" for="Document-Status">DocumentStatus:</label>
+                </div>
+                <div class="col-lg-3">
+                    <input class="input-box" type="text" id="Document-LifeCycleStatus" asp-for="LifeCycleStatus" readonly />
+                    <input class="input-box" type="hidden" id="Document-Status" asp-for="Status" />
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+            <div style="margin-top: 4px;" class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2">
+                    <label style="margin-top: 5px;" for="Created-By">Created By:</label>
+                </div>
+                <div class="col-lg-3">
+                    <input style="margin-top: 3px;" class="input-box" type="text" id="Created-By" asp-for="CreatedBy" readonly />
+                </div>
+                <div class="col-lg-2">
+                    <label style="margin-top: 5px;" for="Created-On">Created On:</label>
+                </div>
+                <div class="col-lg-3">
+                    <input style="margin-top: 3px;" type="text" id="Created-On" asp-for="CreatedOn" readonly />
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div style="background-color: grey;height:25px;margin-top: 10px;" class="col-lg-10">
+                    <p><b>Request Information</b></p>
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div style="margin-top: 4px;" class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2">
+                    <label for="Summary"><span id="red-text" class="red-text">*</span>Summary:</label>
+                </div>
+                <div class="col-lg-8">
+                    <input style="width: 100%;" asp-for="Summary" type="text" id="Summary" readonly="@((Mode != "Admin") ? null : "readonly")" required />
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+            <div style="margin-top: 4px;" class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2">
+                    <label for="Details" style="margin-top: 5px;"><span id="red-text">*</span>Details:</label>
+                </div>
+                <div class="col-lg-8">
+                    <input type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" readonly="@((Mode != "Admin") ? null : "readonly")" required /><br>
+                </div>
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="UserId" />
+                <input type="hidden" asp-for="User.Id" />
+                <input type="hidden" asp-for="User.FirstName" />
+                <input type="hidden" asp-for="User.LastName" />
+                <input type="hidden" asp-for="User.Password" />
+                <input type="hidden" asp-for="User.IsActive" />
+                <input type="hidden" asp-for="User.ApprovalLevel" />
+                <input type="hidden" asp-for="User.EmailId" />
+
+
+                @*<div class="col-lg-1"></div>
+                <input type="file" name="postedFiles" />*@
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div style="background-color: grey;height:25px;margin-top: 10px;" class="col-lg-10">
+                    <p><b>Approver Information</b></p>
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+        </div>
+        @{
+            int counter = 0;
+            @foreach (FARApprover appmodel in Model.Approverdetails)
+            {
+
+                counter = counter + 1;
+
+                <div>
+                    <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].Id" />
+                    <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].FARId" />
+                    <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].UserId" />
+                    <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].FAR" />
+                </div>
+
+                <div class="container-fluid">
+                    <div style="margin-top: 4px;" class="row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2">
+                            <label for="FirstApprover"><span id="red-text">*</span>Approver @counter Name:</label>
+                        </div>
+
+                        <div class="col-lg-8">
+                            <input type="text" value="@FARApplication.Web.Utility.UserUtility.GetUserFullNameById(appmodel.UserId).Result" readonly />
+                        </div>
+
+
+                        <div class="col-lg-1"></div>
+                    </div>
+                    <div style="margin-top: 4px;" class="row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2">
+                            <label for="first-Approver-comments"><span id="red-text">*</span>Comments:</label>
+                        </div>
+                        <div class="col-lg-8">
+                            <input style="width: 100%;" type="text" asp-for="@Model.Approverdetails[counter - 1].Comments" />
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+                    <div style="margin-top: 4px;" class="row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2">
+                            <label for="First-Approver-Signature-date-stamp">Signature Date/Time:</label>
+                        </div>
+                        <div class="col-lg-8">
+                            <input type="date" asp-for="@Model.Approverdetails[counter - 1].ApprovedDate" />
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+                </div>
+
+            }
+        }
+
+        <div class="container-fluid" hidden>
+            <div style="margin-top: 10px;" class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2">
+                    <label for="secondApprover"><span id="red-text">*</span>Approver 2 Name:</label>
+                </div>
+                <div class="col-lg-8">
+                    <input type="text" id="secondApprover" />
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+            <div style="margin-top: 4px;" class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2">
+                    <label for="second-Approver-comments"><span id="red-text">*</span>Comments:</label>
+                </div>
+                <div class="col-lg-8">
+                    <input style="width: 100%;" type="text" id="second-Approver-comments" />
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+            <div style="margin-top: 4px;" class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2">
+                    <label for="second-Approver-Signature-date-stamp">Signature Date/Time:</label>
+                </div>
+                <div class="col-lg-8">
+                    <input type="date" id="second-Approver-Signature-date-stamp" />
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div style="background-color: grey;height:25px;margin-top: 10px;" class="col-lg-10">
+                    <p><b>Document Event Log</b></p>
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+        </div>
+        @{
+            int index = 0;
+            @foreach (var eventmodel in Model.FAREventLogs)
+            {
 
                 <div style="margin-bottom: 20px;" class="container-fluid">
                     <div style="margin-top: 10px;" class="row">
@@ -291,11 +269,11 @@
                         <div class="col-lg-1"></div>
                     </div>
                 </div>
-                    index = index + 1;
-                }
-                }
-            <div>@ViewBag.SuccessResult</div>
-        </form>
+                index = index + 1;
+            }
+        }
+        <div>@ViewBag.SuccessResult</div>
+    </form>
         @*<script>
                     var today=new Date();
                     var date=today.getDay()+"-"+(today.getMonth()+1)+"-"+today.getFullYear()+" "
