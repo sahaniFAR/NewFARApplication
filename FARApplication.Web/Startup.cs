@@ -27,7 +27,7 @@ namespace FARApplication.Web
         {
             services.AddControllers().AddNewtonsoftJson(t => t.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddControllersWithViews();
-
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             // Add Filter to the container.
             services.AddControllersWithViews(options =>
             {

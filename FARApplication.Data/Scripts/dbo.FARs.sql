@@ -15,7 +15,8 @@ CREATE TABLE [dbo].[FARs] (
     [UserId]    INT             NOT NULL,
     [CreatedOn] DATE            NULL,
     [Summary]   NVARCHAR (4000) NULL,
-    [Details]   NVARCHAR (4000) NULL
+    [Details]   NVARCHAR (4000) NULL,
+    [Filename] NVARCHAR (4000) NULL
 );
 
 
