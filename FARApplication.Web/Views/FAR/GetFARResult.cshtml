@@ -27,7 +27,7 @@
     <form asp-controller="FAR" asp-action="Update" method="post" enctype="multipart/form-data">
         <div style="background-color: black" class="container-fluid">
             <asp-for></asp-for>
-            <button class="close-btn"><i class="fa fa-close"></i> Close</button>
+            <button class="close-btn" type="button" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");"><i class="fa fa-close"></i> Close</button>
 
 
             @if (Mode == "Admin")
@@ -118,7 +118,7 @@
                     <label for="Summary"><span id="red-text" class="red-text">*</span>Summary:</label>
                 </div>
                 <div class="col-lg-8">
-                    <input style="width: 100%;" asp-for="Summary" type="text" id="Summary" readonly="@((Mode != "Admin") ? null : "readonly")" required />
+                    <input style="width: 100%;" asp-for="Summary" type="text" id="Summary" readonly="@((Mode == "User" && (Model.Status==1 || Model.Status==5 )) ? null : "readonly")" required />
                 </div>
                 <div class="col-lg-1"></div>
             </div>
