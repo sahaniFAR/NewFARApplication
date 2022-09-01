@@ -118,7 +118,7 @@
                     <label for="Summary"><span id="red-text" class="red-text">*</span>Summary:</label>
                 </div>
                 <div class="col-lg-8">
-                    <input style="width: 100%;" asp-for="Summary" type="text" id="Summary" required />
+                    <input style="width: 100%;" asp-for="Summary" type="text" id="Summary" readonly="@((Mode != "Admin") ? null : "readonly")" required />
                 </div>
                 <div class="col-lg-1"></div>
             </div>
@@ -128,7 +128,7 @@
                     <label for="Details" style="margin-top: 5px;"><span id="red-text">*</span>Details:</label>
                 </div>
                 <div class="col-lg-8">
-                    <input type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" required /><br>
+                    <input type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" readonly="@((Mode != "Admin") ? null : "readonly")" required /><br>
                 </div>
                 <input type="hidden" asp-for="Id" />
                 <input type="hidden" asp-for="UserId" />
