@@ -136,7 +136,7 @@
                         @*<input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" required />*@
                     </div>
                     <div class="col-lg-4">
-                        <input type="file" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" name="postedFiles" />
+                        <input type="file" accept=".xlsx, .xls" asp-for="Filename" style="margin-top: 3px;width: 100%;" name="postedFiles" />
 @*                        <input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Attachments" id="Attachments" required />*@
                     </div>
                     <div class="col-lg-1"></div>
@@ -169,7 +169,7 @@
                         <label for="first-Approver-comments"><span id="red-text">*</span>Comments:</label>
                     </div>
                     <div class="col-lg-8">
-                        <input style="width: 100%;" type="text" id="first-Approver-comments" />
+                        <input style="width: 100%;" type="text" id="first-Approver-comments" required/>
                     </div>
                     <div class="col-lg-1"></div>
                 </div>
@@ -201,7 +201,7 @@
                         <label for="second-Approver-comments"><span id="red-text">*</span>Comments:</label>
                     </div>
                     <div class="col-lg-8">
-                        <input style="width: 100%;" type="text" id="second-Approver-comments" />
+                        <input style="width: 100%;" type="text" id="second-Approver-comments" required/>
                     </div>
                     <div class="col-lg-1"></div>
                 </div>

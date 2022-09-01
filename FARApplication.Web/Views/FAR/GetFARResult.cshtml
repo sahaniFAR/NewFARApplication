@@ -127,9 +127,18 @@
                 <div class="col-lg-2">
                     <label for="Details" style="margin-top: 5px;"><span id="red-text">*</span>Details:</label>
                 </div>
-                <div class="col-lg-8">
-                    <input type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" readonly="@((Mode != "Admin") ? null : "readonly")" required /><br>
+                <div class="col-lg-4">
+                    <textarea type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" readonly="@((Mode != "Admin") ? null : "readonly")" required ></textarea><br>
+                    @*<textarea style="width: 100%;" id="Details" asp-for="Details" rows="3" cols="50" required></textarea><br>*@
+                    @*<input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" required />*@
                 </div>
+                <div class="col-lg-4">
+                    <input type="file" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Filename" name="postedFiles" readonly="@((Mode != "Admin") ? null : "readonly")" />
+@*                        <input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Attachments" id="Attachments" required />*@
+                </div>
+               @* <div class="col-lg-8">
+                    <input type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" readonly="@((Mode != "Admin") ? null : "readonly")" required /><br>
+                </div>*@
                 <input type="hidden" asp-for="Id" />
                 <input type="hidden" asp-for="UserId" />
                 <input type="hidden" asp-for="User.Id" />
@@ -188,7 +197,7 @@
                             <label for="first-Approver-comments"><span id="red-text">*</span>Comments:</label>
                         </div>
                         <div class="col-lg-8">
-                            <input style="width: 100%;" type="text" asp-for="@Model.Approverdetails[counter - 1].Comments" />
+                            <input style="width: 100%;" type="text" asp-for="@Model.Approverdetails[counter - 1].Comments" required/>
                         </div>
                         <div class="col-lg-1"></div>
                     </div>
@@ -224,7 +233,7 @@
                     <label for="second-Approver-comments"><span id="red-text">*</span>Comments:</label>
                 </div>
                 <div class="col-lg-8">
-                    <input style="width: 100%;" type="text" id="second-Approver-comments" />
+                    <input style="width: 100%;" type="text" id="second-Approver-comments" required/>
                 </div>
                 <div class="col-lg-1"></div>
             </div>
