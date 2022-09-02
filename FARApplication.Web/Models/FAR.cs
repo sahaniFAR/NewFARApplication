@@ -1,7 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using FARApplication.Web.Utility;
+using Microsoft.AspNetCore.Http;
 
 namespace FARApplication.Web.Models
 {
@@ -14,14 +17,26 @@ namespace FARApplication.Web.Models
         {
             FAREventLogs = new List<FAREventLog>();
             Approverdetails = new List<FARApprover>();
+           
         }
+      
         // Document Information
         public int Id { get; set; }
         public string RequestId { get; set; }
         public int Status { get; set; }
         public DocumentStatus LifeCycleStatus { get; set; }
         public int UserId { get; set; }
-        public string CreatedBy { get; set; }
+        public string CreatedBy {
+
+            get
+            {
+                // User userSession = HttpContext.Session.getObjectAsJson<User>("UserDetails");
+                return  string.Concat(User?.FirstName, " ", User?.LastName);
+                
+            }
+
+           
+    }
         public DateTime CreatedOn { get; set; }
         //Request Information
         [Required(ErrorMessage = "Please enter summary of the FAR.")]

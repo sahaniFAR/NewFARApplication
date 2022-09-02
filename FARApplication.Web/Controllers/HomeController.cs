@@ -32,6 +32,7 @@ namespace FARApplication.Web.Controllers
             var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
             if (user != null)
             {
+                ViewBag.SessionUser = user;
                 var userId = user.Id;
                 if (user.ApprovalLevel == 0)
                 {
@@ -46,7 +47,8 @@ namespace FARApplication.Web.Controllers
 
                 if (FARInfo != null)
                 {
-                    FARInfo.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status; t.CreatedBy = string.Concat(t.User.FirstName, " ", t.User.LastName); });
+                    // FARInfo.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status; t.CreatedBy = string.Concat(t.User.FirstName, " ", t.User.LastName); });
+                    FARInfo.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status;});
                 }
             }
 
@@ -67,12 +69,18 @@ namespace FARApplication.Web.Controllers
                     FARInforesult = FARInfo.ToList().Where(t => t.RequestId.Equals(search)).ToList();
                     if (FARInforesult != null)
                     {
-                        FARInforesult.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status; t.CreatedBy = string.Concat(t.User.FirstName, " ", t.User.LastName); });
+                        //FARInforesult.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status; t.CreatedBy = string.Concat(t.User.FirstName, " ", t.User.LastName); });
+                        FARInforesult.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status;});
                     }
                 }
                 else if (FARInfo != null && user.ApprovalLevel == 0)
                 {
-                    FARInforesult = FARInfo.ToList().Where(t => (t.RequestId.Equals(search)) && (t.UserId.Equals(user.Id))).ToList();
+                    FARInforesult = FARInfo.ToList().Where(t => (t.RequestId.Contains(search))).ToList();
+                    if (FARInforesult != null)
+                    {
+                       // FARInforesult.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status; t.CreatedBy = string.Concat(t.User.FirstName, " ", t.User.LastName); });
+                        FARInforesult.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status;});
+                    }
                 }
             }
             return View("Index", FARInforesult);

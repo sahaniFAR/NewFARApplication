@@ -101,10 +101,10 @@ namespace FARApplication.Web.Controllers
             FAR Far = new FAR();
             Far.CreatedOn = System.DateTime.Now;
             var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
-            
+
             if (user != null)
             {
-                Far.CreatedBy = string.Concat(user.FirstName, " ", user.LastName);
+                Far.User = user;
             }
             //var FarRequestId = _iconfiguration["FARRequestId"];
             var FarRequestId = FARUtility.GetSequeceForRequestId().Result;
@@ -132,7 +132,7 @@ namespace FARApplication.Web.Controllers
                 far = FARUtility.GetFARDetails(FARId).Result;
                 if (far != null)
                 {
-                    far.CreatedBy = string.Concat(far.User.FirstName, " ", far.User.LastName);
+                   // far.CreatedBy = string.Concat(far.User.FirstName, " ", far.User.LastName);
                     far.LifeCycleStatus = (DocumentStatus)far.Status;
                    FARApprover FARApprover = new FARApprover() { FARId = far.Id, UserId = user.Id, ApprovedDate = System.DateTime.Now };
                 if (user != null)
