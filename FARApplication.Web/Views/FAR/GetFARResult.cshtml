@@ -128,15 +128,15 @@
                     <label for="Details" style="margin-top: 5px;"><span id="red-text">*</span>Details:</label>
                 </div>
                 <div class="col-lg-4">
-                    <textarea type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" readonly="@((Mode != "Admin") ? null : "readonly")" required ></textarea><br>
+                    <textarea type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" readonly="@((Mode != "Admin") ? null : "readonly")" required></textarea><br>
                     @*<textarea style="width: 100%;" id="Details" asp-for="Details" rows="3" cols="50" required></textarea><br>*@
                     @*<input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" required />*@
                 </div>
                 <div class="col-lg-4">
                     <input type="file" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Filename" name="postedFiles" readonly="@((Mode != "Admin") ? null : "readonly")" />
-@*                        <input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Attachments" id="Attachments" required />*@
+                    @*                        <input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Attachments" id="Attachments" required />*@
                 </div>
-               @* <div class="col-lg-8">
+                @* <div class="col-lg-8">
                     <input type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" readonly="@((Mode != "Admin") ? null : "readonly")" required /><br>
                 </div>*@
                 <input type="hidden" asp-for="Id" />
@@ -154,17 +154,21 @@
                 <input type="file" name="postedFiles" />*@
             </div>
         </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-1"></div>
-                <div style="background-color: grey;height:25px;margin-top: 10px;" class="col-lg-10">
-                    <p><b>Approver Information</b></p>
-                </div>
-                <div class="col-lg-1"></div>
-            </div>
-        </div>
+
         @{
             int counter = 0;
+            @if (Model.Approverdetails != null && Model.Approverdetails.Count > 0)
+            {
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-1"></div>
+                    <div style="background-color: grey;height:25px;margin-top: 10px;" class="col-lg-10">
+                        <p><b>Approver Information</b></p>
+                    </div>
+                    <div class="col-lg-1"></div>
+                </div>
+            </div>
+            }
             @foreach (FARApprover appmodel in Model.Approverdetails)
             {
 
@@ -197,7 +201,7 @@
                             <label for="first-Approver-comments"><span id="red-text">*</span>Comments:</label>
                         </div>
                         <div class="col-lg-8">
-                            <input style="width: 100%;" type="text" asp-for="@Model.Approverdetails[counter - 1].Comments" required/>
+                            <input style="width: 100%;" type="text" asp-for="@Model.Approverdetails[counter - 1].Comments" required />
                         </div>
                         <div class="col-lg-1"></div>
                     </div>
@@ -216,38 +220,7 @@
             }
         }
 
-        <div class="container-fluid" hidden>
-            <div style="margin-top: 10px;" class="row">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-2">
-                    <label for="secondApprover"><span id="red-text">*</span>Approver 2 Name:</label>
-                </div>
-                <div class="col-lg-8">
-                    <input type="text" id="secondApprover" />
-                </div>
-                <div class="col-lg-1"></div>
-            </div>
-            <div style="margin-top: 4px;" class="row">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-2">
-                    <label for="second-Approver-comments"><span id="red-text">*</span>Comments:</label>
-                </div>
-                <div class="col-lg-8">
-                    <input style="width: 100%;" type="text" id="second-Approver-comments" required/>
-                </div>
-                <div class="col-lg-1"></div>
-            </div>
-            <div style="margin-top: 4px;" class="row">
-                <div class="col-lg-1"></div>
-                <div class="col-lg-2">
-                    <label for="second-Approver-Signature-date-stamp">Signature Date/Time:</label>
-                </div>
-                <div class="col-lg-8">
-                    <input type="date" id="second-Approver-Signature-date-stamp" />
-                </div>
-                <div class="col-lg-1"></div>
-            </div>
-        </div>
+
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-1"></div>
