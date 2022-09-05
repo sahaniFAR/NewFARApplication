@@ -128,6 +128,10 @@ namespace FARApplication.Web.Controllers
         {
             FAR far = new FAR();
             var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
+                if(user != null)
+                {
+                    ViewBag.SessionUser = user;
+                }
            
                 far = FARUtility.GetFARDetails(FARId).Result;
                 if (far != null)
