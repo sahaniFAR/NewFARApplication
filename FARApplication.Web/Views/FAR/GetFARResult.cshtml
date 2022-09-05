@@ -128,12 +128,12 @@
                     <label for="Details" style="margin-top: 5px;"><span id="red-text">*</span>Details:</label>
                 </div>
                 <div class="col-lg-4">
-                    <textarea type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" readonly="@((Mode != "Admin") ? null : "readonly")" required></textarea><br>
+                    <textarea type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" readonly="@((Mode == "User" && (Model.Status==1 || Model.Status==5 )) ? null : "readonly")" required></textarea><br>
                     @*<textarea style="width: 100%;" id="Details" asp-for="Details" rows="3" cols="50" required></textarea><br>*@
                     @*<input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" required />*@
                 </div>
                 <div class="col-lg-4">
-                    <input type="file" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Filename" name="postedFiles" readonly="@((Mode != "Admin") ? null : "readonly")" />
+                    <input type="file" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Filename" name="postedFiles" readonly="@((Mode == "User" && (Model.Status==1 || Model.Status==5 )) ? null : "readonly")" />
                     @*                        <input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Attachments" id="Attachments" required />*@
                 </div>
                 @* <div class="col-lg-8">
