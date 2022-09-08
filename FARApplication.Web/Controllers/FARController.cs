@@ -147,6 +147,7 @@ namespace FARApplication.Web.Controllers
                         if ((int)far.Status == 1 || (int)far.Status == 5)
                         {
                             ViewBag.Mode = "User";
+                            ViewBag.UserType = "User";
                         }
                     }
 
@@ -155,7 +156,8 @@ namespace FARApplication.Web.Controllers
                         if ((int)far.Status == 2)
                         {
                             ViewBag.Mode = "Admin";
-                            if(far.Approverdetails.Count ==0)
+                            ViewBag.UserType = "Approver1";
+                            if (far.Approverdetails.Count ==0)
                             far.Approverdetails.Add(FARApprover);
                         }
                     }
@@ -165,6 +167,7 @@ namespace FARApplication.Web.Controllers
                         if ((int)far.Status == 3)
                         {
                             ViewBag.Mode = "Admin";
+                            ViewBag.UserType = "Approver2";
                             if (far.Approverdetails.Count == 1)
                                 far.Approverdetails.Add(FARApprover);
                         }
