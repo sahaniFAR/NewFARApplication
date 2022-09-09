@@ -7,14 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FARApplication.Web.Utility
 {
     public static class FARUtility
     {
-        //  static string Baseurl = "http://localhost:5000/";
-
+       
         static string Baseurl = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetValue<string>("ApiAddress");
         public static async Task<List<FAR>> GetAllFARs(int userId)
         {
@@ -100,10 +100,6 @@ namespace FARApplication.Web.Utility
             }
             return Far;
         }
-        //public static async Task<int> UpdateFAR(FAR far)
-        //{
-
-        //}
         public static async Task<List<FAR>> GetALLFAR()
         {
             List<FAR> Fars = new List<FAR>();
@@ -131,6 +127,54 @@ namespace FARApplication.Web.Utility
             }
             return Fars;
 
+        }
+        public static async Task<bool> AddFar(FAR newFAR)
+        {
+            FAR objFAR = newFAR;
+            bool result = false;
+            if (objFAR != null)
+            {
+                string strFar = System.Text.Json.JsonSerializer.Serialize(objFAR);
+                StringContent content = new StringContent(strFar, Encoding.UTF8, "application/json");
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    httpClient.BaseAddress = new Uri(Baseurl);
+                    httpClient.DefaultRequestHeaders.Clear();
+                    //Define request data format
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    //Sending request to add web api REST service resource FAR using HttpClient
+                    HttpResponseMessage Res = await httpClient.PostAsync(httpClient.BaseAddress + "/FAR/Add", content);
+                    if (Res.IsSuccessStatusCode)
+                        return result = true;
+
+                }
+            }
+
+            return result;
+        }
+        public static async Task<bool> UpdateFar(FAR newFAR)
+        {
+            FAR objFAR = newFAR;
+            bool result = false;
+            if (objFAR != null)
+            {
+                string strFar = System.Text.Json.JsonSerializer.Serialize(objFAR);
+                StringContent content = new StringContent(strFar, Encoding.UTF8, "application/json");
+                using (HttpClient httpClient = new HttpClient())
+                {
+                    httpClient.BaseAddress = new Uri(Baseurl);
+                    httpClient.DefaultRequestHeaders.Clear();
+                    //Define request data format
+                    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    //Sending request to add web api REST service resource FAR using HttpClient
+                    HttpResponseMessage Res = await httpClient.PutAsync(httpClient.BaseAddress + "/FAR/Update", content);
+                    if (Res.IsSuccessStatusCode)
+                        return result = true;
+
+                }
+            }
+
+            return result;
         }
     }
 }

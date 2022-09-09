@@ -75,9 +75,9 @@ namespace FARApplication.Web.Controllers
                     model.FAREventLogs.Add(EventModel);
                     string strFar = JsonSerializer.Serialize(model);
                     StringContent content = new StringContent(strFar, Encoding.UTF8, "application/json");
-                    var response = client.PostAsync(client.BaseAddress + "/FAR/Add", content).Result;
+                    var result = FARUtility.AddFar(model).Result;
 
-                    if (response.IsSuccessStatusCode)
+                    if (result)
                     {
 
                         ViewBag.SuccessResult = "New FAR created successfully!!";
@@ -226,17 +226,14 @@ namespace FARApplication.Web.Controllers
                     FAREventLog farEventog = FARUtility.PrepareEventLog(strMessage);
                     farEventog.FARId = far.Id;
                     far.FAREventLogs.Add(farEventog);
-                    string strFar = JsonSerializer.Serialize(far);
-                    StringContent content = new StringContent(strFar, Encoding.UTF8, "application/json");
-                    var response = client.PutAsync(client.BaseAddress + "/FAR/Update", content).Result;
-                    if (response.IsSuccessStatusCode)
-                    {
+                    var result = FARUtility.UpdateFar(far).Result;
+                    if(result)
+                    { 
 
                         ViewBag.SuccessResult = "FAR modified successfully!!";
                         return RedirectToAction("Index", "Home");
-
-
                     }
+
                     else
                     {
                         ViewBag.ErrorMsg = "There is some issue to update the record";
@@ -245,8 +242,7 @@ namespace FARApplication.Web.Controllers
                 }
             }
 
-            //return View("index", far);
-            return View();
+             return View();
         }
     }
 }
