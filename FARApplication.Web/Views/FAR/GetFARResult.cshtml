@@ -33,15 +33,15 @@
 
             @if (Mode == "Admin")
             {
-                <button class="save-btn" type="submit" action="Far/Index"><i class="fa fa-save"></i> Save</button>
-                <button class="save-close-btn" type="submit"><i class="fa fa-save"></i> Save & Close</button>
+                <button class="save-btn" type="submit" name="Mode" value="Save"><i class="fa fa-save"></i> Save</button>
+                <button class="save-close-btn" type="submit" name="Mode" value="SaveClose"><i class="fa fa-save"></i> Save & Close</button>
                 <button class="submit-button" type="submit" name="Mode" value="Approve"><i class="fa fa-paper-plane" aria-hidden="true"></i>Approve</button>
                 <button class="submit-button" type="submit" name="Mode" value="Reject"><i class="fa fa-paper-plane" aria-hidden="true"></i>Reject</button>
             }
             @if (Mode == "User")
             {
-                <button class="save-btn" type="submit" action="Far/Index"><i class="fa fa-save"></i> Save</button>
-                <button class="save-close-btn" type="submit"><i class="fa fa-save"></i> Save & Close</button>
+                <button class="save-btn" type="submit" name="Mode" value="Save"><i class="fa fa-save"></i> Save</button>
+                <button class="save-close-btn" type="submit" name="Mode" value="SaveClose"><i class="fa fa-save"></i> Save & Close</button>
                 <button class="submit-button" type="submit" name="Mode" value="Submit"><i class="fa fa-paper-plane" aria-hidden="true"></i>Submit for Approval</button>
 
             }
