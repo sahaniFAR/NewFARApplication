@@ -1,4 +1,7 @@
-﻿@model IEnumerable<FARApplication.Web.Models.FAR>
+﻿
+    @using FARApplication.Web.Utility;
+
+    @model IEnumerable<FARApplication.Web.Models.FAR>
 
 @{
     ViewData["Title"] = "Index";
@@ -44,7 +47,7 @@
                         {
                             <tr>
                                 <td>
-                                     @Html.ActionLink(item.RequestId,"GetFARResult","FAR", new { FARId = item.Id }, new { @class = "link-primary"})
+                                    @Html.EncodedActionLink(item.RequestId,"GetFARResult","FAR", new { FARId = item.Id }, new { @class = "link-primary"})
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CreatedBy)

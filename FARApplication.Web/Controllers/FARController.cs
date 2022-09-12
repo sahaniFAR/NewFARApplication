@@ -123,7 +123,8 @@ namespace FARApplication.Web.Controllers
 
             return View(Far);
         }
-  
+
+        [EncryptedActionParameterAttribute]
         public ActionResult GetFARResult(int FARId) 
         {
             FAR far = new FAR();
