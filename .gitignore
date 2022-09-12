@@ -399,3 +399,11 @@ FodyWeavers.xsd
 /FARApplication.Web/wwwroot/UploadedFile/dce00c13-a90a-43d4-a361-9cd4cb4acffb_INDX-PACK-2022-07-14-12_07_28.xlsx
 /FARApplication.Web/wwwroot/UploadedFile/d3fbc99d-a728-488e-823f-b363b8ee3b3c_UPLOAD INDX-PACK-2022-06-15-21_06_53 Tubes.xlsx
 *.xlsx
+/FARApplication.Web/.config/dotnet-tools.json
+/FARApplication.Web/Properties/ServiceDependencies/FARApplicationWeb - Web Deploy/profile.arm.json
+/FARApplication.WebApi/.config/dotnet-tools.json
+/FARApplication.WebApi/Properties/ServiceDependencies/FARApplicationService - Web Deploy/apis1.arm.json
+/FARApplication.WebApi/Properties/ServiceDependencies/FARApplicationService - Web Deploy/mssql1.arm.json
+/FARApplication.WebApi/Properties/ServiceDependencies/FARApplicationService - Web Deploy/profile.arm.json
+/FARApplication.WebApi/Properties/serviceDependencies.FARApplicationService - Web Deploy.json
+/FARApplication.WebApi/Properties/serviceDependencies.json
