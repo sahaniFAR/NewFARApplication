@@ -72,6 +72,36 @@ namespace FARApplication.Web.Utility
             
             return user;
         }
+
+
+        public static async Task<User> GetApproverSelectionList()
+        {
+            User user = null;
+            using (HttpClient httpClient = new HttpClient())
+            {
+                //Passing service base url
+                httpClient.BaseAddress = new Uri(Baseurl);
+                httpClient.DefaultRequestHeaders.Clear();
+                //Define request data format
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //Sending request to find web api REST service resource GetAllEmployees using HttpClient
+
+                HttpResponseMessage Res = await httpClient.GetAsync("api/User/GetApproverSelectionList");
+
+                if (Res.IsSuccessStatusCode)
+                {
+                    //Storing the response details recieved from web api
+                    var userResponse = Res.Content.ReadAsStringAsync().Result;
+                    //Deserializing the response recieved from web api and storing into the Employee list
+                    var result = JsonConvert.DeserializeObject<User>(userResponse);
+                    user = result;
+                }
+
+            }
+
+
+            return user;
+        }
         public static void setObjectAsJson(this ISession session, string key, object value)
         {
             session.SetString(key, JsonConvert.SerializeObject(value));
