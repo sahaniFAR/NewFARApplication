@@ -1,4 +1,10 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
+@using  FARApplication.Web.Utility
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var SessionUSer = HttpContextAccessor.HttpContext.Session.getObjectAsJson<User>("UserDetails");
+   
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,24 +47,28 @@
                             </ul>
                         </div>
                     </li>
-                    <li class="border-top my-3"></li>
-                    <li class="mb-1">
-                        <button class="btn btn-toggle align-items-center rounded " data-bs-toggle="collapse" data-bs-target="#Administration-collapse" aria-expanded="true">
-                            Administration
-                        </button>
-                        <div class="collapse show" id="Administration-collapse" style="">
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a href="@Url.Action("ConfigurationProfile", "Administration")" class="link-dark rounded">Configuration Profile</a></li>
-                                @*<li><a href="#" class="link-dark rounded">Replication Conflicts</a></li>
-                                    <li><a href="#" class="link-dark rounded">Trash</a></li>*@
-
-                            </ul>
-                        </div>
-                    </li>
 
 
+                    @if ((int)SessionUSer.ApprovalLevel>0 )
+                    {
+                        <li class="border-top my-3"></li>
+                        <li class="mb-1">
+                            <button class="btn btn-toggle align-items-center rounded " data-bs-toggle="collapse" data-bs-target="#Administration-collapse" aria-expanded="true">
+                                Administration
+                            </button>
+                            <div class="collapse show" id="Administration-collapse" style="">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="@Url.Action("ConfigurationProfile", "Administration")" class="link-dark rounded">Configuration Profile</a></li>
+                                    @*<li><a href="#" class="link-dark rounded">Replication Conflicts</a></li>
+                        <li><a href="#" class="link-dark rounded">Trash</a></li>*@
 
-                </ul>
+                                </ul>
+                            </div>
+                        </li>
+
+                    }
+
+                    </ul>
             </div>
 
             @RenderBody()
