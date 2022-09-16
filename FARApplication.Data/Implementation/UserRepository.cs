@@ -48,9 +48,9 @@ namespace FARApplication.Data.Implementation
             return User;
         }
 
-        public User GetApproverSelectionList()
+        public List<User> GetApproverSelectionList()
         {
-            var User = _context.Users.FirstOrDefault(u => u.IsActive == 1);
+            var User = _context.Users.Where(u => u.IsActive == 1).ToList();
             return User;
         }
 

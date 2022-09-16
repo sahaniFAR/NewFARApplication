@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -74,9 +75,9 @@ namespace FARApplication.Web.Utility
         }
 
 
-        public static async Task<User> GetApproverSelectionList()
+        public static async Task<List<User>> GetApproverSelectionList()
         {
-            User user = null;
+            List<User> userlist = null;
             using (HttpClient httpClient = new HttpClient())
             {
                 //Passing service base url
@@ -93,14 +94,14 @@ namespace FARApplication.Web.Utility
                     //Storing the response details recieved from web api
                     var userResponse = Res.Content.ReadAsStringAsync().Result;
                     //Deserializing the response recieved from web api and storing into the Employee list
-                    var result = JsonConvert.DeserializeObject<User>(userResponse);
-                    user = result;
+                    var result = JsonConvert.DeserializeObject<List<User>>(userResponse);
+                    userlist = result;
                 }
 
             }
 
 
-            return user;
+            return userlist;
         }
         public static void setObjectAsJson(this ISession session, string key, object value)
         {

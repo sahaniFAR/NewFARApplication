@@ -1,7 +1,5 @@
 @model ConfigurationProfileViewModel
-@{
-    var SessionUSer = ViewBag.SessionUser;
-}
+
 @using Microsoft.AspNetCore.Mvc.Rendering
 @{
     Layout = null;
@@ -59,7 +57,7 @@
                     <label id="Email-Principal-Name" for="Email-Principal-Name">Email Principal Name:</label>
                 </div>
                 <div class="col-lg-5">
-                    <input class="input-box" type="text" asp-for="EmailPrincipalName"  id="Email-Principal-Name" />
+                    <input class="input-box" type="text" asp-for="EmailPrincipalName"  id="Email-Principal-Name" readonly />
                 </div>
                 <div class="col-lg-1"></div>
             </div>
@@ -69,7 +67,7 @@
                     <label id="FirstApproverName" for="FirstApproverName">Approver 1 Name:</label>
                 </div>
                 <div class="col-lg-5">
-                    <select style="width:50%" name="FirstApproverName" id="FirstApproverName"></select>
+                    <select style="width:50%" asp-for="Approver1Id" asp-items="Model.ddlApprover1" name="ddlFirstApproverName" id="ddlApprover1"></select>
                 </div>
                 <div class="col-lg-1"></div>
             </div>
@@ -79,7 +77,9 @@
                     <label id="SecondApproverName" for="SecondApproverName">Approver 2 Name:</label>
                 </div>
                 <div class="col-lg-5">
-                    <select style="width:50%" name="SecondApproverName" id="SecondApproverName"></select>
+                    <select style="width:50%" asp-for="Approver2Id" asp-items="Model.ddlApprover1" name="SecondApproverName" id="ddlApprover2"></select>
+
+                 
                 </div>
                 <div class="col-lg-1"></div>
             </div>
