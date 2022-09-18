@@ -13,5 +13,7 @@ namespace FARApplication.Data.Interface
         IEnumerable<User> GetAllUser();
         User GetUserById(int Id);
         User IsValidUser(string email, string password);
+        List<User> GetApproverSelectionList();
+
     }
 }

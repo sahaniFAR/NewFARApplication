@@ -2,7 +2,7 @@
 @using  FARApplication.Web.Utility
 @inject IHttpContextAccessor HttpContextAccessor
 @{ 
-    var SessionUSer = ViewBag.SessionUser;
+    var SessionUSer = HttpContextAccessor.HttpContext.Session.getObjectAsJson<User>("UserDetails") ;
 }
 
 

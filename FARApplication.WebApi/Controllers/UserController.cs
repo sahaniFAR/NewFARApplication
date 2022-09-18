@@ -55,7 +55,23 @@ namespace FARApplication.Service.Controllers
 
         }
 
+        [HttpGet]
+        public ActionResult GetApproverSelectionList()
+        {
+            try
+            {
+                var user = _repository.GetApproverSelectionList();
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to fetch approver Selection list {ex}");
+                return BadRequest("Failed to fetch approver selection list ");
 
+            }
+
+
+        }
 
     }
 }

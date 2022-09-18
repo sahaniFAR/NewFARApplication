@@ -43,14 +43,19 @@ namespace FARApplication.Data.Implementation
         public User IsValidUser(string email, string password)
         {
 
-            var User = _context.Users.FirstOrDefault(u => u.EmailId == email && u.Password == password);
+            var User = _context.Users.FirstOrDefault(u => u.EmailId == email && u.Password == password && u.IsActive==1);
                
             return User;
         }
 
+        public List<User> GetApproverSelectionList()
+        {
+            var User = _context.Users.Where(u => u.IsActive == 1).ToList();
+            return User;
+        }
 
 
-            public bool Update(User user)
+        public bool Update(User user)
             {
                 throw new NotImplementedException();
             }
