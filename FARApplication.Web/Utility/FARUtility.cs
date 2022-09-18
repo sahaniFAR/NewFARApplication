@@ -143,7 +143,7 @@ namespace FARApplication.Web.Utility
                     //Define request data format
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     //Sending request to add web api REST service resource FAR using HttpClient
-                    HttpResponseMessage Res = await httpClient.PostAsync(httpClient.BaseAddress + "/FAR/Add", content);
+                    HttpResponseMessage Res = await httpClient.PostAsync(httpClient.BaseAddress + "api/FAR/Add", content);
                     if (Res.IsSuccessStatusCode)
                         return result = true;
 
@@ -167,7 +167,7 @@ namespace FARApplication.Web.Utility
                     //Define request data format
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     //Sending request to add web api REST service resource FAR using HttpClient
-                    HttpResponseMessage Res = await httpClient.PutAsync(httpClient.BaseAddress + "/FAR/Update", content);
+                    HttpResponseMessage Res = await httpClient.PutAsync(httpClient.BaseAddress + "api/FAR/Update", content);
                     if (Res.IsSuccessStatusCode)
                         return result = true;
 

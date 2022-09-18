@@ -73,8 +73,6 @@ namespace FARApplication.Web.Controllers
 
                     var EventModel = FARUtility.PrepareEventLog(strLogMessage);
                     model.FAREventLogs.Add(EventModel);
-                    string strFar = JsonSerializer.Serialize(model);
-                    StringContent content = new StringContent(strFar, Encoding.UTF8, "application/json");
                     var result = FARUtility.AddFar(model).Result;
 
                     if (result)
