@@ -26,84 +26,56 @@ namespace FARApplication.Web.Controllers
             if (Configdata == null)
             {
                 // objLoginViewModel.msg = "Email Id or Password is not correct";
-                ViewData["MSGErr"] = "No data Found";
-                return View();
+                ViewBag.FailureMessage = "No data Found";
+                return View(objViewModel);
             }
+
             objViewModel.EmailPrincipalName = Configdata.EmailPrincipalName;
             objViewModel.PMOTeamRcvApprovedMail = Configdata.PMOTeamRcvApprovedMail;
 
-
-
-            objViewModel.ddlApprover1 = PopulateApprover1Dropdown(0).Result;   
+            objViewModel.ddlApprover1 = PopulateApproverDropdown(1); //PopulateApprover1Dropdown(0).Result;   
             objViewModel.Approver1Id = int.Parse(objViewModel.ddlApprover1.Where(a => a.Selected == true).First().Value);
+           
 
-
-            objViewModel.ddlApprover2 = PopulateApprover2Dropdown(0).Result;
+            objViewModel.ddlApprover2 = PopulateApproverDropdown(2);// PopulateApprover2Dropdown(0).Result;
             objViewModel.Approver2Id = int.Parse(objViewModel.ddlApprover2.Where(a => a.Selected == true).First().Value);
 
 
             return View(objViewModel);
         }
-
-
-        public static async Task<List<SelectListItem>> PopulateApprover1Dropdown(int Approver1id)
+        [HttpPost]
+        public IActionResult ConfigurationProfile(ConfigurationProfileViewModel model)
         {
-            ConfigurationProfileViewModel objviewmodel = new ConfigurationProfileViewModel(); 
-            var ApproverList = UserUtility.GetApproverSelectionList().Result;
-            int countApprover1 = 0;
-            foreach (var i in ApproverList)
+            if (!ModelState.IsValid)
             {
-                if ((int)i.ApprovalLevel == 1)
-                {
-                    objviewmodel.ddlApprover1.Add(new SelectListItem { Value = Convert.ToString(i.Id), Text = i.FirstName + " " + i.LastName, Selected = true });
-                    countApprover1++;
-                }
-                else
-                {
-                    objviewmodel.ddlApprover1.Add(new SelectListItem { Value = Convert.ToString(i.Id), Text = i.FirstName + " " + i.LastName });
-                }
+                ViewBag.FailureMessage = "There is an issue while saving data!!";
+                return View(model);
             }
-            if(countApprover1==0)
-            { 
-            objviewmodel.ddlApprover1.Insert(0, (new SelectListItem { Value = "0", Text = "--Select Approver--", Selected = true }));
-            }
-            else
-            {
-                objviewmodel.ddlApprover1.Insert(0, (new SelectListItem { Value = "0", Text = "--Select Approver--" }));
-            }
-            return objviewmodel.ddlApprover1;
 
+           // User user = new User() {  }; 
+
+            ViewBag.SuccessResult = "Record saved succefully!!";
+            return View();
         }
 
-        public static async Task<List<SelectListItem>> PopulateApprover2Dropdown(int Approver1id)
+          private  List<SelectListItem> PopulateApproverDropdown(int Approver1Level)
         {
             ConfigurationProfileViewModel objviewmodel = new ConfigurationProfileViewModel();
-            var ApproverList = UserUtility.GetApproverSelectionList().Result;
-            int countApprover2 = 0;
-            foreach (var i in ApproverList)
+            var UserList = UserUtility.GetApproverSelectionList().Result;
+            var UserSelectedItemList = UserList.Select(t => new SelectListItem()
             {
-                if ((int)i.ApprovalLevel == 2)
-                {
-                    objviewmodel.ddlApprover2.Add(new SelectListItem { Value = Convert.ToString(i.Id), Text = i.FirstName + " " + i.LastName, Selected = true });
-                    countApprover2++;
-                }
-                else
-                {
-                    objviewmodel.ddlApprover2.Add(new SelectListItem { Value = Convert.ToString(i.Id), Text = i.FirstName + " " + i.LastName });
-                }
-            }
-            if (countApprover2 == 0)
-            {
-                objviewmodel.ddlApprover2.Insert(0, (new SelectListItem { Value = "0", Text = "--Select Approver--", Selected = true }));
-            }
-            else
-            {
-                objviewmodel.ddlApprover2.Insert(0, (new SelectListItem { Value = "0", Text = "--Select Approver--" }));
-            }
-            return objviewmodel.ddlApprover2;
+                Value = t.Id.ToString(),
+                Text = String.Concat(t.FirstName, "", t.LastName),
+                Selected = (int)t.ApprovalLevel == Approver1Level 
+            }).ToList();
+
+            UserSelectedItemList.Insert(0, new SelectListItem() { Value = "0", Text = "--Select Approver--" });
+           
+            return UserSelectedItemList;
 
         }
 
+      
     }
    
 }
