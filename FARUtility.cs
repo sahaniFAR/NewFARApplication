@@ -1,13 +1,10 @@
-using FARApplication.Web.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using FARApplication.Web.Models;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting.Internal;
 using Newtonsoft.Json;
+
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -146,7 +143,7 @@ namespace FARApplication.Web.Utility
                     //Define request data format
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     //Sending request to add web api REST service resource FAR using HttpClient
-                    HttpResponseMessage Res = await httpClient.PostAsync(httpClient.BaseAddress + "/FAR/Add", content);
+                    HttpResponseMessage Res = await httpClient.PostAsync(httpClient.BaseAddress + "api/FAR/Add", content);
                     if (Res.IsSuccessStatusCode)
                         return result = true;
 
@@ -170,7 +167,7 @@ namespace FARApplication.Web.Utility
                     //Define request data format
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     //Sending request to add web api REST service resource FAR using HttpClient
-                    HttpResponseMessage Res = await httpClient.PutAsync(httpClient.BaseAddress + "/FAR/Update", content);
+                    HttpResponseMessage Res = await httpClient.PutAsync(httpClient.BaseAddress + "api/FAR/Update", content);
                     if (Res.IsSuccessStatusCode)
                         return result = true;
 
@@ -179,23 +176,5 @@ namespace FARApplication.Web.Utility
 
             return result;
         }
-        public static MemoryStream DownloadAttachedFile(string fileName,string uploadPath)
-        {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), uploadPath, fileName);
-            var retunrcontent=new System.IO.MemoryStream();
-            using (var memory=new MemoryStream()) 
-            { 
-                    if (System.IO.File.Exists(path))
-                    {
-                        var net = new System.Net.WebClient();
-                        var data = net.DownloadData(path);
-                        var content = new System.IO.MemoryStream(data);
-                        retunrcontent = content;
-                    }
-                    
-                    return retunrcontent;
-            }
-        }
-       
     }
 }

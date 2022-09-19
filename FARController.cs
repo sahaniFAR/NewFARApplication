@@ -1,4 +1,4 @@
-using FARApplication.Web.Models;
+﻿using FARApplication.Web.Models;
 using FARApplication.Web.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +10,6 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
-using System.Net;
 
 namespace FARApplication.Web.Controllers
 {
@@ -74,8 +73,6 @@ namespace FARApplication.Web.Controllers
 
                     var EventModel = FARUtility.PrepareEventLog(strLogMessage);
                     model.FAREventLogs.Add(EventModel);
-                    string strFar = JsonSerializer.Serialize(model);
-                    StringContent content = new StringContent(strFar, Encoding.UTF8, "application/json");
                     var result = FARUtility.AddFar(model).Result;
 
                     if (result)
@@ -83,6 +80,8 @@ namespace FARApplication.Web.Controllers
 
                         ViewBag.SuccessResult = "New FAR created successfully!!";
                         return RedirectToAction("Index", "Home");
+
+
                     }
                 }
                 else
@@ -126,7 +125,6 @@ namespace FARApplication.Web.Controllers
         [EncryptedActionParameterAttribute]
         public ActionResult GetFARResult(int FARId) 
         {
-            
             FAR far = new FAR();
             var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
                 if(user != null)
@@ -175,50 +173,16 @@ namespace FARApplication.Web.Controllers
                     }
 
                 }
+
             }
+
             return View(far);
-        }
-        public IActionResult DownloadFile(int FARId)
-        {
-            var far = FARUtility.GetFARDetails(FARId).Result;
-            var filename = far.Filename;
-            FAR Far = new FAR();
-            var uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "UploadedFile");
-            FileInfo fi = new FileInfo(filename);
-            
-            var memory = FARUtility.DownloadAttachedFile(filename, uploadsFolder);
-            var length = filename.Length;
-            var startindex = filename.IndexOf('_')+1;
-            var actualFilename = filename.Substring(startindex);
-            var contentype = "";
-            if (fi.Extension.Equals(".xls"))
-            {
-                contentype = "application/vnd.ms-excel";
-            }
-            else
-            {
-                contentype = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            }
-            return File(memory.ToArray(), contentype, actualFilename);
-            
+
         }
         [HttpPost]
-        public ActionResult Update(FAR far , string Mode,IFormFile updatedPostedFiles)
+        public ActionResult Update(FAR far , string Mode)
         {
-            if (updatedPostedFiles != null) 
-            {
-                var uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "UploadedFile");
-                string oldfilePath = Path.Combine(uploadsFolder, far.Filename);
-                FileInfo fi = new FileInfo(oldfilePath);
-                bool flag=fi.Exists;
-                System.GC.Collect();
-                fi.Delete();
-                
-                var uploadedFileName = Guid.NewGuid().ToString() + "_" + updatedPostedFiles.FileName;
-                string filePath = Path.Combine(uploadsFolder, uploadedFileName);
-                updatedPostedFiles.CopyTo(new FileStream(filePath, FileMode.Create));
-                far.Filename = uploadedFileName;
-            }
+
             if (ModelState.IsValid)
             {
                 if (!string.IsNullOrEmpty(Mode))

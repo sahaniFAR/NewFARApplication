@@ -1,4 +1,4 @@
-@using Microsoft.AspNetCore.Http
+﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 @using Microsoft.AspNetCore.Mvc.Rendering
 @model FARApplication.Web.Models.FAR
@@ -134,13 +134,12 @@
                     @*<input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" required />*@
                 </div>
                 <div class="col-lg-4">
-                    <input type="file" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Filename" name="updatedPostedFiles" disabled="@((Mode == "User" && (Model.Status==1 || Model.Status==5 )) ? null : "disabled")" />
-                     @*<span>@Model.Filename.Substring((Model.Filename).IndexOf('_')+1)  </span><a href="FAR/DownloadFile" uname="@Model.Filename" class="download">click</a>*@
-                     <label asp-for="Filename">@Model.Filename.Substring((Model.Filename).IndexOf('_')+1)</label>@Html.ActionLink("Download","DownloadFile","FAR", new { FARId = Model.Id }, new { @class = "link-primary"} )
-                    <input class="input-box" type="hidden" id="Filename" asp-for="Filename" />
+                    <input type="file" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Filename" name="postedFiles" readonly="@((Mode == "User" && (Model.Status==1 || Model.Status==5 )) ? null : "readonly")" />
+                    @*                        <input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Attachments" id="Attachments" required />*@
                 </div>
-
-                
+                @* <div class="col-lg-8">
+                    <input type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" readonly="@((Mode != "Admin") ? null : "readonly")" required /><br>
+                </div>*@
                 <input type="hidden" asp-for="Id" />
                 <input type="hidden" asp-for="UserId" />
                 <input type="hidden" asp-for="User.Id" />
@@ -159,40 +158,40 @@
 
         @{
             int counter = 0;
-                                    @if (Model.Approverdetails != null && Model.Approverdetails.Count > 0)
+            @if (Model.Approverdetails != null && Model.Approverdetails.Count > 0)
             {
-                                    <div class="container-fluid">
-                                        <div class="row">
-                                            <div class="col-lg-1"></div>
-                                            <div style="background-color: grey;height:25px;margin-top: 10px;" class="col-lg-10">
-                                                <p><b>Approver Information</b></p>
-                                            </div>
-                                            <div class="col-lg-1"></div>
-                                        </div>
-                                    </div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-1"></div>
+                    <div style="background-color: grey;height:25px;margin-top: 10px;" class="col-lg-10">
+                        <p><b>Approver Information</b></p>
+                    </div>
+                    <div class="col-lg-1"></div>
+                </div>
+            </div>
             }
-                                    @foreach (FARApprover appmodel in Model.Approverdetails)
+            @foreach (FARApprover appmodel in Model.Approverdetails)
             {
 
                 counter = counter + 1;
 
-                                        <div>
-                                            <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].Id" />
-                                            <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].FARId" />
-                                            <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].UserId" />
-                                            <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].FAR" />
-                                        </div>
+                <div>
+                    <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].Id" />
+                    <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].FARId" />
+                    <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].UserId" />
+                    <input type="hidden" asp-for="@Model.Approverdetails[counter - 1].FAR" />
+                </div>
 
-                                        <div class="container-fluid">
-                                            <div style="margin-top: 4px;" class="row">
-                                                <div class="col-lg-1"></div>
-                                                <div class="col-lg-2">
-                                                    <label for="FirstApprover"><span id="red-text">*</span>Approver @counter Name:</label>
-                                                </div>
+                <div class="container-fluid">
+                    <div style="margin-top: 4px;" class="row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2">
+                            <label for="FirstApprover"><span id="red-text">*</span>Approver @counter Name:</label>
+                        </div>
 
-                                                <div class="col-lg-8">
-                                                    <input type="text" value="@FARApplication.Web.Utility.UserUtility.GetUserFullNameById(appmodel.UserId).Result" readonly />
-                                                </div>
+                        <div class="col-lg-8">
+                            <input type="text" value="@FARApplication.Web.Utility.UserUtility.GetUserFullNameById(appmodel.UserId).Result" readonly />
+                        </div>
 
 
                         <div class="col-lg-1"></div>
@@ -233,27 +232,7 @@
                         <div class="col-lg-1"></div>
                     </div>
                 </div>
-                                                <div class="col-lg-1"></div>
-                                            <div style="margin-top: 4px;" class="row">
-                                                <div class="col-lg-1"></div>
-                                                <div class="col-lg-2">
-                                                    <label for="first-Approver-comments"><span id="red-text">*</span>Comments:</label>
-                                                </div>
-                                                <div class="col-lg-8">
-                                                    <input style="width: 100%;" type="text" asp-for="@Model.Approverdetails[counter - 1].Comments" required />
-                                                </div>
-                                                <div class="col-lg-1"></div>
-                                            </div>
-                                            <div style="margin-top: 4px;" class="row">
-                                                <div class="col-lg-1"></div>
-                                                <div class="col-lg-2">
-                                                    <label for="First-Approver-Signature-date-stamp">Signature Date/Time:</label>
-                                                </div>
-                                                <div class="col-lg-8">
-                                                    <input type="date" asp-for="@Model.Approverdetails[counter - 1].ApprovedDate" />
-                                                </div>
-                                                <div class="col-lg-1"></div>
-                                            </div>
+
             }
         }
 
@@ -269,25 +248,25 @@
         </div>
         @{
             int index = 0;
-                                    @foreach (var eventmodel in Model.FAREventLogs)
+            @foreach (var eventmodel in Model.FAREventLogs)
             {
 
-                                        <div style="margin-bottom: 20px;" class="container-fluid">
-                                            <div style="margin-top: 10px;" class="row">
-                                                <div class="col-lg-1"></div>
-                                                <div class="col-lg-10">
-                                                    <input type="hidden" asp-for="@Model.FAREventLogs[index].Id" />
-                                                    <input type="hidden" asp-for="@Model.FAREventLogs[index].FAR" />
-                                                    <input type="hidden" asp-for="@Model.FAREventLogs[index].EventDate" />
-                                                    <input type="hidden" asp-for="@Model.FAREventLogs[index].Message" />
-                                                    <input type="hidden" asp-for="@Model.FAREventLogs[index].User" />
-                                                    <input type="hidden" asp-for="@Model.FAREventLogs[index].FARId" />
+                <div style="margin-bottom: 20px;" class="container-fluid">
+                    <div style="margin-top: 10px;" class="row">
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-10">
+                            <input type="hidden" asp-for="@Model.FAREventLogs[index].Id" />
+                            <input type="hidden" asp-for="@Model.FAREventLogs[index].FAR" />
+                            <input type="hidden" asp-for="@Model.FAREventLogs[index].EventDate" />
+                            <input type="hidden" asp-for="@Model.FAREventLogs[index].Message" />
+                            <input type="hidden" asp-for="@Model.FAREventLogs[index].User" />
+                            <input type="hidden" asp-for="@Model.FAREventLogs[index].FARId" />
 
-                                                    <p>Document is @eventmodel.Message on @System.String.Format(@eventmodel.EventDate.ToString(), "dd-MMM-YYYY")</p>
-                                                </div>
-                                                <div class="col-lg-1"></div>
-                                            </div>
-                                        </div>
+                            <p>Document is @eventmodel.Message on @System.String.Format(@eventmodel.EventDate.ToString(), "dd-MMM-YYYY")</p>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+                </div>
                 index = index + 1;
             }
         }
@@ -300,29 +279,7 @@
                     document.getElementById("currentdate").innerHTML=date;
             </script>*@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script>
-            function closeClick() {
-
-                alert('clicked');
-                document.location = 'Home/Index';
-            }   
-        </script>
-        
-        <script type="text/javascript">
-            $(document).ready(
-                function(){ 
-                    
-                    $(".download").click(function() {
-                        alert('start');
-                        var uniquename = $(this).attr('uname');
-                        
-                        var url = "Http://localhost:16460/FAR/GetFARResult?filename" + uniquename
-                        window.open(url);
-                        alert('end');
-                    });
-            })
-        </script>
+    
+      
 </body>
 </html>
