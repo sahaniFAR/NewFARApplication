@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -176,5 +177,25 @@ namespace FARApplication.Web.Utility
 
             return result;
         }
+
+
+        public static MemoryStream DownloadAttachedFile(string fileName, string uploadPath)
+        {
+            var path = Path.Combine(Directory.GetCurrentDirectory(), uploadPath, fileName);
+            var retunrcontent = new System.IO.MemoryStream();
+            using (var memory = new MemoryStream())
+            {
+                if (System.IO.File.Exists(path))
+                {
+                    var net = new System.Net.WebClient();
+                    var data = net.DownloadData(path);
+                    var content = new System.IO.MemoryStream(data);
+                    retunrcontent = content;
+                }
+
+                return retunrcontent;
+            }
+        }
+
     }
 }

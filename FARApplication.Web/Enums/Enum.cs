@@ -8,8 +8,8 @@ namespace FARApplication.Web
     public enum DocumentStatus
     {
         Draft = 1,
-        SendForApproval = 2,
-        ApprovedByFirstLevel = 3,
+        SentFor1stLevelApproval = 2,
+        SentFor2ndLevelApproval = 3,
         Approved = 4,
         Rejected = 5
     }

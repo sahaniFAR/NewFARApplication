@@ -21,10 +21,10 @@
 
 </head>
 <body>
-    @{ 
+    @{
         var Mode = ViewBag.Mode;
         var UserType = ViewBag.UserType;
-     }
+    }
     <form asp-controller="FAR" asp-action="Update" method="post" enctype="multipart/form-data">
         <div style="background-color: black" class="container-fluid">
             <asp-for></asp-for>
@@ -134,8 +134,12 @@
                     @*<input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" required />*@
                 </div>
                 <div class="col-lg-4">
-                    <input type="file" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Filename" name="postedFiles" readonly="@((Mode == "User" && (Model.Status==1 || Model.Status==5 )) ? null : "readonly")" />
-                    @*                        <input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Attachments" id="Attachments" required />*@
+                    <input type="file" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Filename" name="updatedPostedFiles" disabled="@((Mode == "User" && (Model.Status==1 || Model.Status==5 )) ? null : "disabled")" />
+                    @if (!string.IsNullOrEmpty(Model.Filename))
+                            {
+                            < label asp -for= "Filename" > @Model.Filename.Substring((Model.Filename).IndexOf('_') + 1) </ label > @Html.ActionLink("Download", "DownloadFile", "FAR", new { FARId = Model.Id }, new { @class = "link-primary" })
+                            < input class="input-box" type="hidden" id="Filename" asp-for="Filename" />
+                            }
                 </div>
                 @* <div class="col-lg-8">
                     <input type="text" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" readonly="@((Mode != "Admin") ? null : "readonly")" required /><br>

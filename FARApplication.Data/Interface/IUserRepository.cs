@@ -1,7 +1,7 @@
-﻿using FARApplication.Data;
-using System;
+﻿
 using System.Collections.Generic;
-using System.Text;
+
+
 
 namespace FARApplication.Data.Interface
 {

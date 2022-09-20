@@ -180,7 +180,7 @@ namespace FARApplication.Web.Controllers
 
         }
         [HttpPost]
-        public ActionResult Update(FAR far , string Mode)
+        public ActionResult Update(FAR far , string Mode, IFormFile updatedPostedFiles)
         {
 
             if (ModelState.IsValid)
@@ -221,6 +221,26 @@ namespace FARApplication.Web.Controllers
                             break;
 
                     }
+                    //
+
+                    if (updatedPostedFiles != null)
+                    {
+                        var uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "UploadedFile");
+                        string oldfilePath = Path.Combine(uploadsFolder, far.Filename);
+                        FileInfo fi = new FileInfo(oldfilePath);
+                        if (fi.Exists)
+                        {
+                            fi.Delete();
+                            
+                        } 
+
+                        var uploadedFileName = Guid.NewGuid().ToString() + "_" + updatedPostedFiles.FileName;
+                        string filePath = Path.Combine(uploadsFolder, uploadedFileName);
+                        updatedPostedFiles.CopyTo(new FileStream(filePath, FileMode.Create));
+                        far.Filename = uploadedFileName;
+                    }
+
+                    //
 
                     FAREventLog farEventog = FARUtility.PrepareEventLog(strMessage);
                     farEventog.FARId = far.Id;
@@ -243,5 +263,30 @@ namespace FARApplication.Web.Controllers
 
              return View();
         }
+        public IActionResult DownloadFile(int FARId)
+        {
+            var far = FARUtility.GetFARDetails(FARId).Result;
+            var filename = far.Filename;
+            FAR Far = new FAR();
+            var uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "UploadedFile");
+            FileInfo fi = new FileInfo(filename);
+
+            var memory = FARUtility.DownloadAttachedFile(filename, uploadsFolder);
+            var length = filename.Length;
+            var startindex = filename.IndexOf('_') + 1;
+            var actualFilename = filename.Substring(startindex);
+            var contentype = "";
+            if (fi.Extension.Equals(".xls"))
+            {
+                contentype = "application/vnd.ms-excel";
+            }
+            else
+            {
+                contentype = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            }
+            return File(memory.ToArray(), contentype, actualFilename);
+
+        }
     }
+    
 }

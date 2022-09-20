@@ -1,10 +1,10 @@
-﻿using FARApplication.Data;
+﻿
 using FARApplication.Data.Interface;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
+
+
 
 namespace FARApplication.Data.Implementation
 {
