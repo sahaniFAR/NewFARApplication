@@ -1,10 +1,10 @@
-﻿
+﻿using FARApplication.Data;
 using FARApplication.Data.Interface;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Linq;
-
-
+using Microsoft.EntityFrameworkCore;
 
 namespace FARApplication.Data.Implementation
 {
@@ -43,8 +43,8 @@ namespace FARApplication.Data.Implementation
         public User IsValidUser(string email, string password)
         {
 
-            var User = _context.Users.FirstOrDefault(u => u.EmailId == email && u.Password == password && u.IsActive==1);
-               
+            var User = _context.Users.FirstOrDefault(u => u.EmailId == email && u.Password == password && u.IsActive == 1);
+
             return User;
         }
 
@@ -55,12 +55,23 @@ namespace FARApplication.Data.Implementation
         }
 
 
-        public bool Update(User user)
-            {
-                throw new NotImplementedException();
-            }
-        
+        public int Update(ConfigurationProfile objConfigProfile)
+        {
 
-       
+
+
+            _context.Users.Where(w => w.ApprovalLevel == 1 || w.ApprovalLevel == 2).ToList().ForEach(i => i.ApprovalLevel = 0);
+
+            _context.Users.Where(w => w.Id == objConfigProfile.Approver1Id).ToList().ForEach(i => i.ApprovalLevel = 1);
+            _context.Users.Where(w => w.Id == objConfigProfile.Approver2Id).ToList().ForEach(i => i.ApprovalLevel = 2);
+
+            _context.FAREventLogs.Add(objConfigProfile.objlog);
+
+
+            return _context.SaveChanges();
+        }
+
+
+
     }
 }

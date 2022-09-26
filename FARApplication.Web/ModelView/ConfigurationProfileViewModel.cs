@@ -6,16 +6,13 @@ using System.Collections.Generic;
 
 namespace FARApplication.Web.Models
 {
-    public class ConfigurationProfileViewModel
+    public class ConfigurationProfileViewModel : ConfigurationProfile
     {
-        public string EmailPrincipalName { get; set; }
 
-        public string PMOTeamRcvApprovedMail { get; set; }
         public List<SelectListItem> ddlApprover1 { get; set; }
         public List<SelectListItem> ddlApprover2 { get; set; }
 
-        public int Approver1Id { get; set; }
-        public int Approver2Id { get; set; }
+
 
         public ConfigurationProfileViewModel()
         {

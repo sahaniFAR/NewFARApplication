@@ -17,14 +17,20 @@ namespace FARApplication.Data.Implementation
 
         public int AddEventDetails(FAREventLog model)
         {
-           _context.FAREventLogs.Add(model);
-           int result = _context.SaveChanges();
-           return result;
+            _context.FAREventLogs.Add(model);
+            int result = _context.SaveChanges();
+            return result;
         }
 
         public IEnumerable<FAREventLog> GetEventLogByFARId(int FARId)
         {
             var result = _context.FAREventLogs.ToList().Where(t => t.FAR.Id == FARId);
+            return result;
+        }
+
+        public IEnumerable<FAREventLog> GetEventLogByFAR(int FARId)
+        {
+            var result = _context.FAREventLogs.ToList().Where(t => t.FARId == FARId);
             return result;
         }
 

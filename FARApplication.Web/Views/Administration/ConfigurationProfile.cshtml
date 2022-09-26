@@ -11,21 +11,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>FAR Requst</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Configuration Profile</title>
+    <link href="~/asset/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="~/asset/toastr/css/toastr.css" rel="stylesheet" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/asset/toastr/js/toastr.js"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/css/site.css" />
 
 </head>
 <body>
-    <form asp-controller="FAR" asp-action="Index" method="post">
+    <form asp-controller="Administration" asp-action="ConfigurationProfile" method="post">
         <div style="background-color: black" class="container-fluid">
-            <asp-for></asp-for>
+
             <button class="close-btn" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" type="button"><i class="fa fa-close"></i> Close</button>
-            <button class="save-btn" type="submit" name="command" value="Save"><i class="fa fa-save"></i> Save</button>
-            <button class="save-close-btn" type="submit"><i class="fa fa-save"></i> Save & Close</button>
-            <button class="submit-button" type="submit" name="command" value="Submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Update Unique No</button>
+            <button class="save-btn" type="submit" name="Mode" value="Save"><i class="fa fa-save"></i> Save</button>
+            <button class="save-close-btn" type="submit" name="Mode" value="SaveClose"><i class="fa fa-save"></i> Save & Close</button>
         </div>
 
         <partial name="_HeaderPartial" />
@@ -57,7 +61,7 @@
                     <label id="Email-Principal-Name" for="Email-Principal-Name">Email Principal Name:</label>
                 </div>
                 <div class="col-lg-5">
-                    <input class="input-box" type="text" asp-for="EmailPrincipalName"  id="Email-Principal-Name" readonly />
+                    <input class="input-box" type="text" asp-for="EmailPrincipalName" id="Email-Principal-Name" readonly />
                 </div>
                 <div class="col-lg-1"></div>
             </div>
@@ -67,7 +71,9 @@
                     <label id="FirstApproverName" for="FirstApproverName">Approver 1 Name:</label>
                 </div>
                 <div class="col-lg-5">
-                    <select style="width:50%" asp-for="Approver1Id" asp-items="Model.ddlApprover1" name="ddlFirstApproverName" id="ddlApprover1"></select>
+                    <select style="width:50%" asp-for="Approver1Id" asp-items="Model.ddlApprover1" id="ddlapprover1"></select>
+
+                    <input id="hdnApprover1Id" type="hidden" asp-for="PrevApprover1Id" />
                 </div>
                 <div class="col-lg-1"></div>
             </div>
@@ -77,9 +83,9 @@
                     <label id="SecondApproverName" for="SecondApproverName">Approver 2 Name:</label>
                 </div>
                 <div class="col-lg-5">
-                    <select style="width:50%" asp-for="Approver2Id" asp-items="Model.ddlApprover1" name="SecondApproverName" id="ddlApprover2"></select>
+                    <select style="width:50%" asp-for="Approver2Id" asp-items="Model.ddlApprover1" id="ddlapprover2"></select>
+                    <input id="hdnApprover2Id" type="hidden" asp-for="PrevApprover2Id" />
 
-                 
                 </div>
                 <div class="col-lg-1"></div>
             </div>
@@ -90,7 +96,7 @@
                 </div>
                 <div class="col-lg-5">
                     @*<select style="width:34%" name="approved-FAR-email" asp-for="Model.PMOTeamRcvApprovedMail"  asp-items="PMOTeamRcvApprovedMail" id="approved-FAR-email"></select>*@
-                    <textarea type="text" style="margin-top: 3px; width: 50%;" asp-for="PMOTeamRcvApprovedMail" id="Details"  readonly></textarea>
+                    <textarea type="text" style="margin-top: 3px; width: 50%;" asp-for="PMOTeamRcvApprovedMail" id="Details" readonly></textarea>
 
                 </div>
                 <div class="col-lg-1"></div>
@@ -109,32 +115,42 @@
             <div style="margin-top: 4px;" class="row">
                 <div class="col-lg-1"></div>
                 <div class="col-lg-2">
-                    <label for="CreatedByConfig">Created By:</label>
+                    <label>Created By:</label>
                 </div>
                 <div class="col-lg-3">
-                    <input class="input-box" type="text" id="CreatedByConfig" />
+                    @Html.DisplayFor(x => x.CreatedBy)
+                    <input type="hidden" asp-for="CreatedBy" />
+
                 </div>
                 <div class="col-lg-2">
-                    <label for="CreatedOnConfig">Created On:</label>
+                    <label>Created On:</label>
                 </div>
                 <div class="col-lg-3">
-                    <input class="input-box" type="date" id="CreatedOnConfig" />
+
+                    @Html.DisplayFor(x => x.CreatedOn)
+                    <input type="hidden" asp-for="CreatedOn" />
+
+
                 </div>
                 <div class="col-lg-1"></div>
             </div>
             <div style="margin-top: 4px;" class="row">
                 <div class="col-lg-1"></div>
                 <div class="col-lg-2">
-                    <label for="LastModifiedByConfig">Last Modified By:</label>
+                    <label>Last Modified By:</label>
                 </div>
                 <div class="col-lg-3">
-                    <input class="input-box" type="text" id="LastModifiedByConfig" />
+
+                    @Html.DisplayFor(x => x.LastModifiedBy)
+                    <input type="hidden" asp-for="LastModifiedBy" />
                 </div>
                 <div class="col-lg-2">
-                    <label for="LastModifiedOnConfig">Last Modified On:</label>
+                    <label>Last Modified On:</label>
                 </div>
                 <div class="col-lg-3">
-                    <input class="input-box" type="date" id="LastModifiedOnConfig" />
+
+                    @Html.DisplayFor(x => x.LastModifiedOn)
+                    <input type="hidden" asp-for="LastModifiedOn" />
                 </div>
                 <div class="col-lg-1"></div>
             </div>
@@ -142,6 +158,129 @@
         <div>@ViewBag.SuccessResult</div>
     </form>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="~/asset/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    @*<script src="~/asset/sidebar/js/sidebars.js"></script>*@
+
+
+    <script type="text/javascript">
+        $(function () {
+
+
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "onclick": null,
+
+                "showMethod": "show",
+                "hideMethod": "fadeOut",
+                "timeOut": 0,
+                "extendedTimeOut": 0
+            }
+
+            $("#btnLogin").click(function () {
+
+                var objLogin = {};
+
+                objLogin.UserName = $.trim($('#txtUserName').val());
+                objLogin.PassWord = $.trim($("#txtPassWord").val());
+
+                if (objLogin.UserName == "") {
+                    toastr.error("Email ID can not be blank", 'Warning');
+                    return false;
+                }
+
+
+                var stremail = ($.trim($('#txtUserName').val()) + "").toLowerCase();
+
+                var mailformat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+                if (objLogin.UserName.match(mailformat)) {
+
+                    if (stremail.indexOf('ibm.') < 0) {
+
+                        toastr.error("This is not a IBM Email ID", 'Warning');
+                        $("#txtUserName").focus();
+                        return false;
+                    }
+
+
+                }
+                else {
+
+                    toastr.error("You have entered an invalid Email ID!", 'Warning');
+                    $("#txtUserName").focus();
+                    return false;
+                }
+                if (objLogin.PassWord == "") {
+                    toastr.error("Password can not be blank", 'Warning');
+                    return false;
+                }
+
+
+
+
+            });
+
+
+
+
+
+
+
+
+
+        });
+
+    </script>
+
+
+    @if (ViewBag.SuccessMessage != null)
+    {
+        <script type="text/javascript">
+
+        window.onload = function () {
+
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+
+                    "showMethod": "show",
+                    "hideMethod": "fadeOut",
+                    "timeOut": 0,
+                    "extendedTimeOut": 0
+                }
+                toastr.success("@ViewBag.SuccessMessage", 'Success');
+
+        }
+        </script>
+    }
+
+    @if (ViewBag.FailureMessage != null)
+    {
+        <script type="text/javascript">
+
+        window.onload = function () {
+
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "positionClass": "toast-top-center",
+                "onclick": null,
+
+                "showMethod": "show",
+                "hideMethod": "fadeOut",
+                "timeOut": 0,
+                "extendedTimeOut": 0
+            }
+            toastr.error("@ViewBag.FailureMessage", 'Error');
+
+        }
+
+        </script>
+    }
 </body>
 </html>
