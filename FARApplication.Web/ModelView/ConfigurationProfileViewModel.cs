@@ -16,9 +16,14 @@ namespace FARApplication.Web.Models
 
         public int Approver1Id { get; set; }
         public int Approver2Id { get; set; }
+        public int NewApprover1Id{ get; set; }
+        public int NewApprover2Id { get; set; }
+
+        public List<User> Users { get; set; }
 
         public ConfigurationProfileViewModel()
         {
+            Users = new List<User>();
             ddlApprover1 = new List<SelectListItem>();
             ddlApprover2 = new List<SelectListItem>();
         }

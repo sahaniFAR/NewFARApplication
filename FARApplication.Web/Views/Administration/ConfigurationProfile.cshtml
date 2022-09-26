@@ -19,18 +19,19 @@
 
 </head>
 <body>
-    <form asp-controller="FAR" asp-action="Index" method="post">
+    <form asp-controller="Administration" asp-action="ConfigurationProfile" method="post">
         <div style="background-color: black" class="container-fluid">
             <asp-for></asp-for>
             <button class="close-btn" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" type="button"><i class="fa fa-close"></i> Close</button>
-            <button class="save-btn" type="submit" name="command" value="Save"><i class="fa fa-save"></i> Save</button>
+            <button class="save-btn" type="submit" name="command" value="Save" ><i class="fa fa-save"></i> Save</button>
             <button class="save-close-btn" type="submit"><i class="fa fa-save"></i> Save & Close</button>
             <button class="submit-button" type="submit" name="command" value="Submit"><i class="fa fa-paper-plane" aria-hidden="true"></i> Update Unique No</button>
         </div>
 
         <partial name="_HeaderPartial" />
 
-
+        <input type="hidden" asp-for="NewApprover1Id" id="NewApprover1Id" />
+        <input type="hidden" asp-for="NewApprover2Id" id="NewApprover2Id" />
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-1"></div>
@@ -66,8 +67,11 @@
                 <div class="col-lg-5">
                     <label id="FirstApproverName" for="FirstApproverName">Approver 1 Name:</label>
                 </div>
+
                 <div class="col-lg-5">
-                    <select style="width:50%" asp-for="Approver1Id" asp-items="Model.ddlApprover1" name="ddlFirstApproverName" id="ddlApprover1"></select>
+                    <select style="width:50%" id="Approver1Id" asp-for="Approver1Id" asp-items="Model.ddlApprover1" name="ddlFirstApproverName" onchange=" doPostBack();"></select>
+                    <input type="hidden" asp-for="Approver1Id" />
+                   
                 </div>
                 <div class="col-lg-1"></div>
             </div>
@@ -77,8 +81,8 @@
                     <label id="SecondApproverName" for="SecondApproverName">Approver 2 Name:</label>
                 </div>
                 <div class="col-lg-5">
-                    <select style="width:50%" asp-for="Approver2Id" asp-items="Model.ddlApprover1" name="SecondApproverName" id="ddlApprover2"></select>
-
+                    <select style="width:50%" asp-for="Approver2Id" asp-items="Model.ddlApprover2" name="SecondApproverName" onchange="doPostBack();"></select>
+                    <input type="hidden" asp-for="Approver2Id" />
                  
                 </div>
                 <div class="col-lg-1"></div>
@@ -139,9 +143,24 @@
                 <div class="col-lg-1"></div>
             </div>
         </div>
-        <div>@ViewBag.SuccessResult</div>
+        <div style="color:forestgreen">@ViewBag.SuccessResult</div>
+        <div style="color:red">@ViewBag.FailureMessage </div>
     </form>
+    <script type="text/javascript">
+        function doPostBack()
+        {
+            
+            var select = document.getElementById("Approver1Id");
+            var option = select.options[select.selectedIndex];
+            document.getElementById("NewApprover1Id").value = option.value;
+            select = document.getElementById("Approver2Id");
+            option = select.options[select.selectedIndex];
+            document.getElementById("NewApprover2Id").value = option.value;
+           
+        }
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+       </script>
+
+    @*<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>*@
 </body>
 </html>
