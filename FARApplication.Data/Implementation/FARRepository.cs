@@ -18,7 +18,10 @@ namespace FARApplication.Data.Implementation
         public int AddFAR(FAR far)
         {
             _context.FARs.Add(far);
-             return _context.SaveChanges();
+             _context.SaveChanges();
+            var Id = far.Id;
+            return Id; 
+
            
         }
 

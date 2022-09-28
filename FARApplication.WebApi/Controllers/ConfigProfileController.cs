@@ -1,6 +1,8 @@
 ﻿using FARApplication.Data;
+using FARApplication.Data.Interface;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
@@ -13,15 +15,23 @@ namespace FARApplication.Service.Controllers
     [ApiController]
     public class ConfigProfileController : ControllerBase
     {
-
+        private IFAREventRepository _FarEventrepository;
+        private readonly ILogger<ConfigProfileController> _logger;
+        private IUserRepository _repository;
         private readonly IWebHostEnvironment _hostingEnvironment;
 
-        public ConfigProfileController(IWebHostEnvironment hostingEnvironment)
+        public ConfigProfileController(IWebHostEnvironment hostingEnvironment, ILogger<ConfigProfileController> logger, IUserRepository repository, IFAREventRepository FarEventrepository)
         {
             _hostingEnvironment = hostingEnvironment;
+            _logger = logger;
+            _repository = repository;
+
+            _FarEventrepository = FarEventrepository;
+
+
         }
 
-        public ConfigurationProfile GetConfigData(string firstName)
+        public ConfigurationProfile GetConfigData()
         {
             var rootPath = _hostingEnvironment.ContentRootPath; //get the root path
 
@@ -37,8 +47,56 @@ namespace FARApplication.Service.Controllers
 
             var configprofile = configdata.FirstOrDefault(); //filter the 
 
+
+            var result = _FarEventrepository.GetEventLogByFAR(0);
+
+            var farlogOldest = result.OrderBy(x => x.EventDate).ToList().First();
+            var farlogLatest = result.OrderByDescending(x => x.EventDate).ToList().First();
+
+            var userCreated = _repository.GetUserById((int)farlogOldest.UserId);
+
+            string strCreatedUserName = "";
+            if (userCreated != null)
+            {
+                strCreatedUserName = string.Concat(userCreated.FirstName, " ", userCreated.LastName);
+
+            }
+            configprofile.CreatedBy = strCreatedUserName;
+            configprofile.CreatedOn = farlogOldest.EventDate.ToString("dd-MM-yyyy hh:mm tt");
+
+
+            var userModified = _repository.GetUserById((int)farlogLatest.UserId);
+
+            string strModifiedUserName = "";
+            if (userModified != null)
+            {
+                strModifiedUserName = string.Concat(userModified.FirstName, " ", userModified.LastName);
+
+            }
+            configprofile.LastModifiedBy = strModifiedUserName;
+            configprofile.LastModifiedOn = farlogLatest.EventDate.ToString("dd-MM-yyyy hh:mm tt");
+
+
+
             return configprofile;
 
+        }
+
+        [HttpPut]
+        public ActionResult<int> Update(ConfigurationProfile objConfigProfile)
+        {
+            try
+            {
+                int result = 0;
+                result = _repository.Update(objConfigProfile);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to Update FAR ,{ex}");
+                return BadRequest("Failed to Update FAR");
+
+            }
         }
     }
 }
