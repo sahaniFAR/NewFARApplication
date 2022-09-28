@@ -65,7 +65,7 @@ namespace FARApplication.Web.Utility
                     //Define request data format
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
                     //Sending request to add web api REST service resource FAR using HttpClient
-                    HttpResponseMessage Res = await httpClient.PutAsync(httpClient.BaseAddress + "/ConfigProfile/Update", content);
+                    HttpResponseMessage Res = await httpClient.PutAsync(httpClient.BaseAddress + "api/ConfigProfile/Update", content);
                     if (Res.IsSuccessStatusCode)
                         return result = true;
 
