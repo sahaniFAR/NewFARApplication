@@ -27,7 +27,6 @@ namespace FARApplication.Service.Controllers
             try
             {
                 var FARs = _repository.GetFARById(userId);
-
                 return Ok(FARs);
             }
             catch (Exception ex)
@@ -55,18 +54,18 @@ namespace FARApplication.Service.Controllers
 
         [HttpPost]
         public ActionResult<int> Add(FAR far)
-         {
+        {
             try
             {
                 int result = this._repository.AddFAR(far);
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError($"Failed to create FAR  {ex}");
                 return BadRequest("Failed to create FAR ");
             }
-          }
+        }
 
         [HttpGet]
         public ActionResult<string> GetRequestId()
@@ -86,19 +85,18 @@ namespace FARApplication.Service.Controllers
         [HttpGet]
         public ActionResult<FAR> GetFARDetails(int FARId)
         {
-            try 
+            try
             {
                 var result = _repository.getFARDetails(FARId);
                 return Ok(result);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogError($"Failed to getFARDetails ,{ex}");
                 return BadRequest("Failed to getFARDetails");
 
             }
-            
-                
+
         }
         [HttpPut]
         public ActionResult<int> Update(FAR far)

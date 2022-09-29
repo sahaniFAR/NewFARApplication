@@ -163,77 +163,7 @@
     @*<script src="~/asset/sidebar/js/sidebars.js"></script>*@
 
 
-    <script type="text/javascript">
-        $(function () {
 
-
-            toastr.options = {
-                "closeButton": true,
-                "debug": false,
-                "positionClass": "toast-top-center",
-                "onclick": null,
-
-                "showMethod": "show",
-                "hideMethod": "fadeOut",
-                "timeOut": 0,
-                "extendedTimeOut": 0
-            }
-
-            $("#btnLogin").click(function () {
-
-                var objLogin = {};
-
-                objLogin.UserName = $.trim($('#txtUserName').val());
-                objLogin.PassWord = $.trim($("#txtPassWord").val());
-
-                if (objLogin.UserName == "") {
-                    toastr.error("Email ID can not be blank", 'Warning');
-                    return false;
-                }
-
-
-                var stremail = ($.trim($('#txtUserName').val()) + "").toLowerCase();
-
-                var mailformat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
-                if (objLogin.UserName.match(mailformat)) {
-
-                    if (stremail.indexOf('ibm.') < 0) {
-
-                        toastr.error("This is not a IBM Email ID", 'Warning');
-                        $("#txtUserName").focus();
-                        return false;
-                    }
-
-
-                }
-                else {
-
-                    toastr.error("You have entered an invalid Email ID!", 'Warning');
-                    $("#txtUserName").focus();
-                    return false;
-                }
-                if (objLogin.PassWord == "") {
-                    toastr.error("Password can not be blank", 'Warning');
-                    return false;
-                }
-
-
-
-
-            });
-
-
-
-
-
-
-
-
-
-        });
-
-    </script>
 
 
     @if (ViewBag.SuccessMessage != null)

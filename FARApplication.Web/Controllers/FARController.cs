@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace FARApplication.Web.Controllers
 {
@@ -38,6 +39,7 @@ namespace FARApplication.Web.Controllers
         {
             string strLogMessage = string.Empty;
             string strUserName = string.Empty;
+            string sucessmsg = string.Empty;
             string uploadedFileName = null;
             if (ModelState.IsValid)
             {
@@ -45,19 +47,25 @@ namespace FARApplication.Web.Controllers
                 var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
                 if (user != null)
                 {
+
+
                     model.UserId = user.Id;
 
                     if (string.Compare(command, "Submit") == 0)
                     {
                         model.Status = 2;
                         strUserName = string.Concat(user.FirstName, " ", user.LastName);
-                        strLogMessage = string.Format("Send for approval by {0}", strUserName);
+                        strLogMessage = string.Format("Sent for approval by {0}", strUserName);
+                        sucessmsg = "FAR created and Sent for approval: " + model.RequestId;
+
                     }
                     else
                     {
                         model.Status = 1;
                         strUserName = string.Concat(user.FirstName, " ", user.LastName);
                         strLogMessage = string.Format("Created/modified by {0}", strUserName);
+                        sucessmsg = "New FAR created successfully! Far Request Number: " + model.RequestId;
+
                     }
                     if (postedFiles != null)
                     {
@@ -75,27 +83,38 @@ namespace FARApplication.Web.Controllers
                     model.FAREventLogs.Add(EventModel);
                     var result = FARUtility.AddFar(model).Result;
 
-                    if (result)
+                    if (result != 0)
                     {
 
-                        ViewBag.SuccessResult = "New FAR created successfully!!";
-                        return RedirectToAction("Index", "Home");
+                        ViewBag.SuccessResult = sucessmsg;
+                        model.User = user;
 
+
+                        if (command == "SaveClose")
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            TempData["FarCreationMsg"] = sucessmsg;
+
+                            return RedirectToAction("GetFARResult", "FAR", new { @FARId = result });
+                        }
 
                     }
                 }
                 else
                 {
-                    ViewBag.SuccessResult = "Your session has expired!!";
+                    ViewBag.FailureResult = "Your session has expired!!";
                 }
-               
+
             }
-            ViewBag.SuccessResult= "There is an error to create FAR!!";
-            return View();
+            ViewBag.FailureResult = "There is an error to create FAR!!";
+            return View(model);
         }
 
         public ActionResult Index()
-          {
+        {
             FAR Far = new FAR();
             Far.CreatedOn = System.DateTime.Now;
             var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
@@ -119,25 +138,44 @@ namespace FARApplication.Web.Controllers
                 Far.RequestId = FarRequestId;
             }
 
+            TempData["PagePreviousFarData"] = JsonConvert.SerializeObject(Far);
             return View(Far);
         }
 
         [EncryptedActionParameterAttribute]
-        public ActionResult GetFARResult(int FARId) 
+        public ActionResult GetFARResult(int FARId)
         {
             FAR far = new FAR();
             var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
-                if(user != null)
-                {
-                    ViewBag.SessionUser = user;
-                }
-           
-                far = FARUtility.GetFARDetails(FARId).Result;
-                if (far != null)
-                {
-                   // far.CreatedBy = string.Concat(far.User.FirstName, " ", far.User.LastName);
-                    far.LifeCycleStatus = (DocumentStatus)far.Status;
-                   FARApprover FARApprover = new FARApprover() { FARId = far.Id, UserId = user.Id, ApprovedDate = System.DateTime.Now };
+
+            if (TempData["FarCreationMsg"] != null)
+            {
+                ViewBag.FarCreationMsg = TempData["FarCreationMsg"].ToString();
+            }
+
+            if (TempData["SuccessResult"] != null)
+            {
+                ViewBag.SuccessResult = TempData["SuccessResult"].ToString();
+            }
+
+            if (TempData["FailureResult"] != null)
+            {
+                ViewBag.FailureResult = TempData["FailureResult"].ToString();
+            }
+
+
+
+            if (user != null)
+            {
+                ViewBag.SessionUser = user;
+            }
+
+            far = FARUtility.GetFARDetails(FARId).Result;
+            if (far != null)
+            {
+                // far.CreatedBy = string.Concat(far.User.FirstName, " ", far.User.LastName);
+                far.LifeCycleStatus = (DocumentStatus)far.Status;
+                FARApprover FARApprover = new FARApprover() { FARId = far.Id, UserId = user.Id, ApprovedDate = System.DateTime.Now };
                 if (user != null)
                 {
                     if ((int)user.ApprovalLevel == 0)
@@ -156,8 +194,8 @@ namespace FARApplication.Web.Controllers
                         {
                             ViewBag.Mode = "Admin";
                             ViewBag.UserType = "Approver1";
-                            if (far.Approverdetails.Count ==0)
-                            far.Approverdetails.Add(FARApprover);
+                            if (far.Approverdetails.Count == 0)
+                                far.Approverdetails.Add(FARApprover);
                         }
                     }
 
@@ -180,17 +218,18 @@ namespace FARApplication.Web.Controllers
 
         }
         [HttpPost]
-        public ActionResult Update(FAR far , string Mode, IFormFile updatedPostedFiles)
+        public ActionResult Update(FAR far, string Mode, IFormFile updatedPostedFiles)
         {
 
             if (ModelState.IsValid)
             {
                 if (!string.IsNullOrEmpty(Mode))
                 {
-                   
+
                     string strMessage = string.Empty;
                     string strUserName = string.Empty;
-     
+                    string viewmsg = string.Empty;
+
                     var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
                     if (user != null)
                     {
@@ -202,26 +241,30 @@ namespace FARApplication.Web.Controllers
                     {
                         case "Approve":
                             far.Status = far.Status + 1;
-                            strMessage = user.ApprovalLevel == Level.FirstLevel?  String.Format("First level approved by {0}", strUserName): String.Format("Final level approved by {0}", strUserName);
+                            strMessage = user.ApprovalLevel == Level.FirstLevel ? String.Format("First level approved by {0}", strUserName) : String.Format("Final level approved by {0}", strUserName);
+                            viewmsg = "FAR Approveed successfully";
                             break;
 
                         case "Reject":
                             far.Status = 5;
                             strMessage = String.Format("Rejected by {0}", strUserName);
+                            viewmsg = "FAR Rejected successfully";
                             break;
                         case "Submit":
                             far.Status = 2;
-                            strMessage = String.Format("Send for approval {0}", strUserName);
+                            strMessage = String.Format("Sent for approval {0}", strUserName);
+                            viewmsg = "FAR Sent for Approval successfully";
                             break;
                         case "Save":
                             strMessage = String.Format("Modified By {0}", strUserName);
+                            viewmsg = "FAR modified successfully";
                             break;
                         case "SaveClose":
                             strMessage = String.Format("Modified By {0}", strUserName);
                             break;
 
                     }
-                    //
+
 
                     if (updatedPostedFiles != null)
                     {
@@ -231,8 +274,8 @@ namespace FARApplication.Web.Controllers
                         if (fi.Exists)
                         {
                             fi.Delete();
-                            
-                        } 
+
+                        }
 
                         var uploadedFileName = Guid.NewGuid().ToString() + "_" + updatedPostedFiles.FileName;
                         string filePath = Path.Combine(uploadsFolder, uploadedFileName);
@@ -246,22 +289,31 @@ namespace FARApplication.Web.Controllers
                     farEventog.FARId = far.Id;
                     far.FAREventLogs.Add(farEventog);
                     var result = FARUtility.UpdateFar(far).Result;
-                    if(result)
-                    { 
+                    if (result)
+                    {
 
-                        ViewBag.SuccessResult = "FAR modified successfully!!";
-                        return RedirectToAction("Index", "Home");
+                        ViewBag.SuccessResult = viewmsg;
+
+                        TempData["SuccessResult"] = ViewBag.SuccessResult;
+
+                        if (Mode == "SaveClose")
+                        {
+                            TempData["SuccessResult"] = null;
+                            return RedirectToAction("Index", "Home");
+                        }
+                        return RedirectToAction("GetFARResult", "FAR", new { @FARId = far.Id });
                     }
 
                     else
                     {
-                        ViewBag.ErrorMsg = "There is some issue to update the record";
+                        ViewBag.FailureResult = "There is some issue to update the record";
+                        TempData["FailureResult"] = ViewBag.FailureResult;
                     }
 
                 }
             }
 
-             return View();
+            return View();
         }
         public IActionResult DownloadFile(int FARId)
         {
@@ -288,5 +340,5 @@ namespace FARApplication.Web.Controllers
 
         }
     }
-    
+
 }

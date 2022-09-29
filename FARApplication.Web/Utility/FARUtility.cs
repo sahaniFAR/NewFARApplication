@@ -15,7 +15,7 @@ namespace FARApplication.Web.Utility
 {
     public static class FARUtility
     {
-       
+
         static string Baseurl = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetValue<string>("ApiAddress");
         public static async Task<List<FAR>> GetAllFARs(int userId)
         {
@@ -68,11 +68,11 @@ namespace FARApplication.Web.Utility
                 return strsequenceForRequestId;
 
             }
-           
+
         }
         public static FAREventLog PrepareEventLog(string message)
         {
-            FAREventLog model = new FAREventLog() { Message = message, EventDate= System.DateTime.Now };
+            FAREventLog model = new FAREventLog() { Message = message, EventDate = System.DateTime.Now };
             return model;
         }
         public static async Task<FAR> GetFARDetails(int FARId)
@@ -129,10 +129,10 @@ namespace FARApplication.Web.Utility
             return Fars;
 
         }
-        public static async Task<bool> AddFar(FAR newFAR)
+        public static async Task<int> AddFar(FAR newFAR)
         {
             FAR objFAR = newFAR;
-            bool result = false;
+            int result = 0;
             if (objFAR != null)
             {
                 string strFar = System.Text.Json.JsonSerializer.Serialize(objFAR);
@@ -146,7 +146,11 @@ namespace FARApplication.Web.Utility
                     //Sending request to add web api REST service resource FAR using HttpClient
                     HttpResponseMessage Res = await httpClient.PostAsync(httpClient.BaseAddress + "api/FAR/Add", content);
                     if (Res.IsSuccessStatusCode)
-                        return result = true;
+                    {
+                        var Response = Res.Content.ReadAsStringAsync().Result;
+                        result = JsonConvert.DeserializeObject<int>(Response); ;
+                    }
+
 
                 }
             }

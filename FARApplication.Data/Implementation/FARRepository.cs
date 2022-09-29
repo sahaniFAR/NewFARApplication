@@ -18,23 +18,24 @@ namespace FARApplication.Data.Implementation
         public int AddFAR(FAR far)
         {
             _context.FARs.Add(far);
-             _context.SaveChanges();
-            var Id = far.Id;
-            return Id; 
+            _context.SaveChanges();
 
-           
+            int id = far.Id;
+            return id;
+
+
         }
-
+        //
         public IEnumerable<FAR> GetAllFAR()
-        { 
+        {
             // Show the latest records first
-            return _context.FARs.Include(t => t.User).OrderByDescending(t=> t.CreatedOn).ThenByDescending(t => t.RequestId).ToList();
+            return _context.FARs.Include(t => t.User).OrderByDescending(t => t.CreatedOn).ThenByDescending(t => t.RequestId).ToList();
         }
 
         public IEnumerable<FAR> GetFARById(int userId)
         {
-           // return _context.FARs.ToList().OrderBy(t => t.Id);
-           return  _context.FARs.Include(t => t.User).Where(t=> t.UserId == userId).ToList().OrderByDescending(u => u.CreatedOn).ThenByDescending(u => u.RequestId);
+            // return _context.FARs.ToList().OrderBy(t => t.Id);
+            return _context.FARs.Include(t => t.User).Where(t => t.UserId == userId).ToList().OrderByDescending(u => u.CreatedOn).ThenByDescending(u => u.RequestId);
         }
 
         public IEnumerable<FAR> GetFARByNextApprover()
@@ -60,13 +61,13 @@ namespace FARApplication.Data.Implementation
                 var result = _context.FARs.Include(n => n.FAREventLogs).Include(t => t.User).Include(u => u.Approverdetails).FirstOrDefault(n => n.Id == FarId);
                 return result;
             }
-            catch (Exception ex) 
-            { 
-                var exception =  ex;
+            catch (Exception ex)
+            {
+                var exception = ex;
                 throw ex;
             }
-            
-            
+
+
         }
 
         public IEnumerable<FAR> getFARListForApprovers(int status)
@@ -91,14 +92,14 @@ namespace FARApplication.Data.Implementation
 
         public int Update(FAR far)
         {
-          //  _context.Attach(far);
-          //  _context.Entry(far).State = EntityState.Modified;
+            //  _context.Attach(far);
+            //  _context.Entry(far).State = EntityState.Modified;
             var originalfar = _context.FARs
                              .Include(t => t.FAREventLogs)
                              .Include(t => t.Approverdetails).Single(t => t.Id == far.Id);
             _context.Entry(originalfar).CurrentValues.SetValues(far);
 
-            if (far.Approverdetails !=null)
+            if (far.Approverdetails != null)
             {
                 if (originalfar.Approverdetails != null)
                 {
