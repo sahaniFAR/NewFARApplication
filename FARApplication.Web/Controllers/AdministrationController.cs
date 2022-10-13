@@ -20,6 +20,8 @@ namespace FARApplication.Web.Controllers
     {
         public IActionResult ConfigurationProfile()
         {
+         //   bool res = EmailUtility.SendMail().Result;
+
             ConfigurationProfileViewModel objViewModel = new ConfigurationProfileViewModel();
             ModelState.Clear();
             var Configdata = ConfigurationProfileUtility.GetConfigurationProfileData().Result;
@@ -196,6 +198,9 @@ namespace FARApplication.Web.Controllers
 
         private List<SelectListItem> PopulateApproverDropdown(int Approver1Level)
         {
+
+           
+
             ConfigurationProfileViewModel objviewmodel = new ConfigurationProfileViewModel();
             var UserList = UserUtility.GetApproverSelectionList().Result;
             var UserSelectedItemList = UserList.Select(t => new SelectListItem()
