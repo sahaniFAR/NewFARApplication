@@ -19,25 +19,29 @@ namespace FARApplication.Web.Utility
     {
 
         static string Baseurl = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetValue<string>("ApiAddress");
+        static string messagefrom = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetValue<string>("MessageFrom");
 
-        
 
-      
 
-        public static async Task<bool> SendMail()
+
+
+
+        public static async Task<bool> SendMail(string mailTo, string mailSubject, string mailBody,string mailattachmentpath)
         {
-
+            var Configdata = ConfigurationProfileUtility.GetConfigurationProfileData().Result;
             MimeMessage message = new MimeMessage();
-            message.From.Add(new MailboxAddress("test", "farapptest01@gmail.com"));
-            message.To.Add(new MailboxAddress("bhakat", "tilakbhakat@gmail.com"));
-            message.Subject = "Test mail from far app";
-
+            //message.From.Add(new MailboxAddress("test", "farapptest01@gmail.com"));// app setting
+            message.From.Add(new MailboxAddress(Configdata.EmailPrincipalName, messagefrom));
+           //message.To.Add(new MailboxAddress("bhakat", "tilakbhakat@gmail.com"));// parameter
+            message.To.Add(new MailboxAddress("",mailTo));
+            //message.Subject = "Test mail from far app";
+            message.Subject = mailSubject;
             var bodyBuilder = new BodyBuilder();
-            bodyBuilder.HtmlBody = "<b>This is some html text</b>";
+            bodyBuilder.HtmlBody = mailBody + "</br><div>This is an auto-notification from " + Configdata.EmailPrincipalName + ". Please do not reply to this message.</div></br><div>Thank You,</div><div>" + Configdata.EmailPrincipalName + "</div>";
+            bodyBuilder.Attachments.Add(mailattachmentpath);
             bodyBuilder.TextBody = "This is some plain text";
             message.Body = bodyBuilder.ToMessageBody();
-
-            using(var client = new SmtpClient())
+            using (var client = new SmtpClient())
             {
                 client.Connect("smtp.gmail.com", 587, false);
                 client.Authenticate("farapptest01@gmail.com", "dpiobyzylyxcrudo");
@@ -47,7 +51,30 @@ namespace FARApplication.Web.Utility
 
             return true;
         }
+        public static async Task<bool> SendMail(string mailTo, string mailSubject, string mailBody)
+        {
+            var Configdata = ConfigurationProfileUtility.GetConfigurationProfileData().Result;
+            MimeMessage message = new MimeMessage();
+            //message.From.Add(new MailboxAddress("test", "farapptest01@gmail.com"));// app setting
+            message.From.Add(new MailboxAddress(Configdata.EmailPrincipalName, messagefrom));
+            //message.To.Add(new MailboxAddress("bhakat", "tilakbhakat@gmail.com"));// parameter
+            message.To.Add(new MailboxAddress("", mailTo));
+            //message.Subject = "Test mail from far app";
+            message.Subject = mailSubject;
+            var bodyBuilder = new BodyBuilder();
+            bodyBuilder.HtmlBody = mailBody + "</br><div>This is an auto-notification from " + Configdata.EmailPrincipalName + ". Please do not reply to this message.</div></br><div>Thank You,</div><div>" + Configdata.EmailPrincipalName + "</div>";
+            bodyBuilder.TextBody = "This is some plain text";
+            message.Body = bodyBuilder.ToMessageBody();
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.gmail.com", 587, false);
+                client.Authenticate("farapptest01@gmail.com", "dpiobyzylyxcrudo");
+                client.Send(message);
+                client.Disconnect(true);
+            }
 
+            return true;
+        }
 
 
 

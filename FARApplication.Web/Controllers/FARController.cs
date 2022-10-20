@@ -186,6 +186,10 @@ namespace FARApplication.Web.Controllers
                             ViewBag.Mode = "User";
                             ViewBag.UserType = "User";
                         }
+                        else if ((int)far.Status == 2)
+                        {
+                            mailNotification(FARId, far.Status);
+                        }
                     }
 
                     if ((int)user.ApprovalLevel == 1)
@@ -196,6 +200,10 @@ namespace FARApplication.Web.Controllers
                             ViewBag.UserType = "Approver1";
                             if (far.Approverdetails.Count == 0)
                                 far.Approverdetails.Add(FARApprover);
+                        }
+                        else if((int)far.Status == 3)
+                        {
+                            mailNotification(FARId,far.Status);
                         }
                     }
 
@@ -213,6 +221,7 @@ namespace FARApplication.Web.Controllers
                 }
 
             }
+            
 
             return View(far);
 
@@ -236,15 +245,19 @@ namespace FARApplication.Web.Controllers
                         strUserName = string.Concat(user.FirstName, " ", user.LastName);
 
                     }
-
+                   
                     switch (Mode)
                     {
                         case "Approve":
                             far.Status = far.Status + 1;
                             strMessage = user.ApprovalLevel == Level.FirstLevel ? String.Format("First level approved by {0}", strUserName) : String.Format("Final level approved by {0}", strUserName);
                             viewmsg = "FAR Approveed successfully";
+                            if (user.ApprovalLevel.Equals(Level.SecondLevel))
+                            {
+                                mailNotification(far.Id, far.Status);
+                            }
+                            
                             break;
-
                         case "Reject":
                             far.Status = 5;
                             strMessage = String.Format("Rejected by {0}", strUserName);
@@ -264,8 +277,6 @@ namespace FARApplication.Web.Controllers
                             break;
 
                     }
-
-
                     if (updatedPostedFiles != null)
                     {
                         var uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "UploadedFile");
@@ -282,6 +293,8 @@ namespace FARApplication.Web.Controllers
                         updatedPostedFiles.CopyTo(new FileStream(filePath, FileMode.Create));
                         far.Filename = uploadedFileName;
                     }
+
+
 
                     //
 
@@ -315,6 +328,7 @@ namespace FARApplication.Web.Controllers
 
             return View();
         }
+
         public IActionResult DownloadFile(int FARId)
         {
             var far = FARUtility.GetFARDetails(FARId).Result;
@@ -339,6 +353,61 @@ namespace FARApplication.Web.Controllers
             return File(memory.ToArray(), contentype, actualFilename);
 
         }
+        private void mailNotification(int FARId, int status)
+        {
+            var far = FARUtility.GetFARDetails(FARId).Result;
+            string attachmentFilePath = "";
+            if (far.Filename != null)
+            {
+                var uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "UploadedFile");
+                attachmentFilePath = Path.Combine(uploadsFolder, far.Filename);
+            }
+            else
+            {
+                attachmentFilePath = null;
+            }
+            var mailSubject = "FAR Status";
+            var testemailid = "vaibhav.sharma9@ibm.com";
+            bool emailSent = false;
+            var mailBody = "";
+            if (status == 2 || status == 3)
+            {
+                if (far.Filename != null)
+                {
+                    mailBody = "<div>Far Request #" + far.RequestId + (new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetValue<string>("mailSentforApprovalWithFile"));
+                }
+                else
+                {
+                    mailBody = "<div>Far Request #" + far.RequestId + (new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetValue<string>("mailSentforApprovalWithoutFile"));
+                }
+                if (attachmentFilePath != null)
+                {
+                    emailSent = EmailUtility.SendMail(testemailid, mailSubject, mailBody, attachmentFilePath).Result;
+                }
+                else
+                {
+                    emailSent = EmailUtility.SendMail(testemailid, mailSubject, mailBody).Result;
+                }
+            }
+            else if (status == 4)
+            {
+                if (far.Filename != null)
+                {
+                    mailBody = "<div>Far Request #" + far.RequestId + (new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetValue<string>("mailApproveWithFile"));
+                }
+                else
+                {
+                    mailBody = "<div>Far Request #" + far.RequestId + (new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetValue<string>("mailApproveWithoutFile"));
+                }
+                if (attachmentFilePath != null)
+                {
+                    emailSent = EmailUtility.SendMail(testemailid, mailSubject, mailBody, attachmentFilePath).Result;
+                }
+                else
+                {
+                    emailSent = EmailUtility.SendMail(testemailid, mailSubject, mailBody).Result;
+                }
+            }
+        }
     }
-
 }
