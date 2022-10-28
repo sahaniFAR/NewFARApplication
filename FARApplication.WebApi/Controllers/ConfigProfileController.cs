@@ -32,7 +32,7 @@ namespace FARApplication.Service.Controllers
 
         }
 
-        public ConfigurationProfile GetConfigData()
+        private ConfigurationProfile GetConfigData()
         {
             var rootPath = _hostingEnvironment.ContentRootPath; //get the root path
 

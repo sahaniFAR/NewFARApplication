@@ -23,9 +23,11 @@ namespace FARApplication.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(c => c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().WithExposedHeaders("x-my-custom-header")));
             services.AddControllers().AddNewtonsoftJson(t => t.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddDbContext<FARContext>();
-           // services.AddControllers().AddNew
+            // services.AddControllers().AddNew
+
             services.AddSwaggerGen();
             services.AddScoped<IFARRepository, FARRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -38,7 +40,8 @@ namespace FARApplication.WebApi
         {
             if (env.IsDevelopment())
             {
-               // app.UseDeveloperExceptionPage();
+                // app.UseDeveloperExceptionPage();
+                app.UseCors("AllowOrigin");
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }

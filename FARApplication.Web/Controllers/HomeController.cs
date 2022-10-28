@@ -4,7 +4,6 @@ using FARApplication.Web.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -23,6 +22,12 @@ namespace FARApplication.Web.Controllers
         {
             _logger = logger;
 
+        }   
+
+        [HttpPost]
+        public ActionResult PageSearch(string status, string mode)
+        {
+            return View();
         }
 
 
@@ -42,7 +47,7 @@ namespace FARApplication.Web.Controllers
                 else
                 {
                     ViewBag.Mode = "Admin";
-                    FARInfo = FARUtility.GetALLFAR().Result;
+                    FARInfo = FARUtility. GetALLFAR().Result;
                 }
 
                 if (FARInfo != null)

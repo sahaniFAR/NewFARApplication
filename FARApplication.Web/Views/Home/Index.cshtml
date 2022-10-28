@@ -6,35 +6,53 @@
 @{
     ViewData["Title"] = "Index";
 }
+
+
 <div style="margin-top:22px;text-transform: capitalize;font-size: small;" class="container-fluid">
+
     <link rel="stylesheet" href="~/css/site.css" />
     <div class="row">
-        <div class="col-lg-9">
-            <table style="border-collapse: separate;  border-spacing: 0px 7px;" class="table">
-                <thead>
+        <div class="col-lg-12">
+            <div style="margin-top: 10px;" class="col-lg-3">
+               
+
+                    <table align="right">
+                    @using (Html.BeginForm("search", "Home", FormMethod.Get))
+                    {
+                        <tr>
+                            <td>@Html.TextBox("search")</td>
+                            <td> <input type="submit" value="Search" /></td>                  
+                        </tr>  
+                    }
+                    </table>
+                
+            </div>
+            <table style="border-collapse: separate;  border-spacing: 0px 7px;" class="table" id="tblgrid">
+                
                     <tr >
+                    <th>
+                        FARId <img class="ibmimg" style="width:20px" src="~/asset/images/UpDown.png"/>
+
+                     </th>
                         <th>
-                            <span>FAR ID</span>
+                        Creator Name <img class="ibmimg" style="width:20px" src="~/asset/images/UpDown.png" />
                         </th>
                         <th>
-                            <span>Creator Name</span>
-                        </th>
-                        <th>
-                            <span>Created On</span>
+                        Created On <img class="ibmimg" style="width:20px" src="~/asset/images/UpDown.png" />
 
                         </th>
                         <th>
 
-                            <span>Status</span>
+                        Status <img class="ibmimg" style="width:20px" src="~/asset/images/UpDown.png" />
                         </th>
                         <th>
-                            <span>Summary</span>
+                        Summary <img class="ibmimg" style="width:20px" src="~/asset/images/UpDown.png" />
 
                         </th>
 
                     </tr>
-                </thead>
-                <tbody>
+                
+                
                     @if (Model.Count() == 0)
                     {
                         <tr>
@@ -66,15 +84,10 @@
                             </tr>
                         }
                     }
-                </tbody>
+                
             </table>
         </div>
-        <div style="margin-top: 10px;" class="col-lg-3">
-            @using(Html.BeginForm("search","Home",FormMethod.Get))
-            {
-              @Html.TextBox("search") <input type="submit" value="Search" />
-            }
-        </div>
+
     </div>
 </div>
 @*<div class="container">
@@ -87,3 +100,146 @@
         </div>
     </div>
 </div>*@
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Search By Status</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @*<div>
+                <br />
+                <br />
+                <dl class="row">
+                    <dt>
+                        <span>Vendor Name</span>
+                    </dt>
+                    <dd class="col-sm-8">
+                        <input type="text" id="vendorName" placeholder="Enter Vendor Name" />
+                    </dd>
+                </dl>
+            </div>*@
+
+            <div>
+                You selected Vendor: <b><span id="lblVendorName"></span></b>
+            </div>
+            <form asp-controller="Home" asp-action="PageSearch" method="post">
+                <div class="modal-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Description lists</dt>
+                        <dd class="col-sm-9">A description list is perfect for defining terms.</dd>
+
+                        <dt class="col-sm-3">Euismod</dt>
+                        <dd class="col-sm-9">
+                            <p>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</p>
+                            <p>Donec id elit non mi porta gravida at eget metus.</p>
+                        </dd>
+                    </dl>
+                   
+
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Status:</label>
+                        <input type="text" class="form-control col-md-3" id="status" name="status" />
+                       
+                        <div>
+                            You selected Vendor: <b><span id="lblVendorName"></span></b>
+                        </div>
+
+                        <input type="hidden" id="mode" name="mode"  />
+                        @*  <textarea class="form-control" id="message-text"></textarea>*@
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.0.min.js" type="text/javascript"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+    $(function () {
+        
+        $("#status").autocomplete({
+            source: function (request, response) {
+               
+                $.ajax({
+                    //url: 'http://localhost:16460/Search/Index',
+                    url: 'http://localhost:5000/api/Search/GetFARRequestId',
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    data: { "prefix": request.term },
+                    type:"GET",
+                    datatype: "json",
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            var result = JSON.stringify(item);
+                            
+                            var strresult = JSON.parse(result);
+                           // alert(strresult.id);
+                            return { value: strresult.id };
+                        }))
+
+                    },
+                
+            
+            error: function (xhr, textStatus, error) {
+                        alert(xhr.statusText);
+                    },
+                   
+                });
+            },
+            select: function (e, i) {
+                alert(i.item.val);
+                $("#lblVendorName").text(i.item.value);
+            },
+            minLength: 1
+        });
+    });
+
+    
+  
+</script>
+
+<script>
+    $(document).ready(function () {
+        var flag = false;
+
+        $("th").click(function () {
+            flag = !flag;
+            var columnIndex = $(this).index();
+            var tdArray = $(this).closest("table")
+                .find("tr td:nth-child(" + (columnIndex + 1) + ")");
+            tdArray.sort(function (p, n) {
+                var pData = $(p).text();
+                var nData = $(n).text();
+                if(flag)
+                {
+                return pData < nData ? -1 : 1;
+                }
+                else{
+                    return pData > nData ? -1 : 1;
+
+                }
+             
+            });
+            tdArray.each(function () {
+                var row = $(this).parent();
+                $("#tblgrid").append(row);
+            });
+        });
+    });
+
+</script>
+
