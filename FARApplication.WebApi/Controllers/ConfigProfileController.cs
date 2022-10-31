@@ -32,7 +32,8 @@ namespace FARApplication.Service.Controllers
 
         }
 
-        public ConfigurationProfile GetConfigData()
+        [HttpGet]
+        public ActionResult<ConfigurationProfile>  GetConfigData()
         {
             var rootPath = _hostingEnvironment.ContentRootPath; //get the root path
 
@@ -79,7 +80,7 @@ namespace FARApplication.Service.Controllers
 
 
 
-            return configprofile;
+            return Ok(configprofile);
 
         }
 
