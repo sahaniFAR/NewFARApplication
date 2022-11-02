@@ -21,6 +21,10 @@
 
 </head>
 <body>
+    @{
+        var Mode = ViewBag.Mode;
+       
+    }
 
     <header>
         <partial name="_HeaderPartial" />
@@ -50,9 +54,13 @@
                         </button>
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li><a href="#statusModal" class="link-dark rounded" data-toggle="modal" data-target="#statusModal">By Status</a></li>
-                            <li><a href="#" class="link-dark rounded">By FAR ID</a></li>
-                            <li><a href="#submiterModal" class="link-dark rounded" data-toggle="modal" data-target="#submiterModal">By Submitter</a></li>
-                            <li><a href="#" class="link-dark rounded">By Next Approver</a></li>
+                           @* <li><a href="#" class="link-dark rounded">By FAR ID</a></li>*@
+                            @if (Mode == "Admin")
+                            {
+                                <li><a href="#" class="link-dark rounded" data-toggle="" data-target="">By Submitter</a></li>
+                            }
+                           
+                           @* <li><a href="#" class="link-dark rounded">By Next Approver</a></li>*@
                         </ul>
                       
                     </li>
