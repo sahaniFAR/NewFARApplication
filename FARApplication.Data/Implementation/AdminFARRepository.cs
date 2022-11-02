@@ -24,6 +24,11 @@ namespace FARApplication.Data.Implementation
             throw new NotImplementedException();
         }
 
+        public FARCustom GetAllFAROnSubmiter(int submiterId, int pageSize, int currentPageIndx)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<FAR> GetFARById(int userId)
         {
             throw new NotImplementedException();
@@ -66,6 +71,78 @@ namespace FARApplication.Data.Implementation
             _context.FARs.Update(far);
             return _context.SaveChanges();
             
+        }
+
+        int IFARRepository.AddFAR(FAR far)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<FAR> IFARRepository.GetAllFAR()
+        {
+            throw new NotImplementedException();
+        }
+
+        FARCustom IFARRepository.GetallFARBasedOnStatus(int status, int pageCount, int pageIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        FARCustom IFARRepository.GetallFARBasedOnStatusOnUser(int userId, int status, int PageCount, int pageIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        FARCustom IFARRepository.GetAllPagedFAR(int pageCount, int pageIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        
+
+        IEnumerable<FAR> IFARRepository.GetFARById(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<FAR> IFARRepository.GetFARByNextApprover()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<FAR> IFARRepository.GetFARByStatus(int userId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<FAR> IFARRepository.GetFARBySubmitter()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<FAR> IFARRepository.GetFARByUserId(int userId, int pageCount, int pageIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        FAR IFARRepository.getFARDetails(int FarId)
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<FAR> IFARRepository.getFARListForApprovers(int status)
+        {
+            throw new NotImplementedException();
+        }
+
+        string IFARRepository.GetFARRequestId()
+        {
+            throw new NotImplementedException();
+        }
+
+        int IFARRepository.Update(FAR far)
+        {
+            throw new NotImplementedException();
         }
     }
 }

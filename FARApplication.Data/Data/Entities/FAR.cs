@@ -29,6 +29,7 @@ namespace FARApplication.Data
 
         // public IEnumerable<ApproverDetails> ApproverDetails { get; set; }
         public string Filename { get; set; }
+       
 
     }
 }

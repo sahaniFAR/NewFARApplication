@@ -201,5 +201,34 @@ namespace FARApplication.Web.Utility
             }
         }
 
+        public static async Task<FARViewModel> GetALLPAGEDFAR(int pageIndex)
+        {
+            FARViewModel FARViewModel = new FARViewModel();      
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                //Passing service base url
+
+                httpClient.BaseAddress = new Uri(Baseurl);
+                httpClient.DefaultRequestHeaders.Clear();
+                //Define request data format
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //Sending request to find web api REST service resource GetAllFAR using HttpClient
+                HttpResponseMessage Res = await httpClient.GetAsync("api/FAR/GetAllPAGEDFAR?pageIndex=" + pageIndex);
+
+                if (Res.IsSuccessStatusCode)
+                {
+                    //Storing the response details recieved from web api
+                    var Response = Res.Content.ReadAsStringAsync().Result;
+                    //Deserializing the response recieved from web api and storing into the Employee list
+                    FARViewModel = JsonConvert.DeserializeObject<FARViewModel>(Response);
+
+                }
+
+            }
+            return FARViewModel;
+
+        }
+
     }
 }

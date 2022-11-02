@@ -51,6 +51,22 @@ namespace FARApplication.Service.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult<FARCustom> GetAllPAGEDFAR(int pageIndex)
+        {
+            try
+            {
+                var FARs = _repository.GetAllPagedFAR(10, pageIndex);
+
+                return Ok(FARs);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to get all FAR {ex}");
+                return BadRequest("Failed to get all FAR");
+            }
+        }
+
 
         [HttpPost]
         public ActionResult<int> Add(FAR far)

@@ -47,6 +47,37 @@ namespace FARApplication.Service.Controllers
             }
             
         }
-        
+        [Produces("application/json")]
+        [HttpGet]
+        public IActionResult GetFAROnStatus(int status,  int pageIndex)
+        {
+            try
+            {
+                var result = _repository.GetallFARBasedOnStatus(status, 10, pageIndex);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Produces("application/json")]
+        [HttpGet]
+        public IActionResult GetAllFARBasedOnSubmiter(int submiterId, int pageIndex)
+        {
+            try
+            {
+                var result = _repository.GetAllFAROnSubmiter(submiterId, 10, pageIndex);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

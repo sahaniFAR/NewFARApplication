@@ -4,6 +4,7 @@ using FARApplication.Web.Utility;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -33,31 +34,99 @@ namespace FARApplication.Web.Controllers
 
         public ActionResult Index()
         {
-            List<FAR> FARInfo = new List<FAR>();
+
+            FARViewModel FARViewModel = new FARViewModel();
             var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
+
             if (user != null)
             {
+
                 ViewBag.SessionUser = user;
                 var userId = user.Id;
+
                 if (user.ApprovalLevel == 0)
                 {
                     ViewBag.Mode = "User";
-                    FARInfo = FARUtility.GetAllFARs(userId).Result;
+                    FARViewModel = SearchUtility.GetAllFARBasedOnSubmiter(userId, 1).Result;
+                }
+
+                else
+                {
+                    ViewBag.Mode = "Admin";
+                    FARViewModel = FARUtility.GetALLPAGEDFAR(1).Result;
+                   
+                }
+
+                if (FARViewModel != null)
+                {
+
+                    FARViewModel.FARs.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status;});
+                    FARViewModel.CurrentPageIndex = 1; // Hardcoded value as current page index alwyas will be 1 before loading.
+                    double pageCount = (double)(Convert.ToDecimal(FARViewModel.TotalRecordCount) / Convert.ToDecimal(10));
+                    FARViewModel.PageCount = (int)Math.Ceiling(pageCount);
+                   
+                }
+            }
+
+            return View(FARViewModel);
+        }
+        [HttpPost]
+        public ActionResult Index(int currentPageIndex, string SelectedStatus)
+        {
+
+            FARViewModel FARViewModel = new FARViewModel();
+            var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
+
+            if (user != null)
+            {
+                ViewBag.SessionUser = user;
+                if (user.ApprovalLevel == 0)
+                {
+                    ViewBag.Mode = "User";
                 }
                 else
                 {
                     ViewBag.Mode = "Admin";
-                    FARInfo = FARUtility. GetALLFAR().Result;
+
+                }
+                var userId = user.Id;
+
+                if(string.IsNullOrEmpty(SelectedStatus))
+                {
+                    if (user.ApprovalLevel == 0)
+                    {
+                      
+                        FARViewModel = SearchUtility.GetAllFARBasedOnSubmiter(userId, currentPageIndex).Result;
+                    }
+                    else
+                    {
+                        
+                        FARViewModel = FARUtility.GetALLPAGEDFAR(currentPageIndex).Result;
+
+                    }
+
                 }
 
-                if (FARInfo != null)
+                else
                 {
-                    // FARInfo.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status; t.CreatedBy = string.Concat(t.User.FirstName, " ", t.User.LastName); });
-                    FARInfo.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status;});
+                    int statusId = (int)Convert.ToInt32(SelectedStatus);
+                    FARViewModel = SearchUtility.GetAllFAROnStatus(statusId, currentPageIndex).Result;
+                }
+               
+
+                if (FARViewModel.FARs != null )
+                {
+                    FARViewModel.FARs.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status; });
+                   // FARViewModel.FARs = FARInfo;
+                    FARViewModel.CurrentPageIndex = currentPageIndex;
+                    double pageCount = (double)(Convert.ToDecimal(FARViewModel.TotalRecordCount) / Convert.ToDecimal(10));
+                    FARViewModel.PageCount = (int)Math.Ceiling(pageCount);
+
+
                 }
             }
 
-            return View(FARInfo);
+            return View("Index", FARViewModel);
         }
         public ActionResult search(string search)
         {

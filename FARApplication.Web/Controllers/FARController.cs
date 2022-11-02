@@ -176,6 +176,7 @@ namespace FARApplication.Web.Controllers
                 // far.CreatedBy = string.Concat(far.User.FirstName, " ", far.User.LastName);
                 far.LifeCycleStatus = (DocumentStatus)far.Status;
                 FARApprover FARApprover = new FARApprover() { FARId = far.Id, UserId = user.Id, ApprovedDate = System.DateTime.Now };
+
                 if (user != null)
                 {
                     if ((int)user.ApprovalLevel == 0)

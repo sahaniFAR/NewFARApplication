@@ -136,5 +136,159 @@ namespace FARApplication.Data.Implementation
 
             return _context.SaveChanges();
         }
+
+        FARCustom IFARRepository.GetAllPagedFAR(int pageCount, int pageIndex)
+        {
+            FARCustom FARCustom = new FARCustom();
+            try
+            {
+
+                var FARs = _context.FARs
+                           .Include(t => t.User)
+                           .OrderByDescending(t => t.CreatedOn)
+                           .ThenByDescending(t => t.RequestId)
+                           .Skip((pageIndex - 1) * pageCount)
+                           .Take(pageCount)
+                           .ToList();
+                int totalRecordCount = _context.FARs.Count();
+                if (FARs.Count > 0)
+                {
+
+                    FARCustom.FARs = FARs;
+                    FARCustom.TotalRecordCount = totalRecordCount;
+                }
+
+                return FARCustom;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+     
+        IEnumerable<FAR> IFARRepository.GetFARByNextApprover()
+        {
+            throw new NotImplementedException();
+        }
+
+      
+        IEnumerable<FAR> IFARRepository.GetFARBySubmitter()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerable<FAR> IFARRepository.GetFARByUserId(int userId, int pageCount, int pageIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+       
+
+        IEnumerable<FAR> IFARRepository.getFARListForApprovers(int status)
+        {
+            throw new NotImplementedException();
+        }
+
+        string IFARRepository.GetFARRequestId()
+        {
+            throw new NotImplementedException();
+        }
+
+        public FARCustom GetallFARBasedOnStatus(int status, int pageCount, int pageIndex)
+        {
+            FARCustom FARCustom = new FARCustom();
+            try
+            {
+
+                var FARs = _context.FARs
+                           .Include(t => t.User)
+                           .Where(t => t.Status == status)
+                           .OrderByDescending(t => t.CreatedOn)
+                           .ThenByDescending(t => t.RequestId)
+                           .Skip((pageIndex - 1) * pageCount)
+                           .Take(pageCount)
+                           .ToList();
+                int totalRecordCount = _context.FARs.Where(t => t.Status == status).Count();
+                if (FARs.Count > 0)
+                {
+
+                    FARCustom.FARs = FARs;
+                    FARCustom.TotalRecordCount = totalRecordCount;
+                }
+
+                return FARCustom;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public FARCustom GetallFARBasedOnStatusOnUser(int userId, int status, int pageCount,int pageIndex)
+        {
+            FARCustom FARCustom = new FARCustom();
+            try
+            {
+
+                var FARs = _context.FARs
+                           .Include(t => t.User)
+                           .Where(t => t.Status == status && t.UserId == userId)
+                           .OrderByDescending(t => t.CreatedOn)
+                           .ThenByDescending(t => t.RequestId)
+                           .Skip((pageIndex - 1) * pageCount)
+                           .Take(pageCount)
+                           .ToList();
+                int totalRecordCount = _context.FARs.Where(t => t.UserId == userId && t.Status == status).Count();
+                if (FARs.Count > 0)
+                {
+
+                    FARCustom.FARs = FARs;
+                    FARCustom.TotalRecordCount = totalRecordCount;
+                }
+
+                return FARCustom;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public FARCustom GetAllFAROnSubmiter(int submiterId, int pageSize, int currentPageIndex)
+        {
+            FARCustom FARCustom = new FARCustom();
+            try
+            {
+
+                var FARs = _context.FARs
+                           .Include(t => t.User)
+                           .Where(t => t.UserId == submiterId)
+                           .OrderByDescending(t => t.CreatedOn)
+                           .ThenByDescending(t => t.RequestId)
+                           .Skip((currentPageIndex - 1) * pageSize)
+                           .Take(pageSize)
+                           .ToList();
+
+                int totalRecordCount = _context.FARs.Where(t => t.UserId == submiterId).Count();
+
+                if (FARs.Count > 0)
+                {
+
+                    FARCustom.FARs = FARs;
+                    FARCustom.TotalRecordCount = totalRecordCount;
+                }
+
+                return FARCustom;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
