@@ -30,9 +30,9 @@ namespace FARApplication.Web.Controllers
             _logger = logger;
             _iconfiguration = configuration;
             this.hostingEnvironment = hostingEnvironment;
-            uri = new Uri(configuration["ApiAddress"]);
-            client = new HttpClient();
-            client.BaseAddress = uri;
+            //uri = new Uri(configuration["ApiAddress"]);
+            //client = new HttpClient();
+            //client.BaseAddress = uri;
         }
         [HttpPost]
         public ActionResult Index(FAR model, IFormFile postedFiles, string command)
@@ -228,6 +228,7 @@ namespace FARApplication.Web.Controllers
 
         }
         [HttpPost]
+        [Route("api/FAR/Update")]
         public ActionResult Update(FAR far, string Mode, IFormFile updatedPostedFiles)
         {
 
