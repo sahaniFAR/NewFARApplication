@@ -75,7 +75,7 @@ namespace FARApplication.Web.Controllers
         {
 
             FARViewModel FARViewModel = new FARViewModel();
-            FARViewModel fARViewModel = new FARViewModel();
+
             var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
 
             if (user != null)
@@ -130,7 +130,6 @@ namespace FARApplication.Web.Controllers
                 if (FARViewModel.FARs != null )
                 {
                     FARViewModel.FARs.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status; });
-                   // FARViewModel.FARs = FARInfo;
                     FARViewModel.CurrentPageIndex = currentPageIndex;
                     double pageCount = (double)(Convert.ToDecimal(FARViewModel.TotalRecordCount) / Convert.ToDecimal(10));
                     FARViewModel.PageCount = (int)Math.Ceiling(pageCount);
