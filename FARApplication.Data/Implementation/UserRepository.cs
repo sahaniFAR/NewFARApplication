@@ -71,6 +71,16 @@ namespace FARApplication.Data.Implementation
             return _context.SaveChanges();
         }
 
+        public bool UpdatePassword(string emailId, string password)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.EmailId == emailId);
+            _context.Entry(user).Property(p => p.Password).CurrentValue = password;
+            var result = _context.SaveChanges();
+
+            return result > 0? true: false;
+
+        }
+
 
 
     }

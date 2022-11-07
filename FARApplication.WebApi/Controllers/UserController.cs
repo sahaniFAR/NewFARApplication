@@ -1,4 +1,5 @@
 ﻿
+using FARApplication.Data;
 using FARApplication.Data.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -70,6 +71,22 @@ namespace FARApplication.Service.Controllers
 
             }
 
+
+        }
+        [HttpGet]
+        public ActionResult UpdateUserPassword(string emailId, string password)
+        {
+            try
+            {
+                var result = _repository.UpdatePassword(emailId, password);
+                return Ok(result);
+
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Failed to update user password {ex}");
+                return BadRequest("Failed to update user password ");
+            }
 
         }
 

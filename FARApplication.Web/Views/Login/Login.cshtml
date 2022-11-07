@@ -19,6 +19,7 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/asset/toastr/js/toastr.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,11 +68,51 @@
                                             <button id="btnLogin" class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
                                         </div>
 
-                                        <a class="small text-muted" href="#!">Forgot password?</a>
+                                        <a class="small text-muted" href="#forgetPaswordModal" data-toggle="modal" data-target="#forgetPaswordModal">Forgot password?</a>
                                         @*<p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="#!"
                                             style="color: #393f81;">Register here</a></p>*@
                                         <!-- <a href="#!" class="small text-muted">Terms of use.</a>
                                         <a href="#!" class="small text-muted">Privacy policy</a> -->
+                                        <div class="modal fade" id="forgetPaswordModal" tabindex="-1" role="dialog" aria-labelledby="forgetPaswordModal" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="forgetPaswordModal">Forget Password</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div>
+                                                            <br />
+                                                            <br />
+                                                            <dl class="row">
+
+                                                                <dd class="col-sm-8">
+                                                                    <div class="form-outline mb-4">
+
+                                                                        <input type="text" id="txtUserEmail" name="txtUserEmail" class="form-control form-control-lg" placeholder="">
+                                                                        <label class="form-label">Email ID</label>
+                                                                    </div>
+
+                                                                    <div class="form-outline mb-4">
+                                                                        <input type="password" id="txtUserPassWord" name="txtUserPassWord" class="form-control form-control-lg" placeholder="" />
+                                                                        <label class="form-label">Password</label>
+                                                                    </div>
+                                                                    <div id="Message"></div>
+
+                                                                </dd>
+                                                            </dl>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-primary" id="btnforgetpassword">Save</button>
+                                                    </div>
+                                                    
+
+                                                </div>
+                                            </div>
+                                        </div>
                                     </form>
 
                                 </div>
@@ -85,9 +126,9 @@
 
         </div>
     </section>
-
-
-
+    
+     
+    
 
     <script src="~/asset/bootstrap/js/bootstrap.bundle.min.js"></script>
 
@@ -149,19 +190,77 @@
                     return false;
                 }
 
-
-
-
             });
 
+        });
+
+        $("#btnforgetpassword").click(function(){
+            var objUser = {};
+
+                objUser.UserName = $.trim($('#txtUserEmail').val());
+                objUser.PassWord = $.trim($("#txtUserPassWord").val());
+
+                if (objUser.UserName == "") {
+                    toastr.error("Email ID can not be blank", 'Warning');
+                    return false;
+                }
 
 
+                var stremail = ($.trim($('#txtUserEmail').val()) + "").toLowerCase();
+
+                var mailformat = /^\w+([\.-]?\w+)*@@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+                if (objUser.UserName.match(mailformat)) {
+
+                    if (stremail.indexOf('ibm.') < 0) {
+
+                        toastr.error("This is not a IBM Email ID", 'Warning');
+                        $("#txtUserEmail").focus();
+                        return false;
+                    }
 
 
+                }
+                else {
+
+                    toastr.error("You have entered an invalid Email ID!", 'Warning');
+                    $("#txtUserEmail").focus();
+                    return false;
+                }
+                if (objUser.PassWord == "") {
+                    toastr.error("Password can not be blank", 'Warning');
+                    return false;
+                }
+
+            var data = {
+            emailId: $("#txtUserEmail").val(),
+            password: $("#txtUserPassWord").val(),
+                       }
+
+            var request = $.ajax({
+                                     type: "GET",
+                                     url: "http://localhost:5000/api/User/UpdateUserPassword",
+                                          
+                                      headers: {
+                                                 'Access-Control-Allow-Origin': '*',
+                                                 'Content-Type': 'application/x-www-form-urlencoded'
+                                               },
+                                     data: data,
+                                    
+                                     dataType: "json",
+                                     contentType: "application/json; charset=utf-8",
+                                     success: function (result) {
+                                                  $("#Message").append("<span color:green>Password changed successfully</span>");
+                                    
+                                                               },
+                                     error: function () {
+                                     $("#Message").append("<span 'color:red'>There is an issue to change the password!!</span>");
+
+                               }
 
 
-
-
+                            });
+ 
         });
 
     </script>

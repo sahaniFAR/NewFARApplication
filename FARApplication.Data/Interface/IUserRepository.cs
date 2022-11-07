@@ -14,6 +14,7 @@ namespace FARApplication.Data.Interface
         User GetUserById(int Id);
         User IsValidUser(string email, string password);
         List<User> GetApproverSelectionList();
+        bool UpdatePassword(string emailId, string password);
 
     }
 }

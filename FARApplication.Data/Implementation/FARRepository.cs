@@ -92,11 +92,11 @@ namespace FARApplication.Data.Implementation
 
         public int Update(FAR far)
         {
-            //  _context.Attach(far);
-            //  _context.Entry(far).State = EntityState.Modified;
+           
             var originalfar = _context.FARs
                              .Include(t => t.FAREventLogs)
                              .Include(t => t.Approverdetails).Single(t => t.Id == far.Id);
+
             _context.Entry(originalfar).CurrentValues.SetValues(far);
 
             if (far.Approverdetails != null)
@@ -130,9 +130,6 @@ namespace FARApplication.Data.Implementation
                 _context.Entry(farEventLog).State = EntityState.Added;
             }
 
-            //_context.Entry(originalfar.Approverdetails).CurrentValues.SetValues(far.Approverdetails);
-            //_context.Entry(originalfar.FAREventLogs).CurrentValues.SetValues(far.FAREventLogs);
-            // _context.Entry(originalfar.Approverdetails).CurrentValues.SetValues(far.Approverdetails);
 
             return _context.SaveChanges();
         }

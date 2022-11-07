@@ -71,10 +71,11 @@ namespace FARApplication.Web.Controllers
             return View(FARViewModel);
         }
         [HttpPost]
-        public ActionResult Index(int currentPageIndex, string SelectedStatus)
+        public ActionResult Index(int currentPageIndex, string SelectedStatus, string search)
         {
 
             FARViewModel FARViewModel = new FARViewModel();
+            FARViewModel fARViewModel = new FARViewModel();
             var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
 
             if (user != null)
@@ -112,7 +113,19 @@ namespace FARApplication.Web.Controllers
                     int statusId = (int)Convert.ToInt32(SelectedStatus);
                     FARViewModel = SearchUtility.GetAllFAROnStatus(statusId, currentPageIndex).Result;
                 }
+
+                // If the user seraches with request id
                
+                if(!string.IsNullOrEmpty(search))
+                {
+                    var result = FARViewModel.FARs.Where(t => t.RequestId.Contains(search)).ToList();
+                    if (result.Count() > 0)
+                    {
+                        FARViewModel.FARs.Clear();
+                        FARViewModel.FARs.AddRange(result);
+                        FARViewModel.TotalRecordCount = result.Count();
+                    }
+                }
 
                 if (FARViewModel.FARs != null )
                 {
