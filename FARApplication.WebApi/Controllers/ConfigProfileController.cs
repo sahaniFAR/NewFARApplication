@@ -52,32 +52,42 @@ namespace FARApplication.Service.Controllers
 
             var result = _FarEventrepository.GetEventLogByFAR(0);
 
-            var farlogOldest = result.OrderBy(x => x.EventDate).ToList().First();
-            var farlogLatest = result.OrderByDescending(x => x.EventDate).ToList().First();
-
-            var userCreated = _repository.GetUserById((int)farlogOldest.UserId);
-
-            string strCreatedUserName = "";
-            if (userCreated != null)
+            if (result != null && result.ToList().Count >0)
             {
-                strCreatedUserName = string.Concat(userCreated.FirstName, " ", userCreated.LastName);
 
+                var farlogOldest = result.OrderBy(x => x.EventDate).ToList().First();
+                var farlogLatest = result.OrderByDescending(x => x.EventDate).ToList().First();
+
+                var userCreated = _repository.GetUserById((int)farlogOldest.UserId);
+
+                string strCreatedUserName = "";
+                if (userCreated != null)
+                {
+                    strCreatedUserName = string.Concat(userCreated.FirstName, " ", userCreated.LastName);
+
+                }
+                configprofile.CreatedBy = strCreatedUserName;
+                configprofile.CreatedOn = farlogOldest.EventDate.ToString("dd-MM-yyyy hh:mm tt");
+
+
+                var userModified = _repository.GetUserById((int)farlogLatest.UserId);
+
+                string strModifiedUserName = "";
+                if (userModified != null)
+                {
+                    strModifiedUserName = string.Concat(userModified.FirstName, " ", userModified.LastName);
+
+                }
+                configprofile.LastModifiedBy = strModifiedUserName;
+                configprofile.LastModifiedOn = farlogLatest.EventDate.ToString("dd-MM-yyyy hh:mm tt");
             }
-            configprofile.CreatedBy = strCreatedUserName;
-            configprofile.CreatedOn = farlogOldest.EventDate.ToString("dd-MM-yyyy hh:mm tt");
-
-
-            var userModified = _repository.GetUserById((int)farlogLatest.UserId);
-
-            string strModifiedUserName = "";
-            if (userModified != null)
+            else
             {
-                strModifiedUserName = string.Concat(userModified.FirstName, " ", userModified.LastName);
-
+                configprofile.CreatedBy = "";
+                configprofile.LastModifiedBy = "";
+                configprofile.LastModifiedOn = "";
+                configprofile.CreatedOn = "";
             }
-            configprofile.LastModifiedBy = strModifiedUserName;
-            configprofile.LastModifiedOn = farlogLatest.EventDate.ToString("dd-MM-yyyy hh:mm tt");
-
 
 
             return Ok(configprofile);
