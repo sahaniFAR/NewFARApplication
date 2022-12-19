@@ -57,7 +57,7 @@ namespace FARApplication.Web.Controllers
                    
                 }
 
-                if (FARViewModel != null)
+                if (FARViewModel.FARs != null && FARViewModel.FARs.Count() > 0)
                 {
 
                     FARViewModel.FARs.ForEach(t => { t.LifeCycleStatus = (DocumentStatus)t.Status;});

@@ -72,7 +72,11 @@ namespace FARApplication.Web.Controllers
                         string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "UploadedFile");
                         uploadedFileName = Guid.NewGuid().ToString() + "_" + postedFiles.FileName;
                         string filePath = Path.Combine(uploadsFolder, uploadedFileName);
-                        postedFiles.CopyTo(new FileStream(filePath, FileMode.Create));
+                        using(var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
+                        {
+                            postedFiles.CopyTo(fileStream);
+                        }
+                       
                     }
                     if (!string.IsNullOrEmpty(uploadedFileName))
                     {
@@ -292,7 +296,10 @@ namespace FARApplication.Web.Controllers
 
                         var uploadedFileName = Guid.NewGuid().ToString() + "_" + updatedPostedFiles.FileName;
                         string filePath = Path.Combine(uploadsFolder, uploadedFileName);
-                        updatedPostedFiles.CopyTo(new FileStream(filePath, FileMode.Create));
+                        using (var fileStream = new FileStream(filePath, FileMode.Create,FileAccess.Write, FileShare.ReadWrite))
+                        {
+                            updatedPostedFiles.CopyTo(fileStream);
+                        }
                         far.Filename = uploadedFileName;
                     }
 

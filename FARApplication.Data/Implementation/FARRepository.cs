@@ -188,10 +188,7 @@ namespace FARApplication.Data.Implementation
             throw new NotImplementedException();
         }
 
-        string IFARRepository.GetFARRequestId()
-        {
-            throw new NotImplementedException();
-        }
+      
 
         public FARCustom GetallFARBasedOnStatus(int status, int pageCount, int pageIndex)
         {
