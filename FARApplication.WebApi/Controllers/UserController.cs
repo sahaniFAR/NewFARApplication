@@ -1,10 +1,12 @@
 ﻿
 using FARApplication.Data;
 using FARApplication.Data.Interface;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
-
+using System.Text;
 
 namespace FARApplication.Service.Controllers
 {
@@ -43,7 +45,7 @@ namespace FARApplication.Service.Controllers
         {
             try
             {
-                var user = _repository.IsValidUser(email, password);
+                var user = _repository.IsValidUser(email, EncryptPassword(password));
                 return Ok(user);
             }
             catch (Exception ex)
@@ -78,7 +80,8 @@ namespace FARApplication.Service.Controllers
         {
             try
             {
-                var result = _repository.UpdatePassword(emailId, password);
+
+                var result = _repository.UpdatePassword(emailId, EncryptPassword(password));
                 return Ok(result);
 
             }
@@ -88,6 +91,27 @@ namespace FARApplication.Service.Controllers
                 return BadRequest("Failed to update user password ");
             }
 
+        }
+        private string EncryptPassword(string password)
+        {
+            string strPassword = string.Empty;
+            byte[] enc_date = new byte[password.Length];
+            enc_date = Encoding.UTF8.GetBytes(password);
+            strPassword = Convert.ToBase64String(enc_date);
+
+            return strPassword;
+        }
+        private string DecryptPassword(string encodedData)
+        {
+            string strPassword = string.Empty;
+            System.Text.UTF8Encoding encoder = new System.Text.UTF8Encoding();
+            System.Text.Decoder utf8Decode = encoder.GetDecoder();
+            byte[] todecode_byte = Convert.FromBase64String(encodedData);
+            int charCount = utf8Decode.GetCharCount(todecode_byte, 0, todecode_byte.Length);
+            char[] decoded_char = new char[charCount];
+            utf8Decode.GetChars(todecode_byte, 0, todecode_byte.Length, decoded_char, 0);
+            strPassword = new String(decoded_char);
+            return strPassword;
         }
 
     }

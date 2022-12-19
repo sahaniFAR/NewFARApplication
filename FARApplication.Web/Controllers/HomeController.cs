@@ -66,6 +66,11 @@ namespace FARApplication.Web.Controllers
                     FARViewModel.PageCount = (int)Math.Ceiling(pageCount);
                    
                 }
+                else
+                {
+                    FARViewModel.FARs = new List<FAR>();
+
+                }
             }
 
             return View(FARViewModel);
@@ -134,6 +139,11 @@ namespace FARApplication.Web.Controllers
                     double pageCount = (double)(Convert.ToDecimal(FARViewModel.TotalRecordCount) / Convert.ToDecimal(10));
                     FARViewModel.PageCount = (int)Math.Ceiling(pageCount);
 
+
+                }
+                else
+                {
+                    FARViewModel.FARs = new List<FAR>();
 
                 }
             }

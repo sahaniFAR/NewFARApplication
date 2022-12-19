@@ -225,4 +225,7 @@ button.toast-close-button {
   #toast-container > div.rtl {
     padding: 15px 50px 15px 15px;
   }
+ div.wait *, div.wait {
+        cursor: progress !important;
+    }
 }
