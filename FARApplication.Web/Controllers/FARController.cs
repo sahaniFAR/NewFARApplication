@@ -222,6 +222,11 @@ namespace FARApplication.Web.Controllers
                                 far.Approverdetails.Add(FARApprover);
                         }
                     }
+                    if ((int)user.ApprovalLevel == 3)
+                    {
+                        ViewBag.Mode = "Reader";
+                    }
+
 
                 }
 

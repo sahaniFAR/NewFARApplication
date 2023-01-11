@@ -8,6 +8,8 @@
 
 @{
     ViewData["Title"] = "Index";
+
+    var AppMode = ViewBag.Mode;
 }
 
 
@@ -136,10 +138,19 @@
                                             <span>Status</span>
                                         </dt>
                                         <dd class="col-sm-8">
-                                            @Html.DropDownList("SelectedStatus",
-                                            Html.GetEnumSelectList<DocumentStatus>(),
-                                            "Select Status",new { @class = "form-control" })
 
+                                            @if (AppMode == "Reader")
+                                            {
+                                                @Html.DropDownList("SelectedStatus",
+                                                     Html.GetEnumSelectList<DocumentStatus>().Where(s=> s.Value=="4"),
+                                                     "Select Status", new { @class = "form-control" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownList("SelectedStatus",
+                                                   Html.GetEnumSelectList<DocumentStatus>(),
+                                                   "Select Status", new { @class = "form-control" })
+                                            }
 
                                         </dd>
                                     </dl>

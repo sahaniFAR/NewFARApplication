@@ -230,5 +230,33 @@ namespace FARApplication.Web.Utility
 
         }
 
+         public static async Task<FARViewModel> GetAllFAROnStatus(int statusId, int pageIndex)
+        {
+            FARViewModel Fars = new FARViewModel();
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                //Passing service base url
+
+                httpClient.BaseAddress = new Uri(Baseurl);
+                httpClient.DefaultRequestHeaders.Clear();
+                //Define request data format
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //Sending request to find web api REST service resource GetAllEmployees using HttpClient
+                HttpResponseMessage Res = await httpClient.GetAsync("api/Search/GetFAROnStatus?status=" + statusId +"&pageIndex=" + pageIndex);
+
+                if (Res.IsSuccessStatusCode)
+                {
+                    //Storing the response details recieved from web api
+                    var Response = Res.Content.ReadAsStringAsync().Result;
+                    //Deserializing the response recieved from web api and storing into the Employee list
+                    Fars = JsonConvert.DeserializeObject<FARViewModel>(Response);
+
+                }
+
+            }
+            return Fars;
+        }
+
     }
 }
