@@ -18,6 +18,7 @@ namespace FARApplication.Web
     {
         None= 0,
         FirstLevel = 1,
-        SecondLevel = 2
+        SecondLevel = 2,
+        Reader = 3
     }
 }

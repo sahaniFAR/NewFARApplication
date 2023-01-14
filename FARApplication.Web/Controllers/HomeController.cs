@@ -49,7 +49,11 @@ namespace FARApplication.Web.Controllers
                     ViewBag.Mode = "User";
                     FARViewModel = SearchUtility.GetAllFARBasedOnSubmiter(userId, 1).Result;
                 }
-
+                else if ((int)user.ApprovalLevel == 3)
+                {
+                    ViewBag.Mode = "Reader";
+                    FARViewModel = FARUtility.GetAllFAROnStatus(4, 1).Result;
+                }
                 else
                 {
                     ViewBag.Mode = "Admin";
@@ -91,6 +95,10 @@ namespace FARApplication.Web.Controllers
                 {
                     ViewBag.Mode = "User";
                 }
+                else if ((int)user.ApprovalLevel == 3)
+                {
+                    ViewBag.Mode = "Reader";
+                }
                 else
                 {
                     ViewBag.Mode = "Admin";
@@ -104,6 +112,11 @@ namespace FARApplication.Web.Controllers
                     {
                       
                         FARViewModel = SearchUtility.GetAllFARBasedOnSubmiter(userId, currentPageIndex).Result;
+                    }
+                    else if((int)user.ApprovalLevel == 3)
+                    {
+                        int statusId = (int)Convert.ToInt32(SelectedStatus);
+                        FARViewModel = FARUtility.GetAllFAROnStatus(statusId, currentPageIndex).Result;
                     }
                     else
                     {
