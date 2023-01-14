@@ -76,12 +76,13 @@ namespace FARApplication.Web.Controllers
             return View(FARViewModel);
         }
         [HttpPost]
-        public ActionResult Index(int currentPageIndex, string SelectedStatus, string search)
+        public ActionResult Index(string SelectedStatus, string search, int currentPageIndex = 1)
         {
 
             FARViewModel FARViewModel = new FARViewModel();
-
             var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
+            if (currentPageIndex == 0)
+                currentPageIndex = 1;
 
             if (user != null)
             {

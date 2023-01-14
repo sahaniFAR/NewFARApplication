@@ -19,4 +19,8 @@
     <ProjectReference Include="..\FARApplication.WebApi\FARApplication.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\UploadedFile\" />
+  </ItemGroup>
+
 </Project>
