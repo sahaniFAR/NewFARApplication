@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web.Helpers;
 
 namespace FARApplication.Web.Utility
 {
@@ -111,6 +112,62 @@ namespace FARApplication.Web.Utility
         {
             var value = session.GetString(key);
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+        }
+        public static async Task<User> GetUserByRole(int approvalLevel)
+        {
+            User user = null;
+            using (HttpClient httpClient = new HttpClient())
+            {
+                //Passing service base url
+                httpClient.BaseAddress = new Uri(Baseurl);
+                httpClient.DefaultRequestHeaders.Clear();
+                //Define request data format
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //Sending request to find web api REST service resource GetAllEmployees using HttpClient
+
+                HttpResponseMessage Res = await httpClient.GetAsync("api/User/GetUserByRole?approvalLevel=" + approvalLevel);
+
+                if (Res.IsSuccessStatusCode)
+                {
+                    //Storing the response details recieved from web api
+                    var userResponse = Res.Content.ReadAsStringAsync().Result;
+                    //Deserializing the response recieved from web api and storing into the Employee list
+                    var result = JsonConvert.DeserializeObject<User>(userResponse);
+                    user = result;
+                }
+
+            }
+
+
+            return user;
+        }
+        public static async Task<string> GetUserEmailIdsOnRole(int approvalLevel)
+        {
+            string  emailids= string.Empty;
+            using (HttpClient httpClient = new HttpClient())
+            {
+                //Passing service base url
+                httpClient.BaseAddress = new Uri(Baseurl);
+                httpClient.DefaultRequestHeaders.Clear();
+                //Define request data format
+                httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //Sending request to find web api REST service resource GetAllEmployees using HttpClient
+
+                HttpResponseMessage Res = await httpClient.GetAsync("api/User/GetUserEmailIdsOnRole?approvalLevel=" + approvalLevel);
+
+                if (Res.IsSuccessStatusCode)
+                {
+                    //Storing the response details recieved from web api
+                    var userResponse = Res.Content.ReadAsStringAsync().Result;
+                    //Deserializing the response recieved from web api and storing into the Employee list
+                    var result = JsonConvert.DeserializeObject<string>(userResponse);
+                    emailids = result;
+                }
+
+            }
+
+
+            return emailids;
         }
 
     }

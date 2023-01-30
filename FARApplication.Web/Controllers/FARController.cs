@@ -193,7 +193,7 @@ namespace FARApplication.Web.Controllers
                         }
                         else if ((int)far.Status == 2)
                         {
-                            mailNotification(FARId, far.Status);
+                            //mailNotification(FARId, far.Status);
                         }
                     }
 
@@ -208,7 +208,7 @@ namespace FARApplication.Web.Controllers
                         }
                         else if((int)far.Status == 3)
                         {
-                            mailNotification(FARId,far.Status);
+                            //mailNotification(FARId,far.Status);
                         }
                     }
 
@@ -249,7 +249,8 @@ namespace FARApplication.Web.Controllers
                     string strMessage = string.Empty;
                     string strUserName = string.Empty;
                     string viewmsg = string.Empty;
-
+                    string toMailId = string.Empty;
+                    User mailRecipints = null;
                     var user = HttpContext.Session.getObjectAsJson<User>("UserDetails");
                     if (user != null)
                     {
@@ -262,27 +263,43 @@ namespace FARApplication.Web.Controllers
                         case "Approve":
                             far.Status = far.Status + 1;
                             strMessage = user.ApprovalLevel == Level.FirstLevel ? String.Format("First level approved by {0}", strUserName) : String.Format("Final level approved by {0}", strUserName);
-                            viewmsg = "FAR Approveed successfully";
-                            if (user.ApprovalLevel.Equals(Level.SecondLevel))
+                            viewmsg = "FAR Approved successfully";
+                           
+                            if(far.Status == 2) 
                             {
-                                mailNotification(far.Id, far.Status);
+                                toMailId = UserUtility.GetUserEmailIdsOnRole((int)Level.FirstLevel).Result;
+                              
                             }
-                            
+
+                            if(far.Status == 3)
+                            {
+                                toMailId = UserUtility.GetUserEmailIdsOnRole((int)Level.SecondLevel).Result;
+                               
+                            }
+
+                            mailNotification(far.Id, far.Status, toMailId);
+                          
                             break;
+
                         case "Reject":
                             far.Status = 5;
                             strMessage = String.Format("Rejected by {0}", strUserName);
                             viewmsg = "FAR Rejected successfully";
                             break;
+
                         case "Submit":
                             far.Status = 2;
                             strMessage = String.Format("Sent for approval {0}", strUserName);
                             viewmsg = "FAR Sent for Approval successfully";
+                            toMailId = "kellnerova.barbora@sk.ibm.com;tomas.podskoc1@sk.ibm.com;vvprabhu@in.ibm.com";
+                            mailNotification(far.Id, far.Status, toMailId);
                             break;
+
                         case "Save":
                             strMessage = String.Format("Modified By {0}", strUserName);
                             viewmsg = "FAR modified successfully";
                             break;
+
                         case "SaveClose":
                             strMessage = String.Format("Modified By {0}", strUserName);
                             break;
@@ -307,10 +324,6 @@ namespace FARApplication.Web.Controllers
                         }
                         far.Filename = uploadedFileName;
                     }
-
-
-
-                    //
 
                     FAREventLog farEventog = FARUtility.PrepareEventLog(strMessage);
                     farEventog.FARId = far.Id;
@@ -367,7 +380,7 @@ namespace FARApplication.Web.Controllers
             return File(memory.ToArray(), contentype, actualFilename);
 
         }
-        private void mailNotification(int FARId, int status)
+        private void mailNotification(int FARId, int status, string mailId)
         {
             var far = FARUtility.GetFARDetails(FARId).Result;
             string attachmentFilePath = "";
@@ -380,12 +393,15 @@ namespace FARApplication.Web.Controllers
             {
                 attachmentFilePath = null;
             }
+
             var mailSubject = "FAR Status";
-            var testemailid = "vaibhav.sharma9@ibm.com";
+            var tomailId = mailId;
             bool emailSent = false;
-            var mailBody = "";
+            var mailBody = string.Empty;
             if (status == 2 || status == 3)
             {
+             
+
                 if (far.Filename != null)
                 {
                     mailBody = "<div>Far Request #" + far.RequestId + (new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetValue<string>("mailSentforApprovalWithFile"));
@@ -394,13 +410,14 @@ namespace FARApplication.Web.Controllers
                 {
                     mailBody = "<div>Far Request #" + far.RequestId + (new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetValue<string>("mailSentforApprovalWithoutFile"));
                 }
+
                 if (attachmentFilePath != null)
                 {
-                    emailSent = EmailUtility.SendMail(testemailid, mailSubject, mailBody, attachmentFilePath).Result;
+                    emailSent = EmailUtility.SendMail(tomailId, mailSubject, mailBody, attachmentFilePath).Result;
                 }
                 else
                 {
-                    emailSent = EmailUtility.SendMail(testemailid, mailSubject, mailBody).Result;
+                    emailSent = EmailUtility.SendMail(tomailId, mailSubject, mailBody).Result;
                 }
             }
             else if (status == 4)
@@ -415,11 +432,11 @@ namespace FARApplication.Web.Controllers
                 }
                 if (attachmentFilePath != null)
                 {
-                    emailSent = EmailUtility.SendMail(testemailid, mailSubject, mailBody, attachmentFilePath).Result;
+                    emailSent = EmailUtility.SendMail(tomailId, mailSubject, mailBody, attachmentFilePath).Result;
                 }
                 else
                 {
-                    emailSent = EmailUtility.SendMail(testemailid, mailSubject, mailBody).Result;
+                    emailSent = EmailUtility.SendMail(tomailId, mailSubject, mailBody).Result;
                 }
             }
         }

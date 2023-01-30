@@ -92,6 +92,33 @@ namespace FARApplication.Service.Controllers
             }
 
         }
+
+        public ActionResult GetUserByRole(int approvalLevel)
+        {
+            try 
+            { 
+                var result = _repository.GetUserByRole(approvalLevel);
+                return Ok(result);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Failed to get user by role{ex}");
+                return BadRequest("Failed to get user by role ");
+            }
+        }
+        public ActionResult GetUserEmailIdsOnRole(int ApprovalLevel)
+        {
+            try
+            {
+                var result = _repository.GetUserEmailIdsOnRole(ApprovalLevel);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed to get user email by role{ex}");
+                return BadRequest("Failed to get user email by role ");
+            }
+        }
         private string EncryptPassword(string password)
         {
             string strPassword = string.Empty;

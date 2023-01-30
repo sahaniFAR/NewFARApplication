@@ -81,7 +81,16 @@ namespace FARApplication.Data.Implementation
 
         }
 
+        public User GetUserByRole(int approvalLevel)
+        {
+            var user = _context.Users.FirstOrDefault(t => t.ApprovalLevel == approvalLevel);
+            return user;
+        }
 
-
+        public string GetUserEmailIdsOnRole(int ApprovalLevel)
+        {
+            List<string> strEmailIds = _context.Users.Where(t => t.ApprovalLevel == ApprovalLevel).Select(t => t.EmailId).ToList();
+            return string.Join(';', strEmailIds);
+        }
     }
 }
