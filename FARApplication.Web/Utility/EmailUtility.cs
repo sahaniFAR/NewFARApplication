@@ -67,7 +67,20 @@ namespace FARApplication.Web.Utility
             //message.From.Add(new MailboxAddress("test", "farapptest01@gmail.com"));// app setting
             message.From.Add(new MailboxAddress(Configdata.EmailPrincipalName, messagefrom));
             //message.To.Add(new MailboxAddress("bhakat", "tilakbhakat@gmail.com"));// parameter
-            message.To.Add(new MailboxAddress("", mailTo));
+            if (mailTo.IndexOf(',') > 0)
+            {
+                string[] arrMailIds = mailTo.Split(',');
+                foreach(var mailId in arrMailIds)
+                {
+                    message.To.Add(new MailboxAddress("", mailId));
+                }
+            }
+            else
+            {
+                message.To.Add(new MailboxAddress("", mailTo));
+            }
+
+            //message.To.AddRange(new InternetAddress())
             //message.Subject = "Test mail from far app";
             message.Subject = mailSubject;
             var bodyBuilder = new BodyBuilder();

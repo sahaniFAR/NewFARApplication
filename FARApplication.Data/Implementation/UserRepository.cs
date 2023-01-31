@@ -90,7 +90,7 @@ namespace FARApplication.Data.Implementation
         public string GetUserEmailIdsOnRole(int ApprovalLevel)
         {
             List<string> strEmailIds = _context.Users.Where(t => t.ApprovalLevel == ApprovalLevel).Select(t => t.EmailId).ToList();
-            return string.Join(';', strEmailIds);
+            return string.Join(',', strEmailIds);
         }
     }
 }

@@ -14,9 +14,9 @@ namespace FARApplication.Web.Utility
 {
     public static class UserUtility
     {
-        //  static string Baseurl = "http://localhost:5000/";
+        //static string Baseurl = "http://localhost:5000/";
 
-        static string Baseurl = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetValue<string>("ApiAddress");
+       static string Baseurl = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetValue<string>("ApiAddress");
         public static async Task<string> GetUserFullNameById(int Id)
         {
             string userName = string.Empty;
@@ -75,7 +75,7 @@ namespace FARApplication.Web.Utility
             return user;
         }
 
-
+       
         public static async Task<List<User>> GetApproverSelectionList()
         {
             List<User> userlist = null;

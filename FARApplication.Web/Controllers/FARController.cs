@@ -265,15 +265,15 @@ namespace FARApplication.Web.Controllers
                             strMessage = user.ApprovalLevel == Level.FirstLevel ? String.Format("First level approved by {0}", strUserName) : String.Format("Final level approved by {0}", strUserName);
                             viewmsg = "FAR Approved successfully";
                            
-                            if(far.Status == 2) 
+                            if(far.Status == 3) 
                             {
-                                toMailId = UserUtility.GetUserEmailIdsOnRole((int)Level.FirstLevel).Result;
+                                toMailId = UserUtility.GetUserEmailIdsOnRole((int)Level.SecondLevel).Result;
                               
                             }
 
-                            if(far.Status == 3)
+                            if(far.Status == 4)
                             {
-                                toMailId = UserUtility.GetUserEmailIdsOnRole((int)Level.SecondLevel).Result;
+                                toMailId = UserUtility.GetUserEmailIdsOnRole((int)Level.Reader).Result;
                                
                             }
 
@@ -291,7 +291,7 @@ namespace FARApplication.Web.Controllers
                             far.Status = 2;
                             strMessage = String.Format("Sent for approval {0}", strUserName);
                             viewmsg = "FAR Sent for Approval successfully";
-                            toMailId = "kellnerova.barbora@sk.ibm.com;tomas.podskoc1@sk.ibm.com;vvprabhu@in.ibm.com";
+                            toMailId = UserUtility.GetUserEmailIdsOnRole((int)Level.FirstLevel).Result;
                             mailNotification(far.Id, far.Status, toMailId);
                             break;
 

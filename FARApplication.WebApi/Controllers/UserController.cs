@@ -119,7 +119,7 @@ namespace FARApplication.Service.Controllers
                 return BadRequest("Failed to get user email by role ");
             }
         }
-        private string EncryptPassword(string password)
+        public string EncryptPassword(string password)
         {
             string strPassword = string.Empty;
             byte[] enc_date = new byte[password.Length];
@@ -128,7 +128,7 @@ namespace FARApplication.Service.Controllers
 
             return strPassword;
         }
-        private string DecryptPassword(string encodedData)
+        public string DecryptPassword(string encodedData)
         {
             string strPassword = string.Empty;
             System.Text.UTF8Encoding encoder = new System.Text.UTF8Encoding();
