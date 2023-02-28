@@ -92,7 +92,7 @@ namespace FARApplication.Service.Controllers
             }
 
         }
-
+        [HttpGet]
         public ActionResult GetUserByRole(int approvalLevel)
         {
             try 
@@ -106,6 +106,7 @@ namespace FARApplication.Service.Controllers
                 return BadRequest("Failed to get user by role ");
             }
         }
+        [HttpGet]
         public ActionResult GetUserEmailIdsOnRole(int ApprovalLevel)
         {
             try
@@ -119,6 +120,7 @@ namespace FARApplication.Service.Controllers
                 return BadRequest("Failed to get user email by role ");
             }
         }
+        [HttpGet]
         public string EncryptPassword(string password)
         {
             string strPassword = string.Empty;
@@ -128,6 +130,7 @@ namespace FARApplication.Service.Controllers
 
             return strPassword;
         }
+        [HttpGet]
         public string DecryptPassword(string encodedData)
         {
             string strPassword = string.Empty;
