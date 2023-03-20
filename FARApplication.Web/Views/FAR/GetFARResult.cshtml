@@ -138,7 +138,8 @@
                     @*<input type="file" name="Upload File" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Details" id="Details" required />*@
                 </div>
                 <div class="col-lg-4">
-                    <input type="file" accept=".xlsx, .xls" style="margin-top: 3px;width: 100%;" asp-for="Filename" name="updatedPostedFiles" disabled="@((Mode == "User" && (Model.Status==1 || Model.Status==5 )) ? null : "disabled")" />
+
+                    <input type="file" accept=".xlsx, .xls" asp-for="Filename"  style="margin-top: 3px;width: 100%;" name="updatedPostedFiles"  />
                     @if (!string.IsNullOrEmpty(Model.Filename))
                     {
                         <label asp-for="Filename"> @Model.Filename.Substring((Model.Filename).IndexOf('_') + 1) </label> @Html.ActionLink("Download", "DownloadFile", "FAR", new { FARId = Model.Id }, new { @class = "link-primary" })
@@ -153,7 +154,7 @@
                 <input type="hidden" asp-for="User.Id" />
                 <input type="hidden" asp-for="User.FirstName" />
                 <input type="hidden" asp-for="User.LastName" />
-                <input type="hidden" asp-for="User.Password" />
+                
                 <input type="hidden" asp-for="User.IsActive" />
                 <input type="hidden" asp-for="User.ApprovalLevel" />
                 <input type="hidden" asp-for="User.EmailId" />

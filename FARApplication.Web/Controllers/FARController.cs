@@ -308,7 +308,7 @@ namespace FARApplication.Web.Controllers
                     if (updatedPostedFiles != null)
                     {
                         var uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "UploadedFile");
-                        string oldfilePath = Path.Combine(uploadsFolder, far.Filename);
+                        string oldfilePath = Path.Combine(uploadsFolder, updatedPostedFiles.FileName);
                         FileInfo fi = new FileInfo(oldfilePath);
                         if (fi.Exists)
                         {
