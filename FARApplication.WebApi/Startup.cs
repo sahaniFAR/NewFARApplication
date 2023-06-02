@@ -29,6 +29,7 @@ namespace FARApplication.WebApi
             // services.AddControllers().AddNew
 
             services.AddSwaggerGen();
+            services.AddScoped<FARContext, FARMySqlContext>();
             services.AddScoped<IFARRepository, FARRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFAREventRepository, FAREventRepository>();
